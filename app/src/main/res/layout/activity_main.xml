@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="name2"
+            type="String"/>
+        <variable
+            name="myViewModel"
+            type="com.example.musictheory.models.MyViewModel" />
+
 
     </data>
 
@@ -16,11 +23,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!" />
+            android:text="@{myViewModel.name}"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{name2}"/>
 
-        <fragment
-            android:id="@+id/fragment"
-            android:name="com.example.musictheory.Fragments.TitleFragment"
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->myViewModel.onKik()}"
+            android:text="Button" />
+
+
+            <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/testFragment"
+            android:name="com.example.musictheory.Fragments.TestFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

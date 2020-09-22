@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="lastname"
+            type="String" />
+
+        <variable
+            name="titleFragmentViewModel"
+            type="com.example.musictheory.models.TitleFragmentViewModel" />
 
     </data>
 
@@ -10,12 +17,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Fragments.TitleFragment">
+            <!-- TODO: Update blank fragment layout -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/hello_blank_fragment" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{lastname}" />
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{titleFragmentViewModel.test.toString()}"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="ppppppppppppppppppppppppppppppppppppppppppppppp"
+                android:onClick="@{() -> titleFragmentViewModel.onStartTracking()}"/>
+
+
+
 
     </FrameLayout>
 </layout>
