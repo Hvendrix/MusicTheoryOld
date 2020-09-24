@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{testFragmentViewModel.testString}" />
+                android:text="@{testFragmentViewModel.testString.stroka}" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -41,6 +41,33 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> testFragmentViewModel.onClear()}"
                 android:text="DDDDDDDDDDDDDD" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() ->testFragmentViewModel.onInitializeTestString()}"
+                android:text="qqqqqqqqqq"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{testFragmentViewModel.question}" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> testFragmentViewModel.onClickAnswer()}"
+                android:text="@{testFragmentViewModel.btnText[0]}"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{testFragmentViewModel.btnText[1]}"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{testFragmentViewModel.btnText[2]}"/>
 
         </LinearLayout>
 

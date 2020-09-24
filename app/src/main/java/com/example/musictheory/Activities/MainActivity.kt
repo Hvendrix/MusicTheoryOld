@@ -2,11 +2,13 @@ package com.example.musictheory.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.musictheory.R
+import com.example.musictheory.data.Sharps
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.ActivityMainBinding
@@ -17,6 +19,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var l = mutableListOf<String>()
+        l.add("asd")
 
 //        val myViewModel = MyViewModel() так не надо делать
         // Если просто создавать класс MyViewModel, то он будет пересоздавать его, каждый раз при пересоздании активити

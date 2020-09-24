@@ -10,8 +10,9 @@ interface AnswerDatabaseDao {
     @Insert
     fun insert(answer: Answer)
 
-    @Query(" SELECT * FROM answers_table WHERE ansId = :key")
-    fun getOneAns(key: Int): LiveData<List<Answer>>
+//    @Query(" SELECT * FROM answers_table ORDER BY ansId DESC LIMIT 1")
+    @Query("SELECT * FROM answers_table WHERE ansId = :key")
+    fun getOneAns(key: Int): Answer?
 
     @Query("DELETE FROM answers_table")
     fun clear()

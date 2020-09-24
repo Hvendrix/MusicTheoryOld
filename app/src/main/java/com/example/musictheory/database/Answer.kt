@@ -10,5 +10,10 @@ data class Answer(
     var ansId: Long = 0L,
 
     @ColumnInfo(name = "quality")
-    var quality: Int = 0
+    var quality: Int = 0,
+
+    @ColumnInfo(name = "stroka")
+    var stroka: String = ""
+
+
 )
