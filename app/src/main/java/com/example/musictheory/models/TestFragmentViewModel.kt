@@ -6,6 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.musictheory.data.Sharps
+import com.example.musictheory.data.Test
+import com.example.musictheory.data.Tonality
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
 import kotlinx.coroutines.*
@@ -20,6 +22,10 @@ class TestFragmentViewModel(
     private val _question = MutableLiveData<String>()
 
     private val _listErrors = MutableLiveData<MutableList<String>>(mutableListOf())
+
+    private val _correctAnswer = MutableLiveData<String>()
+
+    private val _currentTonality = MutableLiveData<Tonality>()
 
 
 
@@ -39,11 +45,15 @@ class TestFragmentViewModel(
     get() = _listErrors
 
 
+    val correctAnswer: LiveData<String>
+    get() =  _correctAnswer
 
     init {
+        _currentTonality.value = Tonality.C
         testString.value = Answer(1, 2, "qqqq")
         _btnText.value = arrayOf("1", "2", "3")
-        _question.value = "Сколько знаков в As-dur?"
+        _question.value = "Сколько знаков в ${_currentTonality.value!!.name.toString()}?"
+        _correctAnswer.value = _currentTonality.value!!.signCount.toString()
 
     }
 
@@ -116,13 +126,18 @@ class TestFragmentViewModel(
 
 
 
-    fun onClickAnswer(){
-        _listErrors.value?.add("qq")
-        _question.value = _listErrors.value?.get(0)
-        printErrors()
+    fun onClickAnswer(num: Int){
+        if(_correctAnswer.value != _btnText.value?.get(num)){
+            _listErrors.value?.add(Test.Fis_dur.s.toString())
+            printErrors()
+
+        }
+
+
+
     }
     
     fun printErrors(){
-
+        _question.value = _listErrors.value?.get(0)
     }
 }

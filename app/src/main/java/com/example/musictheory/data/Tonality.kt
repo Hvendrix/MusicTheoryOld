@@ -1,16 +1,7 @@
 package com.example.musictheory.data
 
-class Tonality() {
-    var signType: String = ""
-    var signCount: Int = 0
+enum class Tonality(val signCount: Int, signType: String) {
+    C(0, "Пусто"),
+    G(1, "Диез")
 
-
-
-    init {
-
-    }
-
-    fun findSigns(){
-
-    }
 }

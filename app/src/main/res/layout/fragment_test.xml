@@ -56,18 +56,42 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> testFragmentViewModel.onClickAnswer()}"
+                android:onClick="@{() -> testFragmentViewModel.onClickAnswer(0)}"
                 android:text="@{testFragmentViewModel.btnText[0]}"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> testFragmentViewModel.onClickAnswer(1)}"
                 android:text="@{testFragmentViewModel.btnText[1]}"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> testFragmentViewModel.onClickAnswer(2)}"
                 android:text="@{testFragmentViewModel.btnText[2]}"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"/>
+
+            <NumberPicker
+                android:id="@+id/numberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:width="100dp" />
 
         </LinearLayout>
 

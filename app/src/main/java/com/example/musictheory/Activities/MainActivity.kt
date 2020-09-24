@@ -13,6 +13,7 @@ import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.ActivityMainBinding
 import com.example.musictheory.models.MyViewModel
+import kotlinx.android.synthetic.main.fragment_test.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var myViewModel: MyViewModel
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
         var l = mutableListOf<String>()
         l.add("asd")
+
+
+//        numberPicker.wrapSelectorWheel = false
 
 //        val myViewModel = MyViewModel() так не надо делать
         // Если просто создавать класс MyViewModel, то он будет пересоздавать его, каждый раз при пересоздании активити
