@@ -50,7 +50,7 @@ class TestFragmentViewModel(
 
     init {
         _currentTonality.value = Tonality.C
-        testString.value = Answer(1, 2, "qqqq")
+//        testString.value = Answer(1, 2, "qqqq")
         _btnText.value = arrayOf("1", "2", "3")
         _question.value = "Сколько знаков в ${_currentTonality.value!!.name.toString()}?"
         _correctAnswer.value = _currentTonality.value!!.signCount.toString()

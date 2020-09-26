@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.musictheory.R
 import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.FragmentTestBinding
@@ -41,6 +42,10 @@ class TestFragment : Fragment() {
 
         binding.numberPicker.minValue = 0
         binding.numberPicker.maxValue = 10
+
+        binding.btn2.setOnClickListener {
+            this.findNavController().navigate(TestFragmentDirections.actionTestFragmentToResultFragment())
+        }
 
 
 

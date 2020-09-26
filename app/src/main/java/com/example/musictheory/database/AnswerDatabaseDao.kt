@@ -19,4 +19,7 @@ interface AnswerDatabaseDao {
 
     @Query("SELECT quality FROM answers_table WHERE ansId = :key")
     fun getOneQuality(key: Int):LiveData<Int>
+
+    @Query("SELECT * FROM answers_table ORDER BY ansId DESC")
+    fun getAllAnswers():LiveData<List<Answer>>
 }

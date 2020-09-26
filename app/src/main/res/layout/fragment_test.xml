@@ -71,19 +71,11 @@
                 android:onClick="@{() -> testFragmentViewModel.onClickAnswer(2)}"
                 android:text="@{testFragmentViewModel.btnText[2]}"/>
             <Button
+                android:id="@+id/btn2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+"/>
+                android:text="To Result Fragment"/>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"/>
 
             <NumberPicker
                 android:id="@+id/numberPicker"

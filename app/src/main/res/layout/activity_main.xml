@@ -14,6 +14,8 @@
 
     </data>
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,12 +39,19 @@
             android:onClick="@{()->myViewModel.onKik()}"
             android:text="Button" />
 
-
-            <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/testFragment"
-            android:name="com.example.musictheory.Fragments.ResultFragment"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/navigation"/>
+
+<!--            <androidx.fragment.app.FragmentContainerView-->
+<!--            android:id="@+id/testFragment"-->
+<!--            android:name="com.example.musictheory.Fragments.ResultFragment"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content" />-->
 
     </LinearLayout>
 </layout>

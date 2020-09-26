@@ -14,6 +14,9 @@ data class Answer(
 
     @ColumnInfo(name = "stroka")
     var stroka: String = ""
+//
+//    @ColumnInfo(name = "errorList")
+//    var errorList: List<String> = listOf("qwe")
 
 
 )

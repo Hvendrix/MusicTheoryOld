@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.musictheory.R
 import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.FragmentTitleBinding
@@ -41,6 +42,10 @@ class TitleFragment : Fragment() {
 
         binding.titleFragmentViewModel = titleFragmentViewModel
         binding.lastname = "qqqq"
+
+        binding.btn1.setOnClickListener {
+            this.findNavController().navigate(TitleFragmentDirections.actionTitleFragmentToTestFragment())
+        }
         return binding.root
     }
 
