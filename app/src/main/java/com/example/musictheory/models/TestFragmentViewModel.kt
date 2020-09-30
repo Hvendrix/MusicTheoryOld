@@ -48,6 +48,12 @@ class TestFragmentViewModel(
     val correctAnswer: LiveData<String>
     get() =  _correctAnswer
 
+    private val _navigateToResult = MutableLiveData<Int>()
+
+    val navigateToResult: LiveData<Int>
+    get() = _navigateToResult
+
+
     init {
         _currentTonality.value = Tonality.C
 //        testString.value = Answer(1, 2, "qqqq")
@@ -58,6 +64,9 @@ class TestFragmentViewModel(
     }
 
 
+    fun doneNavigate(){
+        _navigateToResult.value = null
+    }
     fun onInitializeTestString(){
         uiScope.launch {
             testString.value = getTestStringFromDB()
@@ -87,7 +96,7 @@ class TestFragmentViewModel(
 
     fun onStartTracking(){
         uiScope.launch {
-            val answer = Answer(10, 30, "rrrr")
+            val answer = Answer(quality = 10, stroka = "asd", errorString = "qwe")
 
             insert(answer)
 
@@ -124,12 +133,17 @@ class TestFragmentViewModel(
         
     }
 
+    fun onUpdateQuestion(){
+
+    }
+
 
 
     fun onClickAnswer(num: Int){
         if(_correctAnswer.value != _btnText.value?.get(num)){
             _listErrors.value?.add(Test.Fis_dur.s.toString())
             printErrors()
+            _navigateToResult.value = 1
 
         }
 

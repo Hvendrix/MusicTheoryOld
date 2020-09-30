@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.musictheory.R
@@ -13,6 +14,7 @@ import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.FragmentTestBinding
 import com.example.musictheory.models.TestFragmentViewModel
 import com.example.musictheory.models.TestFragmentViewModelFactory
+import kotlinx.android.synthetic.main.fragment_test.*
 
 class TestFragment : Fragment() {
 
@@ -43,10 +45,25 @@ class TestFragment : Fragment() {
         binding.numberPicker.minValue = 0
         binding.numberPicker.maxValue = 10
 
+        binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+            binding.btn2.text = newVal.toString()
+        }
+
         binding.btn2.setOnClickListener {
             this.findNavController().navigate(TestFragmentDirections.actionTestFragmentToResultFragment())
         }
 
+        testFragmentViewModel.navigateToResult.observe(viewLifecycleOwner, Observer {
+                num ->
+            num?.let {
+                this.findNavController().navigate(
+                    TestFragmentDirections
+                        .actionTestFragmentToResultFragment())
+                testFragmentViewModel.doneNavigate()
+//                sleepTrackerViewModel.doneNavigation()
+
+            }
+        })
 
 
         return binding.root
