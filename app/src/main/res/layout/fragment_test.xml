@@ -9,84 +9,101 @@
             type="com.example.musictheory.models.TestFragmentViewModel" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Fragments.TestFragment">
+        android:orientation="vertical">
 
         <!-- TODO: Update blank fragment layout -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{testFragmentViewModel.testString.stroka}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{testFragmentViewModel.question}" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hello_blank_fragment" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{testFragmentViewModel.testString.stroka}" />
+                <!--            <Button-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:onClick="@{() -> testFragmentViewModel.onStartTracking()}"-->
+                <!--                android:text="WWWWWWWWW" />-->
 
-<!--            <Button-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="@{() -> testFragmentViewModel.onStartTracking()}"-->
-<!--                android:text="WWWWWWWWW" />-->
+                <!--            <Button-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:onClick="@{() -> testFragmentViewModel.onClear()}"-->
+                <!--                android:text="DDDDDDDDDDDDDD" />-->
 
-<!--            <Button-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="@{() -> testFragmentViewModel.onClear()}"-->
-<!--                android:text="DDDDDDDDDDDDDD" />-->
+                <!--            <Button-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:onClick="@{() ->testFragmentViewModel.onInitializeTestString()}"-->
+                <!--                android:text="qqqqqqqqqq"/>-->
 
-<!--            <Button-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="@{() ->testFragmentViewModel.onInitializeTestString()}"-->
-<!--                android:text="qqqqqqqqqq"/>-->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> testFragmentViewModel.onClickAnswer(0)}"
+                    android:text="@{testFragmentViewModel.btnText[0]}" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{testFragmentViewModel.question}" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> testFragmentViewModel.onClickAnswer(1)}"
+                    android:text="@{testFragmentViewModel.btnText[1]}" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> testFragmentViewModel.onClickAnswer(0)}"
-                android:text="@{testFragmentViewModel.btnText[0]}"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> testFragmentViewModel.onClickAnswer(2)}"
+                    android:text="@{testFragmentViewModel.btnText[2]}" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> testFragmentViewModel.onClickAnswer(1)}"
-                android:text="@{testFragmentViewModel.btnText[1]}"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> testFragmentViewModel.onClickAnswer(2)}"
-                android:text="@{testFragmentViewModel.btnText[2]}"/>
-            <Button
-                android:id="@+id/btn2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="To Result Fragment"/>
+                <Button
+                    android:id="@+id/btn2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To Result Fragment" />
 
 
-            <NumberPicker
-                android:id="@+id/numberPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical"
-                android:width="100dp" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <NumberPicker
+                    android:id="@+id/numberPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:width="100dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
         </LinearLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 </layout>
