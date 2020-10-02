@@ -38,11 +38,34 @@
 <!--                android:text="ppppppppppppppppppppppppppppppppppppppppppppppp"-->
 <!--                android:onClick="@{() -> titleFragmentViewModel.onStartTracking()}"/>-->
 
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
             <Button
                 android:id="@+id/btn1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="To test Fragment"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> titleFragmentViewModel.onStartTracking()}"
+                android:text="WWWWWWWWW" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> titleFragmentViewModel.onClear()}"
+                android:text="DDDDDDDDDDDDDD" />
+
+
+        </LinearLayout>
 
 
 

@@ -32,7 +32,7 @@ class TitleFragmentViewModel(
 
     fun onStartTracking(){
         uiScope.launch {
-            val answer = Answer(3, 10)
+            val answer = Answer(quality = 10, stroka = "asd", errorString = "qwe")
 
             insert(answer)
 
@@ -50,4 +50,21 @@ class TitleFragmentViewModel(
         _test.value = 10000000
 
     }
+
+
+    fun onClear(){
+        uiScope.launch {
+            clear()
+        }
+    }
+
+    suspend fun clear(){
+        withContext(Dispatchers.IO){
+            database.clear()
+        }
+    }
+
+
+
+
 }

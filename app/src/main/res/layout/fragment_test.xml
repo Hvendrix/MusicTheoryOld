@@ -15,6 +15,7 @@
         tools:context=".Fragments.TestFragment">
 
         <!-- TODO: Update blank fragment layout -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,23 +31,23 @@
                 android:layout_height="wrap_content"
                 android:text="@{testFragmentViewModel.testString.stroka}" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> testFragmentViewModel.onStartTracking()}"
-                android:text="WWWWWWWWW" />
+<!--            <Button-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:onClick="@{() -> testFragmentViewModel.onStartTracking()}"-->
+<!--                android:text="WWWWWWWWW" />-->
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> testFragmentViewModel.onClear()}"
-                android:text="DDDDDDDDDDDDDD" />
+<!--            <Button-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:onClick="@{() -> testFragmentViewModel.onClear()}"-->
+<!--                android:text="DDDDDDDDDDDDDD" />-->
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() ->testFragmentViewModel.onInitializeTestString()}"
-                android:text="qqqqqqqqqq"/>
+<!--            <Button-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:onClick="@{() ->testFragmentViewModel.onInitializeTestString()}"-->
+<!--                android:text="qqqqqqqqqq"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
