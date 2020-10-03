@@ -5,9 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.musictheory.data.Sharps
-import com.example.musictheory.data.Test
-import com.example.musictheory.data.Tonality
+import com.example.musictheory.data.*
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
 import kotlinx.coroutines.*
@@ -17,15 +15,13 @@ class TestFragmentViewModel(
 
     private var _btnText = MutableLiveData<Array<String>>()
 
-    private val _quality = MutableLiveData<Float>()
-
     private val _question = MutableLiveData<String>()
 
     private val _listErrors = MutableLiveData<MutableList<String>>(mutableListOf())
 
     private val _correctAnswer = MutableLiveData<String>()
 
-    private val _currentTonality = MutableLiveData<Tonality>()
+    private val _currentTest = MutableLiveData<TestInterface>()
 
 
 
@@ -55,11 +51,10 @@ class TestFragmentViewModel(
 
 
     init {
-        _currentTonality.value = Tonality.C
-//        testString.value = Answer(1, 2, "qqqq")
-        _btnText.value = arrayOf("1", "2", "3")
-        _question.value = "Сколько знаков в ${_currentTonality.value!!.name.toString()}?"
-        _correctAnswer.value = _currentTonality.value!!.signCount.toString()
+        _currentTest.value = TonalityTest
+        _btnText.value = (_currentTest.value as TonalityTest).getBtnTxt()
+        _question.value = (_currentTest.value as TonalityTest).getQuestion()
+//        _correctAnswer.value = _currentTonality.value!!.signCount.toString()
 
     }
 
@@ -67,21 +62,6 @@ class TestFragmentViewModel(
     fun doneNavigate(){
         _navigateToResult.value = null
     }
-    fun onInitializeTestString(){
-        uiScope.launch {
-            testString.value = getTestStringFromDB()
-        }
-    }
-
-    private suspend fun getTestStringFromDB() : Answer?{
-        return withContext(Dispatchers.IO){
-            var str = database.getOneAns(10)
-            str
-        }
-    }
-
-    val quality: LiveData<Float>
-    get() = _quality
 
 
     private val viewModelJob = Job()
@@ -94,63 +74,27 @@ class TestFragmentViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
 
-    fun onStartTracking(){
-        uiScope.launch {
-            val answer = Answer(quality = 10, stroka = "asd", errorString = "qwe")
-
-            insert(answer)
-
-        }
-    }
-
-    private suspend fun insert(answer: Answer){
-
-        withContext(Dispatchers.IO) {
-            database.insert(answer)
-        }
-    }
-
-
-    fun onClear(){
-        uiScope.launch {
-            clear()
-        }
-    }
-
-    suspend fun clear(){
-        withContext(Dispatchers.IO){
-            database.clear()
-        }
-    }
-
-    fun onPrint(){
-        uiScope.launch {
-            printOne()
-        }
-    }
-
-    fun printOne(){
-        
-    }
-
-    fun onUpdateQuestion(){
-
-    }
-
-
 
     fun onClickAnswer(num: Int){
+        _navigateToResult.value = null
+        _currentTest.value?.nextQuestion()
+//        _currentTonality.value = _currentTest.value?.getQuestion()
+        _question.value = _currentTest.value?.getQuestion()
+        _btnText.value = _currentTest.value?.getBtnTxt()
+
+
         if(_correctAnswer.value != _btnText.value?.get(num)){
-            _listErrors.value?.add(Test.Fis_dur.s.toString())
-            printErrors()
-            _navigateToResult.value = 1
+//            _listErrors.value?.add(Test.Fis_dur.s)
+//            printErrors()
+
+
 
         }
+    }
 
-
+    fun nextQuestionCheck(){
 
     }
-    
     fun printErrors(){
         _question.value = _listErrors.value?.get(0)
     }
