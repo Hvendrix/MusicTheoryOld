@@ -24,6 +24,9 @@ class TestFragmentViewModel(
     private val _currentTest = MutableLiveData<TestInterface>()
 
 
+    private val _navigateToResult = MutableLiveData<Int>()
+
+    private var _btnOverFlow = MutableLiveData<Int>()
 
     var testString = MutableLiveData<Answer?>()
 
@@ -44,17 +47,20 @@ class TestFragmentViewModel(
     val correctAnswer: LiveData<String>
     get() =  _correctAnswer
 
-    private val _navigateToResult = MutableLiveData<Int>()
 
     val navigateToResult: LiveData<Int>
     get() = _navigateToResult
+
+    val btnOverFlow: LiveData<Int>
+    get() = _btnOverFlow
 
 
     init {
         _currentTest.value = TonalityTest
         _btnText.value = (_currentTest.value as TonalityTest).getBtnTxt()
         _question.value = (_currentTest.value as TonalityTest).getQuestion()
-//        _correctAnswer.value = _currentTonality.value!!.signCount.toString()
+        _correctAnswer.value = (_currentTest.value as TonalityTest).getAnswer()
+        _btnOverFlow.value = null
 
     }
 
@@ -74,28 +80,29 @@ class TestFragmentViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
 
-
-    fun onClickAnswer(num: Int){
-        _navigateToResult.value = null
-        _currentTest.value?.nextQuestion()
-//        _currentTonality.value = _currentTest.value?.getQuestion()
-        _question.value = _currentTest.value?.getQuestion()
-        _btnText.value = _currentTest.value?.getBtnTxt()
-
-
-        if(_correctAnswer.value != _btnText.value?.get(num)){
-//            _listErrors.value?.add(Test.Fis_dur.s)
-//            printErrors()
-
-
-
+    fun numPickTest(){
+        if(_btnText.value?.size!! > 3){
+            _btnOverFlow.value = 1
         }
     }
 
-    fun nextQuestionCheck(){
-
+    fun onClickAnswer(num: Int){
+        if(_correctAnswer.value != _btnText.value?.get(num)){
+            _correctAnswer.value?.let {
+                _listErrors.value?.add("Твой ответ неверный: " + it) }
+            printErrors()
+        } else {
+            _navigateToResult.value = null
+            _currentTest.value?.nextIntermediateQuestion()
+//        _currentTonality.value = _currentTest.value?.getQuestion()
+            _question.value = _currentTest.value?.getQuestion()
+            _btnText.value = _currentTest.value?.getBtnTxt()
+            _correctAnswer.value = _currentTest.value?.getAnswer()
+            numPickTest()
+        }
     }
+
     fun printErrors(){
-        _question.value = _listErrors.value?.get(0)
+        _question.value = _listErrors.value?.get(0) + "\n" + _currentTest.value?.getQuestion()
     }
 }

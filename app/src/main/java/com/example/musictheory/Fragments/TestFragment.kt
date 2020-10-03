@@ -43,7 +43,10 @@ class TestFragment : Fragment() {
         binding.testFragmentViewModel = testFragmentViewModel
 
         binding.numberPicker.minValue = 0
-        binding.numberPicker.maxValue = 10
+        binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
+        binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
+
+
 
         binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
             binding.btn2.text = newVal.toString()
@@ -61,6 +64,16 @@ class TestFragment : Fragment() {
                         .actionTestFragmentToResultFragment())
                 testFragmentViewModel.doneNavigate()
 //                sleepTrackerViewModel.doneNavigation()
+
+            }
+        })
+
+
+        testFragmentViewModel.btnOverFlow.observe(viewLifecycleOwner, Observer {
+            num ->
+            num?.let{
+                binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
+                binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
 
             }
         })

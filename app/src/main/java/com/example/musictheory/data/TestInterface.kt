@@ -7,7 +7,7 @@ interface TestInterface {
 
     fun nextIntermediateQuestion()
 
-    fun getAnswer(): String
+    fun getAnswer(): String?
 
-    fun getBtnTxt(): Array<String>
+    fun getBtnTxt(): Array<String>?
 }

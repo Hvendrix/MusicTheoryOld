@@ -33,7 +33,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="100dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,7 +85,14 @@
                     android:id="@+id/btn2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="To Result Fragment" />
+                    android:text="Next" />
+
+                <Button
+                    android:id="@+id/btnAnswer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ответить"
+                    />
 
 
             </LinearLayout>
