@@ -28,6 +28,8 @@ class TestFragmentViewModel(
 
     private var _btnOverFlow = MutableLiveData<Int>()
 
+    private var _currentNumPick = MutableLiveData<Int>()
+
     var testString = MutableLiveData<Answer?>()
 
     val question: LiveData<String>
@@ -54,6 +56,9 @@ class TestFragmentViewModel(
     val btnOverFlow: LiveData<Int>
     get() = _btnOverFlow
 
+
+    val currentNumPick: LiveData<Int>
+    get() = _currentNumPick
 
     init {
         _currentTest.value = TonalityTest
@@ -83,7 +88,7 @@ class TestFragmentViewModel(
     fun numPickTest(){
         if(_btnText.value?.size!! > 3){
             _btnOverFlow.value = 1
-        }
+        } else _btnOverFlow.value = null
     }
 
     fun onClickAnswer(num: Int){
@@ -104,5 +109,10 @@ class TestFragmentViewModel(
 
     fun printErrors(){
         _question.value = _listErrors.value?.get(0) + "\n" + _currentTest.value?.getQuestion()
+    }
+
+
+    fun setCurrentNumPick(num: Int){
+        _currentNumPick.value = num
     }
 }

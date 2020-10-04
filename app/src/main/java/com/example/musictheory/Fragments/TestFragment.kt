@@ -50,6 +50,7 @@ class TestFragment : Fragment() {
 
         binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
             binding.btn2.text = newVal.toString()
+            testFragmentViewModel.setCurrentNumPick(newVal)
         }
 
         binding.btn2.setOnClickListener {
@@ -72,6 +73,8 @@ class TestFragment : Fragment() {
         testFragmentViewModel.btnOverFlow.observe(viewLifecycleOwner, Observer {
             num ->
             num?.let{
+
+                binding.numberPicker.maxValue = 0
                 binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
                 binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
 

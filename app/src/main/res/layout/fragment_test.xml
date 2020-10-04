@@ -91,7 +91,9 @@
                     android:id="@+id/btnAnswer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{() -> testFragmentViewModel.onClickAnswer(testFragmentViewModel.currentNumPick)}"
                     android:text="Ответить"
+
                     />
 
 
