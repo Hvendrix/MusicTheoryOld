@@ -94,7 +94,9 @@ class TestFragmentViewModel(
     fun onClickAnswer(num: Int){
         if(_correctAnswer.value != _btnText.value?.get(num)){
             _correctAnswer.value?.let {
-                _listErrors.value?.add("Твой ответ неверный: " + it) }
+//                _listErrors.value?.add("Твой ответ неверный: " + it)
+                _listErrors.value?.add("Твой ответ неверный: ")
+            }
             printErrors()
         } else {
             _navigateToResult.value = null

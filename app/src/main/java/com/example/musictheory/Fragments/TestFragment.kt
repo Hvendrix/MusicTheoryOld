@@ -38,10 +38,15 @@ class TestFragment : Fragment() {
 
         val testFragmentViewModel = ViewModelProviders.of(this, viewModelFactory).get(TestFragmentViewModel::class.java)
 
+
         binding.lifecycleOwner = this
 
         binding.testFragmentViewModel = testFragmentViewModel
 
+
+        binding.numberPicker.visibility = View.GONE
+        binding.txtNumPick.visibility = View.GONE
+        binding.btnAnswer.visibility = View.GONE
         binding.numberPicker.minValue = 0
         binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
         binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
@@ -49,7 +54,7 @@ class TestFragment : Fragment() {
 
 
         binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
-            binding.btn2.text = newVal.toString()
+            binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)}"
             testFragmentViewModel.setCurrentNumPick(newVal)
         }
 
@@ -73,11 +78,26 @@ class TestFragment : Fragment() {
         testFragmentViewModel.btnOverFlow.observe(viewLifecycleOwner, Observer {
             num ->
             num?.let{
-
                 binding.numberPicker.maxValue = 0
                 binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
                 binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
+                binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(0)}"
+                testFragmentViewModel.setCurrentNumPick(0)
+                binding.numberPicker.visibility = View.VISIBLE
+                binding.txtNumPick.visibility = View.VISIBLE
+                binding.btnAnswer.visibility = View.VISIBLE
+                binding.btnAns0.visibility = View.GONE
+                binding.btnAns1.visibility = View.GONE
+                binding.btnAns2.visibility = View.GONE
 
+            }
+            if(num==null){
+                binding.btnAns0.visibility = View.VISIBLE
+                binding.btnAns1.visibility = View.VISIBLE
+                binding.btnAns2.visibility = View.VISIBLE
+                binding.numberPicker.visibility = View.GONE
+                binding.txtNumPick.visibility = View.GONE
+                binding.btnAnswer.visibility = View.GONE
             }
         })
 

@@ -2,6 +2,7 @@ package com.example.musictheory.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import java.util.*
 
 
 object TonalityTest : TestInterface{
@@ -18,6 +19,8 @@ object TonalityTest : TestInterface{
     private var _currentBtnTxt = MutableLiveData<Array<String>>()
     private var _allBtnText = MutableLiveData<MutableList<Array<String>>>()
     private var _allAnswers = MutableLiveData<Array<String>>()
+    private var _upperTestBool = MutableLiveData<Boolean>()
+
 
 
 
@@ -48,7 +51,7 @@ object TonalityTest : TestInterface{
     fun allBtnInit(){
         _allBtnText.value = mutableListOf(
             arrayOf("Да", "Нет", "Не знаю"),
-            arrayOf("2","1", "3", "q"),
+            btnTonalityTextShuff(),
             arrayOf("Диезы", "Пусто", "Бемоли"),
             arrayOf("На полу-тон", "На месте", "на три"),
             arrayOf("1", "2", "0", "3", "4", "5")
@@ -59,7 +62,7 @@ object TonalityTest : TestInterface{
     fun allAnswersInit(){
        _allAnswers.value = arrayOf(
            upperTest(),
-           "1",
+           findParallTonality(),
            signTest(),
            downTest(),
            _currentTonality.value?.signCount.toString()
@@ -67,10 +70,29 @@ object TonalityTest : TestInterface{
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value!![it] }
     }
 
+
+    fun btnTonalityTextShuff(): Array<String>{
+        var tmpArray = arrayOf(findParallTonality(), allTonality[1].name, allTonality[2].name, allTonality[3].name)
+        tmpArray.shuffle()
+        return tmpArray
+    }
+
+
+
     fun upperTest(): String{
+
         val tmp = _currentTonality.value?.name?.toUpperCase()
+        _upperTestBool.value = _currentTonality.value?.name == tmp
         return if(_currentTonality.value?.name != tmp) "Да" else "Нет"
 
+    }
+
+    fun findParallTonality(): String {
+//        if (upperTest() == "Нет"){
+//            nextIntermediateQuestion()
+//
+//        }
+        return _currentTonality.value?.parallTon.toString()
     }
 
     fun signTest(): String{
@@ -80,6 +102,10 @@ object TonalityTest : TestInterface{
     fun downTest(): String{
         return if(signTest() == "Диезы") "На полу-тон" else "На месте"
     }
+
+
+
+
 
     fun initTonality(){
         for(i in Tonality.values()){
@@ -100,7 +126,7 @@ object TonalityTest : TestInterface{
             _allInterQuestions.value?.get(
                 it
             )
-        } + "\n" + "${_questionNumTotal.value}"
+        }
         return _currentQuestion.value
     }
 
@@ -112,7 +138,13 @@ object TonalityTest : TestInterface{
     }
 
     override fun nextIntermediateQuestion() {
+        if(_upperTestBool.value!! && upperTest()=="Нет"){
+            _upperTestBool.value = false
+            _currentQuestNum.value = _currentQuestNum.value?.plus(1)
+        }
         _currentQuestNum.value = _currentQuestNum.value?.plus(1)
+
+
 
         if(_currentQuestNum.value == _questionNumTotal.value){
             nextQuestion()
