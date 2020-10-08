@@ -14,22 +14,13 @@ class TestFragmentViewModel(
     val database: AnswerDatabaseDao, application: Application) : AndroidViewModel(application) {
 
     private var _btnText = MutableLiveData<Array<String>>()
-
     private val _question = MutableLiveData<String>()
-
     private val _listErrors = MutableLiveData<MutableList<String>>(mutableListOf())
-
     private val _correctAnswer = MutableLiveData<String>()
-
     private val _currentTest = MutableLiveData<TestInterface>()
-
-
     private val _navigateToResult = MutableLiveData<Int>()
-
     private var _btnOverFlow = MutableLiveData<Int>()
-
     private var _currentNumPick = MutableLiveData<Int>()
-
     var testString = MutableLiveData<Answer?>()
 
     val question: LiveData<String>
@@ -39,7 +30,6 @@ class TestFragmentViewModel(
 
     val btnText: LiveData<Array<String>>
     get() = _btnText
-
 
 
     val listErrors: LiveData<MutableList<String>>

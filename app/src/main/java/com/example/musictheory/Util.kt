@@ -14,8 +14,8 @@ fun formatAnswers(answers: List<Answer>, resources: Resources): Spanned {
         append("<h3>Hello</h3>")
         answers.forEach{
             append("<br>")
-            append("id is: \t${it.ansId.toString()}<br>")
-            append("${it.quality.toString()}<br>")
+            append("id is: \t${it.ansId}<br>")
+            append("${it.quality}<br>")
             append("${it.stroka}<br>")
 //            it.errorList.forEach {
 //                append("\t${it}")
