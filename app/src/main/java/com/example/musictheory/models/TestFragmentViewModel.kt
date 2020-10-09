@@ -99,6 +99,16 @@ class TestFragmentViewModel(
         }
     }
 
+    fun onClickAnswer2(num: Int){
+            _navigateToResult.value = null
+            _currentTest.value?.nextQuestion()
+//        _currentTonality.value = _currentTest.value?.getQuestion()
+            _question.value = _currentTest.value?.getQuestion()
+            _btnText.value = _currentTest.value?.getBtnTxt()
+            _correctAnswer.value = _currentTest.value?.getAnswer()
+            numPickTest()
+    }
+
     fun printErrors(){
         _question.value = _listErrors.value?.get(0) + "\n" + _currentTest.value?.getQuestion()
     }

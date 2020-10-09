@@ -53,10 +53,11 @@ object TonalityTest : TestInterface{
     private fun allQuestionsInit(){
         _allInterQuestions.value = mutableListOf(
             "Нужно ли искать парралельную тональность?",
+            "На какой ступени параллельная тональность",
             "Какая тональность параллельная?",
             "Диезы или бемоли?",
-        "Насколько нужно спускаться(если не нужно, то ответьте 0)?",
-        "Сколько знаков?")
+            "Насколько нужно спускаться(если не нужно, то ответьте 0)?",
+            "Сколько знаков?")
         _questionNumTotal.value = _allInterQuestions.value!!.count()
         _currentQuestNum.value = 0
     }
@@ -64,10 +65,11 @@ object TonalityTest : TestInterface{
     private fun allBtnInit(){
         _allBtnText.value = mutableListOf(
             arrayOf("Да", "Нет", "Не знаю"),
+            arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
             btnTonalityTextShuff(),
             arrayOf("Диезы", "Пусто", "Бемоли"),
             arrayOf("На полу-тон", "На месте", "на три"),
-            arrayOf("0", "1", "2", "3", "4", "5", "6")
+            arrayOf("0", "1", "2", "3", "4", "5", "6", "7")
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
     }
@@ -75,6 +77,7 @@ object TonalityTest : TestInterface{
     private fun allAnswersInit(){
        _allAnswers.value = arrayOf(
            upperTest(),
+           "III",
            findParallTonality(),
            signTest(),
            downTest(),
@@ -120,7 +123,7 @@ object TonalityTest : TestInterface{
 
     override fun getQuestion(): String? {
 //        _currentQuestion.value = "Сколько знаков в ${_currentTonality.value!!.name}?"
-        _currentQuestion.value = "Текущая тональность ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n" +
+        _currentQuestion.value = "Текущая тональность ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n" + "\n" +
                 _currentQuestNum.value?.let {
             _allInterQuestions.value?.get(
                 it
@@ -139,7 +142,7 @@ object TonalityTest : TestInterface{
     override fun nextIntermediateQuestion() {
         if(_upperTestBool.value!! && upperTest()=="Нет"){
             _upperTestBool.value = false
-            _currentQuestNum.value = _currentQuestNum.value?.plus(1)
+            _currentQuestNum.value = _currentQuestNum.value?.plus(2)
         }
         _currentQuestNum.value = _currentQuestNum.value?.plus(1)
 
