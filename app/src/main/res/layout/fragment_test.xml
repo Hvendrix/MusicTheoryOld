@@ -80,13 +80,29 @@
                     android:onClick="@{() -> testFragmentViewModel.onClickAnswer(2)}"
                     android:text="@{testFragmentViewModel.btnText[2]}" />
 
-                <NumberPicker
-                    android:id="@+id/numberPicker"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:width="100dp"
-                    android:orientation="vertical" />
+                    android:orientation="horizontal">
+                    <NumberPicker
+                        android:id="@+id/numberPicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:width="100dp"
+                        android:orientation="vertical" />
+                    <NumberPicker
+                        android:id="@+id/numberPicker2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="gone"
+                        android:width="100dp"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
+
+
 
                 <TextView
                     android:id="@+id/txtNumPick"
@@ -108,11 +124,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> testFragmentViewModel.onClickAnswer2(2)}"
+                    android:visibility="gone"
                     android:text="Тональность"/>
                 <Button
                     android:id="@+id/btn2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:text="Next Fragment" />
 
             </LinearLayout>

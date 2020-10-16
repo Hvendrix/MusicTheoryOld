@@ -22,6 +22,7 @@ object TonalityTest : TestInterface{
     private var _currentTonality = MutableLiveData<Tonality>()
     private var _upperTestBool = MutableLiveData<Boolean>()
     private var _mollDur = MutableLiveData<String>()
+    private var _parallelTonality = MutableLiveData<String>()
 
 
     var allTonality: MutableList<Tonality> = mutableListOf()
@@ -47,17 +48,19 @@ object TonalityTest : TestInterface{
     private fun choiceTonality(){
         allTonality.shuffle()
         _currentTonality.value = allTonality[0]
+        _parallelTonality.value = ""
     }
 
 
     private fun allQuestionsInit(){
+        upperTest()
         _allInterQuestions.value = mutableListOf(
             "Нужно ли искать парралельную тональность?",
-            "На какой ступени параллельная тональность",
-            "Какая тональность параллельная?",
-            "Диезы или бемоли?",
-            "Насколько нужно спускаться(если не нужно, то ответьте 0)?",
-            "Сколько знаков?")
+            "На какой ступени строится пареллельный мажор",
+            "Параллельная тональность для ${_currentTonality.value?.name} - ${_mollDur.value}:",
+            "В искомой тональности будут диезы или бемоли?",
+            "Какую ищем ступень, чтобы узнать знаки?",
+            "Сколько знаков? (будет 2 вопроса вместо этого)")
         _questionNumTotal.value = _allInterQuestions.value!!.count()
         _currentQuestNum.value = 0
     }
@@ -68,7 +71,7 @@ object TonalityTest : TestInterface{
             arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
             btnTonalityTextShuff(),
             arrayOf("Диезы", "Пусто", "Бемоли"),
-            arrayOf("На полу-тон", "На месте", "на три"),
+            arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
             arrayOf("0", "1", "2", "3", "4", "5", "6", "7")
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
@@ -106,6 +109,7 @@ object TonalityTest : TestInterface{
     }
 
     private fun findParallTonality(): String {
+
         return _currentTonality.value?.parallTon.toString()
     }
 
@@ -114,7 +118,7 @@ object TonalityTest : TestInterface{
     }
 
     private fun downTest(): String{
-        return if(signTest() == "Диезы") "На полу-тон" else "На месте"
+        return if(signTest() == "Диезы") "VII" else "I"
     }
 
 
@@ -123,7 +127,8 @@ object TonalityTest : TestInterface{
 
     override fun getQuestion(): String? {
 //        _currentQuestion.value = "Сколько знаков в ${_currentTonality.value!!.name}?"
-        _currentQuestion.value = "Текущая тональность ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n" + "\n" +
+        _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n"+
+                "${_parallelTonality.value}" + "\n\n" +
                 _currentQuestNum.value?.let {
             _allInterQuestions.value?.get(
                 it
@@ -147,8 +152,11 @@ object TonalityTest : TestInterface{
         _currentQuestNum.value = _currentQuestNum.value?.plus(1)
 
 
+
         if(_currentQuestNum.value == _questionNumTotal.value){
             nextQuestion()
+        } else if(_currentQuestNum.value == 3){
+            _parallelTonality.value = "Параллельный мажор: ${_currentTonality.value?.parallTon.toString()} - dur"
         }
     }
 
