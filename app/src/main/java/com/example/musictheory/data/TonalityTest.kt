@@ -145,18 +145,17 @@ object TonalityTest : TestInterface{
     }
 
     override fun nextIntermediateQuestion() {
-        if(_upperTestBool.value!! && upperTest()=="Нет"){
+        if(_currentQuestNum.value == 2 && upperTest()=="Да"){
+            _upperTestBool.value = false
+            _parallelTonality.value = "Параллельный мажор: ${_currentTonality.value?.parallTon.toString()} - dur"
+        } else if(_upperTestBool.value!! && upperTest()=="Нет"){
             _upperTestBool.value = false
             _currentQuestNum.value = _currentQuestNum.value?.plus(2)
         }
         _currentQuestNum.value = _currentQuestNum.value?.plus(1)
 
-
-
         if(_currentQuestNum.value == _questionNumTotal.value){
             nextQuestion()
-        } else if(_currentQuestNum.value == 3){
-            _parallelTonality.value = "Параллельный мажор: ${_currentTonality.value?.parallTon.toString()} - dur"
         }
     }
 
