@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.musictheory.R
+import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.FragmentTestBinding
 import com.example.musictheory.models.TestFragmentViewModel
@@ -42,6 +43,15 @@ class TestFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.testFragmentViewModel = testFragmentViewModel
+
+
+        val adapter = SignsAdapter()
+
+        binding.signList.adapter = adapter
+
+        var listData = listOf("1", "2", "3", "4")
+
+        adapter.data = listData
 
 
         binding.numberPicker.visibility = View.GONE
