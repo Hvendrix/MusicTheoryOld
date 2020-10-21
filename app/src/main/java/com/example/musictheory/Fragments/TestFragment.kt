@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musictheory.R
 import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.Signs
@@ -46,13 +47,15 @@ class TestFragment : Fragment() {
         binding.testFragmentViewModel = testFragmentViewModel
 
 
+        val manager = GridLayoutManager(activity, 4)
+        binding.signList.layoutManager = manager
         val adapter = SignsAdapter()
 
         binding.signList.adapter = adapter
 
-
-
         adapter.data = Signs.listData
+
+
 
 
         binding.numberPicker.visibility = View.GONE

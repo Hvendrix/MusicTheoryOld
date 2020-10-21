@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musictheory.R
-import com.example.musictheory.TextItemViewHolder
-import android.widget.TextView
 
 class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
@@ -23,24 +21,36 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.btnName.text = item
-
-        if (item == "Фа") {
-            holder.btnName.setTextColor(Color.RED) // red
-        } else {
-            // reset
-            holder.btnName.setTextColor(Color.BLACK) // black
-        }
+        holder.bind(item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.text_item_signs, parent, false)
-        return ViewHolder(view)
+        return ViewHolder.from(parent)
     }
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val btnName: Button = itemView.findViewById(R.id.btnSign)
+
+        fun bind(item: String) {
+            btnName.text = item
+
+            if (item == "Фа") {
+                btnName.setTextColor(Color.RED) // red
+                btnName.isEnabled = false
+            } else {
+                // reset
+                btnName.setTextColor(Color.BLACK) // black
+            }
+        }
+
+        companion object{
+            fun from(parent: ViewGroup): ViewHolder{
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val view = layoutInflater.inflate(R.layout.text_item_signs, parent, false)
+                return ViewHolder(view)
+            }
+        }
+
     }
 }
