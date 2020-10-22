@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musictheory.R
+import com.example.musictheory.data.Signs
 
 class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
@@ -54,3 +55,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
     }
 }
+
+//
+//class SignsListener(val clickListener: (sleepId: Long) -> Unit) {
+//    fun onClick(night: Signs) = clickListener(night.listData.indexOf())
