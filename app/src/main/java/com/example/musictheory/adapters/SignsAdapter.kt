@@ -1,16 +1,20 @@
 package com.example.musictheory.adapters
 
 import android.graphics.Color
+import android.text.TextUtils.indexOf
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musictheory.R
 import com.example.musictheory.data.Signs
+import com.example.musictheory.data.Tonality
 
 class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
+//    var data = mapOf<Int, String>()
     var data = listOf<String>()
         set(value) {
             field = value
@@ -22,7 +26,10 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item)
+        item?.let{
+            holder.bind(item)
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,6 +63,8 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
     }
 }
 
-//
+
+
+
 //class SignsListener(val clickListener: (sleepId: Long) -> Unit) {
-//    fun onClick(night: Signs) = clickListener(night.listData.indexOf())
+//    fun onClick(signs: Signs) = clickListener(night.listData.indexOf())
