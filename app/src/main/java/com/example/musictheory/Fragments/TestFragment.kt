@@ -56,6 +56,12 @@ class TestFragment : Fragment() {
 
         adapter.data = Signs.listData
 
+        Signs.TestString.observe(viewLifecycleOwner, Observer{
+            binding.txtNumPick.visibility = View.VISIBLE
+            binding.txtNumPick.text = "Твой ответ будет: ${it}"
+        })
+
+
 
 
 

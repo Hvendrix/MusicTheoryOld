@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.musictheory.Activities.MainActivity
 import com.example.musictheory.R
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
+import com.example.musictheory.databinding.ListItemSignsBinding
 
 class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
@@ -26,10 +29,8 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        item?.let{
-            holder.bind(item)
-        }
-
+        holder.bind(item, position)
+        ViewHolder
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,26 +38,40 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
     }
 
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder private constructor(val binding: ListItemSignsBinding) : RecyclerView.ViewHolder(binding.root){
         val btnName: Button = itemView.findViewById(R.id.btnSign)
 
-        fun bind(item: String) {
+        init{
+
+        }
+
+        fun bind(item: String, position: Int) {
+
             btnName.text = item
+            btnName.setOnClickListener {
+//                btnName.text = "qe"
+                btnName.isEnabled = false
+                Signs.addInList(item, position)
+            }
 
             if (item == "Фа") {
                 btnName.setTextColor(Color.RED) // red
-                btnName.isEnabled = false
+
             } else {
                 // reset
                 btnName.setTextColor(Color.BLACK) // black
             }
+
+
+
         }
 
         companion object{
             fun from(parent: ViewGroup): ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.text_item_signs, parent, false)
-                return ViewHolder(view)
+//                val view = layoutInflater.inflate(R.layout.text_item_signs, parent, false)
+                val binding = ListItemSignsBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding)
             }
         }
 

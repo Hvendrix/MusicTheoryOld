@@ -25,6 +25,7 @@ object TonalityTest : TestInterface{
     private var _parallelTonality = MutableLiveData<String>()
 
 
+
     var allTonality: MutableList<Tonality> = mutableListOf()
 
 
