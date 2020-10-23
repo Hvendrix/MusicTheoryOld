@@ -29,6 +29,10 @@ object TonalityTest : TestInterface{
     var allTonality: MutableList<Tonality> = mutableListOf()
 
 
+    val currentTonality : LiveData<Tonality>
+    get() = _currentTonality
+
+
 
     init {
         initTonality()
@@ -73,7 +77,7 @@ object TonalityTest : TestInterface{
             btnTonalityTextShuff(),
             arrayOf("Диезы", "Пусто", "Бемоли"),
             arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
-            arrayOf("0", "1", "2", "3", "4", "5", "6", "7")
+            arrayOf("table")
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
     }
@@ -121,6 +125,11 @@ object TonalityTest : TestInterface{
     private fun downTest(): String{
         return if(signTest() == "Диезы") "VII" else "I"
     }
+
+//    private fun signsTest(): String{
+//       return _currentTonality.value?.signCount?.let { Signs.compareByNum(it) }
+//
+//    }
 
 
 

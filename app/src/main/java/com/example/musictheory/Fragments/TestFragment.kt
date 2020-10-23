@@ -57,7 +57,6 @@ class TestFragment : Fragment() {
         adapter.data = Signs.listData
 
         Signs.TestString.observe(viewLifecycleOwner, Observer{
-            binding.txtNumPick.visibility = View.VISIBLE
             binding.txtNumPick.text = "Твой ответ будет: ${it}"
         })
 
@@ -68,6 +67,7 @@ class TestFragment : Fragment() {
         binding.numberPicker.visibility = View.GONE
         binding.txtNumPick.visibility = View.GONE
         binding.btnAnswer.visibility = View.GONE
+        binding.signList.visibility = View.GONE
         binding.numberPicker.minValue = 0
         binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
         binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
@@ -119,6 +119,26 @@ class TestFragment : Fragment() {
                 binding.numberPicker.visibility = View.GONE
                 binding.txtNumPick.visibility = View.GONE
                 binding.btnAnswer.visibility = View.GONE
+            }
+        })
+
+        testFragmentViewModel.recyclerViewNeed.observe(viewLifecycleOwner, Observer {
+                num ->
+            num?.let{
+                binding.btnAns0.visibility = View.GONE
+                binding.btnAns1.visibility = View.GONE
+                binding.btnAns2.visibility = View.GONE
+                binding.numberPicker.visibility = View.GONE
+                binding.btnAnswer.visibility = View.VISIBLE
+                binding.txtNumPick.visibility = View.VISIBLE
+                binding.signList.visibility = View.VISIBLE
+                binding.txtNumPick.text = "Твой ответ будет: ${it}"
+                testFragmentViewModel.setCurrentNumPick(0)
+
+
+            }
+            if(num==null){
+                binding.signList.visibility = View.GONE
             }
         })
 
