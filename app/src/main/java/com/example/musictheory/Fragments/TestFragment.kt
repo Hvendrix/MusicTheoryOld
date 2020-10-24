@@ -74,6 +74,9 @@ class TestFragment : Fragment() {
             adapter.notifyDataSetChanged()
         })
 
+        testFragmentViewModel.recViewBool.observe(viewLifecycleOwner, Observer {
+            adapter.notifyDataSetChanged()
+        })
 
         Signs.TestString.observe(viewLifecycleOwner, Observer{
             binding.txtNumPick.text = "Твой ответ будет: ${it}"
@@ -101,7 +104,8 @@ class TestFragment : Fragment() {
         }
 
 
-
+        Signs.clearEnabled()
+        adapter.notifyDataSetChanged()
 
         binding.numberPicker.visibility = View.GONE
         binding.txtNumPick.visibility = View.GONE

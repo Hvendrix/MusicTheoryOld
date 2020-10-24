@@ -28,6 +28,8 @@ class TestFragmentViewModel(
     private var _btnOverFlow = MutableLiveData<Int>()
     private var _currentNumPick = MutableLiveData<Int>()
     private var _recyclerViewNeed = MutableLiveData<Boolean>()
+
+    private var _recViewBool = MutableLiveData<Boolean>()
     var testString = MutableLiveData<Answer?>()
 
     val question: LiveData<String>
@@ -60,6 +62,9 @@ class TestFragmentViewModel(
     val recyclerViewNeed: LiveData<Boolean>
         get() = _recyclerViewNeed
 
+    val recViewBool: LiveData<Boolean>
+    get() = _recViewBool
+
 
     init {
         _currentTest.value = TonalityTest
@@ -68,6 +73,7 @@ class TestFragmentViewModel(
         _correctAnswer.value = (_currentTest.value as TonalityTest).getAnswer()
         _btnOverFlow.value = null
         _recyclerViewNeed.value = null
+        _recViewBool.value = null
 
     }
 
@@ -113,8 +119,7 @@ class TestFragmentViewModel(
                 numPickTest()
                 recyclerViewTest()
                 Signs.clearEnabled()
-
-
+            _recViewBool.value = true
 
             Log.i("iii", "end")
 
@@ -127,12 +132,14 @@ class TestFragmentViewModel(
             _correctAnswer.value = _currentTest.value?.getAnswer()
             numPickTest()
             recyclerViewTest()
+            _recViewBool.value = null
         } else {
             _correctAnswer.value?.let {
 //                _listErrors.value?.add("Твой ответ неверный: " + it)
                 _listErrors.value?.add("Твой ответ неверный: ")
                 Log.i("ttt", "success")
             }
+            _recViewBool.value = null
             printErrors()
         }
     }

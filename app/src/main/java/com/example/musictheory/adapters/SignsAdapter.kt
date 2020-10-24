@@ -19,10 +19,6 @@ import com.example.musictheory.databinding.ListItemSignsBinding
 
 class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
-
-    fun notif2(){
-        notifyDataSetChanged()
-    }
     var data = mutableListOf<String>()
         set(value) {
             field = value
@@ -66,23 +62,19 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
                 Signs.listEnabled[position] = 0
                 Signs.listDataEnabled.value?.set(position, 0)
                 Log.i("ttt", "${Signs.listDataEnabled.value?.get(position)}")
+                btnName.setBackgroundColor(Color.LTGRAY)
 
 
             }
             Log.i("ttt", "${Signs.listDataEnabled.value?.get(position)}")
             if(item2 == 1){
                 btnName.isEnabled = true
+                btnName.setBackgroundColor(Color.GRAY)
             } else if(item2 == 0){
                 btnName.isEnabled = false
             } else {
                 btnName.text = "ЧТо то не так"
-            }
-            if (item == "Фа") {
-                btnName.setTextColor(Color.RED) // red
-
-            } else {
-                // reset
-                btnName.setTextColor(Color.BLACK) // black
+                btnName.setBackgroundColor(Color.LTGRAY)
             }
         }
 
