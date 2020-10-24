@@ -54,12 +54,22 @@ class TestFragment : Fragment() {
 
         binding.signList.adapter = adapter
 
-        adapter.data = Signs.listData
 
+
+
+//        adapter.data = Signs.listData
+//        adapter.data = Signs.signList.value!!
+
+        Signs.signMutList.observe(viewLifecycleOwner, Observer{
+            adapter.submitList(it)
+        })
         Signs.TestString.observe(viewLifecycleOwner, Observer{
             binding.txtNumPick.text = "Твой ответ будет: ${it}"
         })
 
+        binding.btnClear2.setOnClickListener {
+            Signs.signMutList.value?.add(Signs.Sign(4, "xxxx"))
+        }
 
 
 
@@ -68,6 +78,7 @@ class TestFragment : Fragment() {
         binding.txtNumPick.visibility = View.GONE
         binding.btnAnswer.visibility = View.GONE
         binding.signList.visibility = View.GONE
+        binding.btnClear.visibility = View.GONE
         binding.numberPicker.minValue = 0
         binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
         binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
@@ -132,6 +143,7 @@ class TestFragment : Fragment() {
                 binding.btnAnswer.visibility = View.VISIBLE
                 binding.txtNumPick.visibility = View.VISIBLE
                 binding.signList.visibility = View.VISIBLE
+                binding.btnClear.visibility = View.VISIBLE
                 binding.txtNumPick.text = "Твой ответ будет: ${it}"
                 testFragmentViewModel.setCurrentNumPick(0)
 
@@ -139,6 +151,7 @@ class TestFragment : Fragment() {
             }
             if(num==null){
                 binding.signList.visibility = View.GONE
+                binding.btnClear.visibility = View.GONE
             }
         })
 

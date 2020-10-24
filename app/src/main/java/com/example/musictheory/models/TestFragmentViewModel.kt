@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.*
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
@@ -108,14 +109,7 @@ class TestFragmentViewModel(
                 recyclerViewTest()
             Log.i("iii", "end")
 
-        } else if(_correctAnswer.value != _btnText.value?.get(num)){
-            _correctAnswer.value?.let {
-//                _listErrors.value?.add("Твой ответ неверный: " + it)
-                _listErrors.value?.add("Твой ответ неверный: ")
-                Log.i("ttt", "success")
-            }
-            printErrors()
-        } else {
+        } else if(_correctAnswer.value == _btnText.value?.get(num)){
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
 //        _currentTonality.value = _currentTest.value?.getQuestion()
@@ -124,6 +118,13 @@ class TestFragmentViewModel(
             _correctAnswer.value = _currentTest.value?.getAnswer()
             numPickTest()
             recyclerViewTest()
+        } else {
+            _correctAnswer.value?.let {
+//                _listErrors.value?.add("Твой ответ неверный: " + it)
+                _listErrors.value?.add("Твой ответ неверный: ")
+                Log.i("ttt", "success")
+            }
+            printErrors()
         }
     }
 
@@ -148,12 +149,18 @@ class TestFragmentViewModel(
     }
 
     fun setCurrentRecView():Boolean{
-        Log.i("ttt", "start fun")
-//        _currentRecView.value = Signs.compareByNum()
         return Signs.compareByNum()
+    }
 
-//        _currentRecView.value = _correctAnswer.value?.toInt()?.let { Signs.compareByNum(it) }
-//        return _currentRecView.value != false
+    fun onClearRecView(){
+//        Signs.listData.clear()
+//        Signs.testBool = false
+//
+//        Signs.clearList()
+    }
+    fun onClearRecView2(){
+//        Signs.listData.shuffle()
+//        Signs.clear2()
 
     }
 }

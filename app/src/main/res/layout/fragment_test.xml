@@ -35,9 +35,6 @@
             android:visibility="visible"
             />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,8 +122,21 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> testFragmentViewModel.onClickAnswer(testFragmentViewModel.currentNumPick)}"
                     android:text="Ответить"
-
                     />
+
+                <Button
+                    android:id="@+id/btnClear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> testFragmentViewModel.onClearRecView()}"
+                    android:text="Очистить"/>
+
+                <Button
+                    android:id="@+id/btnClear2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> testFragmentViewModel.onClearRecView2()}"
+                    android:text="Очистить2"/>
 
                 <Button
                     android:layout_width="wrap_content"
