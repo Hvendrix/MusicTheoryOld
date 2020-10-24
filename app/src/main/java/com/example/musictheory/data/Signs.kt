@@ -6,15 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import java.util.stream.IntStream.range
 
 object Signs {
-    private var _signsMutList = MutableLiveData<MutableList<Sign>>()
-    private var signList = MutableLiveData<String>()
+    private var _signList = MutableLiveData<MutableList<String>>()
     var listData = mutableListOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
-    var mapSigns = mapOf<Int, String>(0 to "Фа", 1 to "До", 2 to "Соль", 3 to "Ре", 4 to "Ля", 5 to "Ми", 6 to "Си")
+    var listEnabled = mutableListOf(1, 1, 1, 1, 1, 1, 1)
+    private var _listDataEnabled = MutableLiveData<MutableList<Int>>()
+    var mapSigns = mapOf<String, Int>("Фа" to 1, "До" to 1, "Соль" to 1,  "Ре" to 1, "Ля" to 1,  "Ми" to 1,  "Си" to 1)
     var listInOrder = mutableListOf<String>()
-    var listString = "asd"
     var rightSharpOrder = listOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
+    var rightFlatOrder = listOf("Си", "Ми", "Ля", "Ре", "Соль", "До", "Фа")
 
-    var testBool = true
 
     private var _TestString = MutableLiveData<String>()
 
@@ -22,12 +22,17 @@ object Signs {
     val TestString : LiveData<String>
     get() = _TestString
 
-    val signMutList : LiveData<MutableList<Sign>>
-    get() = _signsMutList
+    val signList : LiveData<MutableList<String>>
+    get() = _signList
 
+    val listDataEnabled : LiveData<MutableList<Int>>
+    get() = _listDataEnabled
     init{
-        _signsMutList.value = mutableListOf(Sign(0, "йа"), Sign(1, "qw"))
+        _signList.value =  mutableListOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
+        _listDataEnabled.value = mutableListOf(1, 1, 1, 1, 1, 1, 1)
+        _TestString.value = ""
     }
+
 
     fun addInList(strVal: String, pos: Int){
         listInOrder.add(strVal)
@@ -38,36 +43,40 @@ object Signs {
 
     }
 
-    fun clearList(){
-//        listInOrder.clear()
-        listData.clear()
-        listData.add("ppp")
-        _TestString.value = ""
-    }
 
-    fun compareByNum(): Boolean{
+    fun compareByNum(): Boolean {
         Log.i("ttt", "start compare fun")
         var test = true
         var num = 0
-        TonalityTest.currentTonality.value?.signCount?.let{
+        TonalityTest.currentTonality.value?.signCount?.let {
             num = it
         }
-        Log.i("ttt", "$num")
-        for(i in 0..num-1){
-            if(listInOrder[i] != rightSharpOrder[i]){
-                test = false
-                Log.i("ttt", "incorrect order")
+        if (num != listInOrder.size) return false
+        if (TonalityTest.currentTonality.value?.signType == "Диезы") {
+            for (i in 0..num - 1) {
+                if (listInOrder[i] != rightSharpOrder[i]) {
+                    test = false
+                }
             }
+            return@compareByNum test
+        } else if (TonalityTest.currentTonality.value?.signType == "Бемоли") {
+            for (i in 0..num - 1) {
+                if (listInOrder[i] != rightFlatOrder[i]) {
+                    test = false
+                }
+            }
+            return@compareByNum test
         }
-        Log.i("ttt", "end of compare")
-        return test
+        return false
     }
 
-    fun clear2(){
-//        _signsList.value?.add("hhhhhhh")
-//        _signsList.value?.clear()
-        _signsMutList.value?.add(Sign(2, "eeee"))
+    fun clearEnabled(){
+        for (i in 0 until listDataEnabled.value?.size!!){
+            listDataEnabled.value!![i] = 1
+            Log.i("ttt", "list bind updated = $i ${_listDataEnabled.value!![i]}")
+        }
+        listInOrder.clear()
+        _TestString.value = ""
+        signList.value!!.shuffle()
     }
-
-    class Sign(val id: Int, val Name: String)
 }

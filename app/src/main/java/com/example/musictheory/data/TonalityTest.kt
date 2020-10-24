@@ -33,6 +33,9 @@ object TonalityTest : TestInterface{
     get() = _currentTonality
 
 
+    val currentQuestionNum: LiveData<Int>
+    get() = _currentQuestNum
+
 
     init {
         initTonality()
@@ -75,7 +78,7 @@ object TonalityTest : TestInterface{
             arrayOf("Да", "Нет", "Не знаю"),
             arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
             btnTonalityTextShuff(),
-            arrayOf("Диезы", "Пусто", "Бемоли"),
+            arrayOf("Диезы", "Бемоли", "Не знаю"),
             arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
             arrayOf("table")
         )
@@ -137,7 +140,7 @@ object TonalityTest : TestInterface{
 
     override fun getQuestion(): String? {
 //        _currentQuestion.value = "Сколько знаков в ${_currentTonality.value!!.name}?"
-        _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n"+
+        _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n(${_currentTonality.value?.rusName})"+ "\n"+
                 "${_parallelTonality.value}" + "\n\n" +
                 _currentQuestNum.value?.let {
             _allInterQuestions.value?.get(

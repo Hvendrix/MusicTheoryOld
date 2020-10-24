@@ -88,7 +88,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
                     <NumberPicker
                         android:id="@+id/numberPicker"
                         android:layout_width="wrap_content"
@@ -128,6 +129,7 @@
                     android:id="@+id/btnClear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:onClick="@{() -> testFragmentViewModel.onClearRecView()}"
                     android:text="Очистить"/>
 
@@ -135,8 +137,7 @@
                     android:id="@+id/btnClear2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> testFragmentViewModel.onClearRecView2()}"
-                    android:text="Очистить2"/>
+                    android:text="Сбросить"/>
 
                 <Button
                     android:layout_width="wrap_content"

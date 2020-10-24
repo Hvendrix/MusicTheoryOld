@@ -1,6 +1,7 @@
 package com.example.musictheory.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.example.musictheory.R
 import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
+import com.example.musictheory.data.TonalityTest
 import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.FragmentTestBinding
 import com.example.musictheory.models.TestFragmentViewModel
@@ -58,17 +60,44 @@ class TestFragment : Fragment() {
 
 
 //        adapter.data = Signs.listData
+//        adapter.data2 = Signs.listEnabled
+//        adapter.data = Signs.mapSigns
 //        adapter.data = Signs.signList.value!!
 
-        Signs.signMutList.observe(viewLifecycleOwner, Observer{
-            adapter.submitList(it)
+        Signs.signList.observe(viewLifecycleOwner, Observer{
+            adapter.data = it
+            adapter.notifyDataSetChanged()
         })
+
+        Signs.listDataEnabled.observe(viewLifecycleOwner, Observer{
+            adapter.data2 = it
+            adapter.notifyDataSetChanged()
+        })
+
+
         Signs.TestString.observe(viewLifecycleOwner, Observer{
             binding.txtNumPick.text = "Твой ответ будет: ${it}"
         })
 
         binding.btnClear2.setOnClickListener {
-            Signs.signMutList.value?.add(Signs.Sign(4, "xxxx"))
+            Log.i("ttt", "btn")
+//            Signs.signMutList.value?.add(Signs.Sign(4, "xxxx"))
+//            Signs.listData.add("zzzzz")
+//
+//            Signs.listData.clear()
+//            adapter.notifyDataSetChanged()
+//            for(i in Signs.listData2){
+//                Signs.listData.add(i)
+//            }
+//            for(i in Signs.listEnabled){
+//                Signs.listEnabled[i] = 1
+//            }
+            Signs.clearEnabled()
+
+
+//            Signs.listData.shuffle()
+            adapter.notifyDataSetChanged()
+
         }
 
 
@@ -79,6 +108,7 @@ class TestFragment : Fragment() {
         binding.btnAnswer.visibility = View.GONE
         binding.signList.visibility = View.GONE
         binding.btnClear.visibility = View.GONE
+        binding.btnClear2.visibility = View.GONE
         binding.numberPicker.minValue = 0
         binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
         binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
@@ -86,7 +116,17 @@ class TestFragment : Fragment() {
 
 
         binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
-            binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)}"
+
+            var text = ""
+            if(TonalityTest.currentQuestionNum.value == 2) {
+                testFragmentViewModel.btnText.value?.get(newVal)?.let {
+                    text = "\n (${Tonality.valueOf(it).rusName})"
+                }
+            }else text = ""
+            Log.i("ttt", "$text")
+
+
+            binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
             testFragmentViewModel.setCurrentNumPick(newVal)
         }
 
@@ -143,7 +183,7 @@ class TestFragment : Fragment() {
                 binding.btnAnswer.visibility = View.VISIBLE
                 binding.txtNumPick.visibility = View.VISIBLE
                 binding.signList.visibility = View.VISIBLE
-                binding.btnClear.visibility = View.VISIBLE
+                binding.btnClear2.visibility = View.VISIBLE
                 binding.txtNumPick.text = "Твой ответ будет: ${it}"
                 testFragmentViewModel.setCurrentNumPick(0)
 
@@ -151,13 +191,17 @@ class TestFragment : Fragment() {
             }
             if(num==null){
                 binding.signList.visibility = View.GONE
-                binding.btnClear.visibility = View.GONE
+                binding.btnClear2.visibility = View.GONE
             }
         })
 
 
+
+
+
         return binding.root
     }
+
 
 
 }

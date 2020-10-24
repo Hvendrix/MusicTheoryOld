@@ -5,10 +5,15 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.musictheory.Activities.MainActivity
+import com.example.musictheory.Fragments.TestFragment
+import com.example.musictheory.R
 import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.*
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
+import kotlinx.android.synthetic.main.fragment_test.*
+import kotlinx.android.synthetic.main.fragment_test.view.*
 import kotlinx.coroutines.*
 
 class TestFragmentViewModel(
@@ -107,6 +112,10 @@ class TestFragmentViewModel(
                 _correctAnswer.value = _currentTest.value?.getAnswer()
                 numPickTest()
                 recyclerViewTest()
+                Signs.clearEnabled()
+
+
+
             Log.i("iii", "end")
 
         } else if(_correctAnswer.value == _btnText.value?.get(num)){
@@ -153,6 +162,7 @@ class TestFragmentViewModel(
     }
 
     fun onClearRecView(){
+
 //        Signs.listData.clear()
 //        Signs.testBool = false
 //
