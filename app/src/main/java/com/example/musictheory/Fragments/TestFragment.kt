@@ -22,7 +22,8 @@ import com.example.musictheory.models.TestFragmentViewModel
 import com.example.musictheory.models.TestFragmentViewModelFactory
 import kotlinx.android.synthetic.main.fragment_test.*
 
-class TestFragment : Fragment() {
+class
+TestFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -56,14 +57,6 @@ class TestFragment : Fragment() {
 
         binding.signList.adapter = adapter
 
-
-
-
-//        adapter.data = Signs.listData
-//        adapter.data2 = Signs.listEnabled
-//        adapter.data = Signs.mapSigns
-//        adapter.data = Signs.signList.value!!
-
         Signs.signList.observe(viewLifecycleOwner, Observer{
             adapter.data = it
             adapter.notifyDataSetChanged()
@@ -83,41 +76,22 @@ class TestFragment : Fragment() {
         })
 
         binding.btnClear2.setOnClickListener {
-            Log.i("ttt", "btn")
-//            Signs.signMutList.value?.add(Signs.Sign(4, "xxxx"))
-//            Signs.listData.add("zzzzz")
-//
-//            Signs.listData.clear()
-//            adapter.notifyDataSetChanged()
-//            for(i in Signs.listData2){
-//                Signs.listData.add(i)
-//            }
-//            for(i in Signs.listEnabled){
-//                Signs.listEnabled[i] = 1
-//            }
             Signs.clearEnabled()
-
-
-//            Signs.listData.shuffle()
             adapter.notifyDataSetChanged()
-
         }
 
 
         Signs.clearEnabled()
         adapter.notifyDataSetChanged()
 
-        binding.numberPicker.visibility = View.GONE
-        binding.txtNumPick.visibility = View.GONE
-        binding.btnAnswer.visibility = View.GONE
-        binding.signList.visibility = View.GONE
-        binding.btnClear.visibility = View.GONE
-        binding.btnClear2.visibility = View.GONE
+
+        hideAll(binding)
+        binding.btnAns0.visibility = View.VISIBLE
+        binding.btnAns1.visibility = View.VISIBLE
+        binding.btnAns2.visibility = View.VISIBLE
         binding.numberPicker.minValue = 0
         binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
         binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
-
-
 
         binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
 
@@ -134,9 +108,7 @@ class TestFragment : Fragment() {
             testFragmentViewModel.setCurrentNumPick(newVal)
         }
 
-        binding.btn2.setOnClickListener {
-            this.findNavController().navigate(TestFragmentDirections.actionTestFragmentToResultFragment())
-        }
+
 
         testFragmentViewModel.navigateToResult.observe(viewLifecycleOwner, Observer {
                 num ->
@@ -159,31 +131,24 @@ class TestFragment : Fragment() {
                 binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
                 binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(0)}"
                 testFragmentViewModel.setCurrentNumPick(0)
+                hideAll(binding)
                 binding.numberPicker.visibility = View.VISIBLE
                 binding.txtNumPick.visibility = View.VISIBLE
                 binding.btnAnswer.visibility = View.VISIBLE
-                binding.btnAns0.visibility = View.GONE
-                binding.btnAns1.visibility = View.GONE
-                binding.btnAns2.visibility = View.GONE
 
             }
             if(num==null){
+                hideAll(binding)
                 binding.btnAns0.visibility = View.VISIBLE
                 binding.btnAns1.visibility = View.VISIBLE
                 binding.btnAns2.visibility = View.VISIBLE
-                binding.numberPicker.visibility = View.GONE
-                binding.txtNumPick.visibility = View.GONE
-                binding.btnAnswer.visibility = View.GONE
             }
         })
 
         testFragmentViewModel.recyclerViewNeed.observe(viewLifecycleOwner, Observer {
                 num ->
             num?.let{
-                binding.btnAns0.visibility = View.GONE
-                binding.btnAns1.visibility = View.GONE
-                binding.btnAns2.visibility = View.GONE
-                binding.numberPicker.visibility = View.GONE
+                hideAll(binding)
                 binding.btnAnswer.visibility = View.VISIBLE
                 binding.txtNumPick.visibility = View.VISIBLE
                 binding.signList.visibility = View.VISIBLE
@@ -193,17 +158,30 @@ class TestFragment : Fragment() {
 
 
             }
-            if(num==null){
-                binding.signList.visibility = View.GONE
-                binding.btnClear2.visibility = View.GONE
-            }
         })
 
 
 
 
 
+
+        binding.btn2.setOnClickListener {
+            this.findNavController().navigate(TestFragmentDirections.actionTestFragmentToResultFragment())
+        }
+
         return binding.root
+    }
+
+    fun hideAll(binding: FragmentTestBinding){
+        binding.btnAns0.visibility = View.GONE
+        binding.btnAns1.visibility = View.GONE
+        binding.btnAns2.visibility = View.GONE
+        binding.numberPicker.visibility = View.GONE
+        binding.txtNumPick.visibility = View.GONE
+        binding.btnAnswer.visibility = View.GONE
+        binding.signList.visibility = View.GONE
+        binding.btnClear.visibility = View.GONE
+        binding.btnClear2.visibility = View.GONE
     }
 
 

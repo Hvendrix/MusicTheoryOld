@@ -12,6 +12,7 @@ import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.*
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
+import com.example.musictheory.databinding.FragmentTestBinding
 import kotlinx.android.synthetic.main.fragment_test.*
 import kotlinx.android.synthetic.main.fragment_test.view.*
 import kotlinx.coroutines.*
@@ -169,11 +170,12 @@ class TestFragmentViewModel(
     }
 
     fun onClearRecView(){
-
-//        Signs.listData.clear()
-//        Signs.testBool = false
-//
-//        Signs.clearList()
+//        Signs.clearEnabled()
+//        adapter.notifyDataSetChanged()
+////        Signs.listData.clear()
+////        Signs.testBool = false
+////
+////        Signs.clearList()
     }
     fun onClearRecView2(){
 //        Signs.listData.shuffle()
