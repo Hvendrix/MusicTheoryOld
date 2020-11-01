@@ -145,7 +145,7 @@ class TestFragmentViewModel(
         }
     }
 
-    fun onClickAnswer2(num: Int){
+    fun onClickTonality(num: Int){
             _navigateToResult.value = null
             _currentTest.value?.nextQuestion()
 //        _currentTonality.value = _currentTest.value?.getQuestion()
@@ -169,9 +169,9 @@ class TestFragmentViewModel(
         return Signs.compareByNum()
     }
 
-    fun onClearRecView(){
-//        Signs.clearEnabled()
-//        adapter.notifyDataSetChanged()
+    fun onClearRecView(adapter: SignsAdapter){
+        Signs.clearEnabled()
+        adapter.notifyDataSetChanged()
 ////        Signs.listData.clear()
 ////        Signs.testBool = false
 ////

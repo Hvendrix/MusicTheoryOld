@@ -129,20 +129,13 @@
                     android:id="@+id/btnClear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:onClick="@{() -> testFragmentViewModel.onClearRecView()}"
-                    android:text="Очистить"/>
-
-                <Button
-                    android:id="@+id/btnClear2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="Сбросить"/>
 
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> testFragmentViewModel.onClickAnswer2(2)}"
+                    android:onClick="@{() -> testFragmentViewModel.onClickTonality(2)}"
                     android:visibility="visible"
                     android:text="Тональность"/>
                 <Button

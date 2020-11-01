@@ -22,8 +22,7 @@ import com.example.musictheory.models.TestFragmentViewModel
 import com.example.musictheory.models.TestFragmentViewModelFactory
 import kotlinx.android.synthetic.main.fragment_test.*
 
-class
-TestFragment : Fragment() {
+class TestFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -53,6 +52,8 @@ TestFragment : Fragment() {
 
         val manager = GridLayoutManager(activity, 4)
         binding.signList.layoutManager = manager
+
+
         val adapter = SignsAdapter()
 
         binding.signList.adapter = adapter
@@ -75,14 +76,12 @@ TestFragment : Fragment() {
             binding.txtNumPick.text = "Твой ответ будет: ${it}"
         })
 
-        binding.btnClear2.setOnClickListener {
-            Signs.clearEnabled()
-            adapter.notifyDataSetChanged()
+        binding.btnClear.setOnClickListener {
+            testFragmentViewModel.onClearRecView(adapter)
         }
 
 
-        Signs.clearEnabled()
-        adapter.notifyDataSetChanged()
+        testFragmentViewModel.onClearRecView(adapter)
 
 
         hideAll(binding)
@@ -152,7 +151,7 @@ TestFragment : Fragment() {
                 binding.btnAnswer.visibility = View.VISIBLE
                 binding.txtNumPick.visibility = View.VISIBLE
                 binding.signList.visibility = View.VISIBLE
-                binding.btnClear2.visibility = View.VISIBLE
+                binding.btnClear.visibility = View.VISIBLE
                 binding.txtNumPick.text = "Твой ответ будет: ${it}"
                 testFragmentViewModel.setCurrentNumPick(0)
 
@@ -181,7 +180,7 @@ TestFragment : Fragment() {
         binding.btnAnswer.visibility = View.GONE
         binding.signList.visibility = View.GONE
         binding.btnClear.visibility = View.GONE
-        binding.btnClear2.visibility = View.GONE
+        binding.btnClear.visibility = View.GONE
     }
 
 
