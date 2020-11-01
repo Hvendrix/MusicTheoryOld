@@ -10,6 +10,7 @@ import com.example.musictheory.Fragments.TestFragment
 import com.example.musictheory.R
 import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.*
+import com.example.musictheory.data.triton.TritonTest
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
 import com.example.musictheory.databinding.FragmentTestBinding
@@ -68,10 +69,10 @@ class TestFragmentViewModel(
 
 
     init {
-        _currentTest.value = TonalityTest
-        _btnText.value = (_currentTest.value as TonalityTest).getBtnTxt()
-        _question.value = (_currentTest.value as TonalityTest).getQuestion()
-        _correctAnswer.value = (_currentTest.value as TonalityTest).getAnswer()
+        _currentTest.value = TritonTest
+        _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
+        _question.value = (_currentTest.value as TestInterface).getQuestion()
+        _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
         _btnOverFlow.value = null
         _recyclerViewNeed.value = null
         _recViewBool.value = null
@@ -103,7 +104,6 @@ class TestFragmentViewModel(
     fun recyclerViewTest(){
         if(_btnText.value?.get(0) == "table"){
             _recyclerViewNeed.value = true
-            Log.i("ttt", "need = true")
         } else _recyclerViewNeed.value = null
     }
 
@@ -111,7 +111,6 @@ class TestFragmentViewModel(
 
     fun onClickAnswer(num: Int){
         if (_recyclerViewNeed.value != null && setCurrentRecView()){
-            Log.i("ttt", "in")
                 _navigateToResult.value = null
                 _currentTest.value?.nextIntermediateQuestion()
                 _question.value = _currentTest.value?.getQuestion()
@@ -121,8 +120,6 @@ class TestFragmentViewModel(
                 recyclerViewTest()
                 Signs.clearEnabled()
             _recViewBool.value = true
-
-            Log.i("iii", "end")
 
         } else if(_correctAnswer.value == _btnText.value?.get(num)){
             _navigateToResult.value = null
@@ -138,7 +135,6 @@ class TestFragmentViewModel(
             _correctAnswer.value?.let {
 //                _listErrors.value?.add("Твой ответ неверный: " + it)
                 _listErrors.value?.add("Твой ответ неверный: ")
-                Log.i("ttt", "success")
             }
             _recViewBool.value = null
             printErrors()
@@ -146,14 +142,14 @@ class TestFragmentViewModel(
     }
 
     fun onClickTonality(num: Int){
-            _navigateToResult.value = null
-            _currentTest.value?.nextQuestion()
-//        _currentTonality.value = _currentTest.value?.getQuestion()
-            _question.value = _currentTest.value?.getQuestion()
-            _btnText.value = _currentTest.value?.getBtnTxt()
-            _correctAnswer.value = _currentTest.value?.getAnswer()
-            numPickTest()
-            recyclerViewTest()
+//            _navigateToResult.value = null
+//            _currentTest.value?.nextQuestion()
+////        _currentTonality.value = _currentTest.value?.getQuestion()
+//            _question.value = _currentTest.value?.getQuestion()
+//            _btnText.value = _currentTest.value?.getBtnTxt()
+//            _correctAnswer.value = _currentTest.value?.getAnswer()
+//            numPickTest()
+//            recyclerViewTest()
     }
 
     fun printErrors(){

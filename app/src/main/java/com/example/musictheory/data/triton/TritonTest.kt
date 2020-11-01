@@ -25,7 +25,8 @@ object TritonTest: TestInterface {
 
     private fun allQuestionsInit(){
         _allInterQuestions.value = mutableListOf(
-            "Нужно ли искать парралельную тональность?")
+            "Нужно ли искать парралельную тональность?",
+            "abd?")
         _questionNumTotal.value = _allInterQuestions.value!!.count()
         _currentQuestNum.value = 0
     }
@@ -34,6 +35,7 @@ object TritonTest: TestInterface {
     private fun allBtnInit(){
         _allBtnText.value = mutableListOf(
             arrayOf("Да", "Нет", "Не знаю"),
+            arrayOf("Да", "Нет", "Не знаю", "I", "2", "3"),
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let {_allBtnText.value!![it] }
     }
@@ -41,6 +43,7 @@ object TritonTest: TestInterface {
 
     private fun allAnswersInit(){
        _allAnswers.value = arrayOf(
+           "Да",
            "Да"
        )
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
