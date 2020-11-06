@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musictheory.R
 import com.example.musictheory.adapters.SignsAdapter
+import com.example.musictheory.data.Notes
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.data.TonalityTest
@@ -100,9 +101,6 @@ class TestFragment : Fragment() {
                     text = "\n (${Tonality.valueOf(it).rusName})"
                 }
             }else text = ""
-            Log.i("ttt", "$text")
-
-
             binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
             testFragmentViewModel.setCurrentNumPick(newVal)
         }
@@ -134,6 +132,15 @@ class TestFragment : Fragment() {
                 binding.numberPicker.visibility = View.VISIBLE
                 binding.txtNumPick.visibility = View.VISIBLE
                 binding.btnAnswer.visibility = View.VISIBLE
+                if(testFragmentViewModel.btnOverFlow.value == 2){
+                    binding.numberPicker.maxValue = 0
+                    binding.numberPicker.displayedValues = Notes.notes
+                    binding.numberPicker.maxValue = Notes.notes.size-1
+                    binding.numberPicker2.maxValue = 0
+                    binding.numberPicker2.displayedValues = Notes.signs
+                    binding.numberPicker2.maxValue = Notes.signs.size-1
+                    binding.numberPicker2.visibility = View.VISIBLE
+                }
 
             }
             if(num==null){
@@ -143,6 +150,8 @@ class TestFragment : Fragment() {
                 binding.btnAns2.visibility = View.VISIBLE
             }
         })
+
+
 
         testFragmentViewModel.recyclerViewNeed.observe(viewLifecycleOwner, Observer {
                 num ->
@@ -176,6 +185,7 @@ class TestFragment : Fragment() {
         binding.btnAns1.visibility = View.GONE
         binding.btnAns2.visibility = View.GONE
         binding.numberPicker.visibility = View.GONE
+        binding.numberPicker2.visibility = View.GONE
         binding.txtNumPick.visibility = View.GONE
         binding.btnAnswer.visibility = View.GONE
         binding.signList.visibility = View.GONE

@@ -68,6 +68,7 @@ object TonalityTest : TestInterface{
             "Параллельная тональность для ${_currentTonality.value?.name} - ${_mollDur.value}:",
             "В данной тональности будут диезы или бемоли?",
             "Какую ищем ступень, чтобы узнать знаки?",
+            "Какая это нота?",
             "Выбери знаки в том порядке, в котором они будут стоять при ключе")
         _questionNumTotal.value = _allInterQuestions.value!!.count()
         _currentQuestNum.value = 0
@@ -80,6 +81,7 @@ object TonalityTest : TestInterface{
             btnTonalityTextShuff(),
             arrayOf("Диезы", "Бемоли", "Не знаю"),
             arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
+            arrayOf("twoNumPick"),
             arrayOf("table")
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
@@ -92,6 +94,7 @@ object TonalityTest : TestInterface{
            findParallTonality(),
            signTest(),
            downTest(),
+           "Фа-диез",
            _currentTonality.value?.signCount.toString()
        )
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
@@ -178,7 +181,10 @@ object TonalityTest : TestInterface{
     }
 
     override fun getBtnTxt(): Array<String>? {
-
+        _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
+        return _currentBtnTxt.value
+    }
+    override fun getBtnTxt2(): Array<String>? {
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
         return _currentBtnTxt.value
     }

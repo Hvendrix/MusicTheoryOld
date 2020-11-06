@@ -69,7 +69,7 @@ class TestFragmentViewModel(
 
 
     init {
-        _currentTest.value = TritonTest
+        _currentTest.value = TonalityTest
         _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
         _question.value = (_currentTest.value as TestInterface).getQuestion()
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
@@ -98,8 +98,11 @@ class TestFragmentViewModel(
     fun numPickTest(){
         if(_btnText.value?.size!! > 3){
             _btnOverFlow.value = 1
+        }else if (_btnText.value?.get(0) == "twoNumPick"){
+            _btnOverFlow.value = 2
         } else _btnOverFlow.value = null
     }
+
 
     fun recyclerViewTest(){
         if(_btnText.value?.get(0) == "table"){
@@ -142,14 +145,14 @@ class TestFragmentViewModel(
     }
 
     fun onClickTonality(num: Int){
-//            _navigateToResult.value = null
-//            _currentTest.value?.nextQuestion()
-////        _currentTonality.value = _currentTest.value?.getQuestion()
-//            _question.value = _currentTest.value?.getQuestion()
-//            _btnText.value = _currentTest.value?.getBtnTxt()
-//            _correctAnswer.value = _currentTest.value?.getAnswer()
-//            numPickTest()
-//            recyclerViewTest()
+            _navigateToResult.value = null
+            _currentTest.value?.nextQuestion()
+//        _currentTonality.value = _currentTest.value?.getQuestion()
+            _question.value = _currentTest.value?.getQuestion()
+            _btnText.value = _currentTest.value?.getBtnTxt()
+            _correctAnswer.value = _currentTest.value?.getAnswer()
+            numPickTest()
+            recyclerViewTest()
     }
 
     fun printErrors(){
@@ -168,14 +171,6 @@ class TestFragmentViewModel(
     fun onClearRecView(adapter: SignsAdapter){
         Signs.clearEnabled()
         adapter.notifyDataSetChanged()
-////        Signs.listData.clear()
-////        Signs.testBool = false
-////
-////        Signs.clearList()
     }
-    fun onClearRecView2(){
-//        Signs.listData.shuffle()
-//        Signs.clear2()
 
-    }
 }
