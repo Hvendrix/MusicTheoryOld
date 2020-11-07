@@ -10,4 +10,6 @@ interface TestInterface {
     fun getAnswer(): String?
 
     fun getBtnTxt(): Array<String>?
+
+    fun getSpecificBtnTxt(): Array<Array<String>>?
 }

@@ -84,4 +84,8 @@ object TritonTest: TestInterface {
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
         return _currentBtnTxt.value
     }
+
+    override fun getSpecificBtnTxt(): Array<Array<String>>? {
+        TODO("Not yet implemented")
+    }
 }

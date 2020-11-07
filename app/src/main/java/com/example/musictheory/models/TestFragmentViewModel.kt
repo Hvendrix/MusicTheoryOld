@@ -30,6 +30,8 @@ class TestFragmentViewModel(
     private var _btnOverFlow = MutableLiveData<Int>()
     private var _currentNumPick = MutableLiveData<Int>()
     private var _recyclerViewNeed = MutableLiveData<Boolean>()
+    private var _specificBtnText= MutableLiveData<Array<Array<String>>>()
+    private var _currentAnswer = MutableLiveData<String>()
 
     private var _recViewBool = MutableLiveData<Boolean>()
     var testString = MutableLiveData<Answer?>()
@@ -67,6 +69,9 @@ class TestFragmentViewModel(
     val recViewBool: LiveData<Boolean>
     get() = _recViewBool
 
+    val specificBtnTxt: LiveData<Array<Array<String>>>
+    get() = _specificBtnText
+
 
     init {
         _currentTest.value = TonalityTest
@@ -99,7 +104,9 @@ class TestFragmentViewModel(
         if(_btnText.value?.size!! > 3){
             _btnOverFlow.value = 1
         }else if (_btnText.value?.get(0) == "twoNumPick"){
+            _specificBtnText.value = _currentTest.value?.getSpecificBtnTxt()
             _btnOverFlow.value = 2
+
         } else _btnOverFlow.value = null
     }
 
@@ -134,6 +141,15 @@ class TestFragmentViewModel(
             numPickTest()
             recyclerViewTest()
             _recViewBool.value = null
+        } else if(_correctAnswer.value == _currentAnswer.value) {
+            _navigateToResult.value = null
+            _currentTest.value?.nextIntermediateQuestion()
+            _question.value = _currentTest.value?.getQuestion()
+            _btnText.value = _currentTest.value?.getBtnTxt()
+            _correctAnswer.value = _currentTest.value?.getAnswer()
+            numPickTest()
+            recyclerViewTest()
+            _recViewBool.value = null
         } else {
             _correctAnswer.value?.let {
 //                _listErrors.value?.add("Твой ответ неверный: " + it)
@@ -141,6 +157,7 @@ class TestFragmentViewModel(
             }
             _recViewBool.value = null
             printErrors()
+            Signs.clearEnabled()
         }
     }
 
@@ -162,6 +179,11 @@ class TestFragmentViewModel(
 
     fun setCurrentNumPick(num: Int){
         _currentNumPick.value = num
+    }
+
+    fun setCurrentAnswer(ans: String){
+        _currentAnswer.value = ans
+        Log.i("ttt", "${_currentAnswer.value} ${_correctAnswer.value}")
     }
 
     fun setCurrentRecView():Boolean{

@@ -35,7 +35,8 @@ class TestFragment : Fragment() {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_test, container, false)
 
-        val binding : FragmentTestBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_test, container, false)
+        val binding: FragmentTestBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_test, container, false)
 
         val application = requireNotNull(this.activity).application
 
@@ -43,7 +44,8 @@ class TestFragment : Fragment() {
 
         val viewModelFactory = TestFragmentViewModelFactory(dataSource, application)
 
-        val testFragmentViewModel = ViewModelProviders.of(this, viewModelFactory).get(TestFragmentViewModel::class.java)
+        val testFragmentViewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(TestFragmentViewModel::class.java)
 
 
         binding.lifecycleOwner = this
@@ -59,12 +61,12 @@ class TestFragment : Fragment() {
 
         binding.signList.adapter = adapter
 
-        Signs.signList.observe(viewLifecycleOwner, Observer{
+        Signs.signList.observe(viewLifecycleOwner, Observer {
             adapter.data = it
             adapter.notifyDataSetChanged()
         })
 
-        Signs.listDataEnabled.observe(viewLifecycleOwner, Observer{
+        Signs.listDataEnabled.observe(viewLifecycleOwner, Observer {
             adapter.data2 = it
             adapter.notifyDataSetChanged()
         })
@@ -73,7 +75,7 @@ class TestFragment : Fragment() {
             adapter.notifyDataSetChanged()
         })
 
-        Signs.TestString.observe(viewLifecycleOwner, Observer{
+        Signs.TestString.observe(viewLifecycleOwner, Observer {
             binding.txtNumPick.text = "Твой ответ будет: ${it}"
         })
 
@@ -93,69 +95,130 @@ class TestFragment : Fragment() {
         binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
         binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
 
-        binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
-
-            var text = ""
-            if(TonalityTest.currentQuestionNum.value == 2) {
-                testFragmentViewModel.btnText.value?.get(newVal)?.let {
-                    text = "\n (${Tonality.valueOf(it).rusName})"
-                }
-            }else text = ""
-            binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
-            testFragmentViewModel.setCurrentNumPick(newVal)
-        }
 
 
 
-        testFragmentViewModel.navigateToResult.observe(viewLifecycleOwner, Observer {
-                num ->
+
+        testFragmentViewModel.navigateToResult.observe(viewLifecycleOwner, Observer { num ->
             num?.let {
                 this.findNavController().navigate(
                     TestFragmentDirections
-                        .actionTestFragmentToResultFragment())
+                        .actionTestFragmentToResultFragment()
+                )
                 testFragmentViewModel.doneNavigate()
-//                sleepTrackerViewModel.doneNavigation()
 
             }
         })
 
 
-        testFragmentViewModel.btnOverFlow.observe(viewLifecycleOwner, Observer {
-            num ->
-            num?.let{
-                binding.numberPicker.maxValue = 0
-                binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
-                binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
-                binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(0)}"
-                testFragmentViewModel.setCurrentNumPick(0)
-                hideAll(binding)
-                binding.numberPicker.visibility = View.VISIBLE
-                binding.txtNumPick.visibility = View.VISIBLE
-                binding.btnAnswer.visibility = View.VISIBLE
-                if(testFragmentViewModel.btnOverFlow.value == 2){
+        testFragmentViewModel.btnOverFlow.observe(viewLifecycleOwner, Observer { num ->
+            num?.let {
+                if(num==1){
                     binding.numberPicker.maxValue = 0
-                    binding.numberPicker.displayedValues = Notes.notes
-                    binding.numberPicker.maxValue = Notes.notes.size-1
+                    binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
+                    binding.numberPicker.maxValue =
+                        testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
+                    binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(0)}"
+                    observeForNumPick(binding, testFragmentViewModel, 1)
+                    testFragmentViewModel.setCurrentNumPick(0)
+                    hideAll(binding)
+                    binding.numberPicker.visibility = View.VISIBLE
+                    binding.txtNumPick.visibility = View.VISIBLE
+                    binding.btnAnswer.visibility = View.VISIBLE
+                } else if (num==2) {
+
+                    hideAll(binding)
+                    observeForNumPick(binding, testFragmentViewModel, 2)
+                    Log.i("ttt", "btnFlow =2")
+                    Log.i("ttt", "${testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0)}")
+                    binding.numberPicker.maxValue = 0
+                    binding.numberPicker.displayedValues =
+                        testFragmentViewModel.specificBtnTxt.value?.get(0)
+                    Log.i("ttt", "size")
+                    binding.numberPicker.maxValue =
+                        testFragmentViewModel.specificBtnTxt.value?.get(0)?.size?.minus(1) ?: 0
+                    Log.i("ttt", "ok1")
                     binding.numberPicker2.maxValue = 0
-                    binding.numberPicker2.displayedValues = Notes.signs
-                    binding.numberPicker2.maxValue = Notes.signs.size-1
+                    binding.numberPicker2.displayedValues =
+                        testFragmentViewModel.specificBtnTxt.value?.get(1)
+                    binding.numberPicker2.maxValue =
+                        testFragmentViewModel.specificBtnTxt.value?.get(1)?.size?.minus(1) ?: 0
+                    Log.i("ttt", "ok2")
+
+                    //ужас
+                    testFragmentViewModel.setCurrentNumPick(0)
+                    var text = ""
+                    var text1 = ""
+                    var text2 = ""
+
+                        text1 = testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0).toString()
+                        text2 = testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(0).toString()
+                        text = "$text1-$text2"
+                        binding.txtNumPick.text =
+                            "Твой ответ будет: $text"
+                        testFragmentViewModel.setCurrentAnswer(text)
+
+                    //далее тоже ужас, но не настолько
+                    binding.numberPicker.visibility = View.VISIBLE
+                    binding.txtNumPick.visibility = View.VISIBLE
+                    binding.btnAnswer.visibility = View.VISIBLE
                     binding.numberPicker2.visibility = View.VISIBLE
                 }
 
             }
-            if(num==null){
+            if (num == null) {
+                observeForNumPick(binding, testFragmentViewModel, 0)
                 hideAll(binding)
                 binding.btnAns0.visibility = View.VISIBLE
                 binding.btnAns1.visibility = View.VISIBLE
                 binding.btnAns2.visibility = View.VISIBLE
             }
+//            num?.let {
+//                binding.numberPicker.maxValue = 0
+//                binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
+//                binding.numberPicker.maxValue =
+//                    testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
+////                binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(0)}"
+//                observeForNumPick(binding, testFragmentViewModel, 1)
+//                testFragmentViewModel.setCurrentNumPick(0)
+//                hideAll(binding)
+//                binding.numberPicker.visibility = View.VISIBLE
+//                binding.txtNumPick.visibility = View.VISIBLE
+//                binding.btnAnswer.visibility = View.VISIBLE
+//                if (testFragmentViewModel.btnOverFlow.value == 2) {
+//                    observeForNumPick(binding, testFragmentViewModel, 2)
+//                    Log.i("ttt", "btnFlow =2")
+//                    Log.i("ttt", "${testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0)}")
+//                    binding.numberPicker.maxValue = 0
+//                    binding.numberPicker.displayedValues =
+//                        testFragmentViewModel.specificBtnTxt.value?.get(0)
+//                    Log.i("ttt", "size")
+//                    binding.numberPicker.maxValue =
+//                        testFragmentViewModel.specificBtnTxt.value?.get(0)?.size?.minus(1) ?: 0
+//                    Log.i("ttt", "ok1")
+//                    binding.numberPicker2.maxValue = 0
+//                    binding.numberPicker2.displayedValues =
+//                        testFragmentViewModel.specificBtnTxt.value?.get(1)
+//                    binding.numberPicker2.maxValue =
+//                        testFragmentViewModel.specificBtnTxt.value?.get(1)?.size?.minus(1) ?: 0
+//                    Log.i("ttt", "ok2")
+//                    binding.numberPicker2.visibility = View.VISIBLE
+//                }
+//
+//            }
+//            if (num == null) {
+//                observeForNumPick(binding, testFragmentViewModel, 0)
+//                hideAll(binding)
+//                binding.btnAns0.visibility = View.VISIBLE
+//                binding.btnAns1.visibility = View.VISIBLE
+//                binding.btnAns2.visibility = View.VISIBLE
+//            }
         })
 
 
 
-        testFragmentViewModel.recyclerViewNeed.observe(viewLifecycleOwner, Observer {
-                num ->
-            num?.let{
+        testFragmentViewModel.recyclerViewNeed.observe(viewLifecycleOwner, Observer { num ->
+            num?.let {
                 hideAll(binding)
                 binding.btnAnswer.visibility = View.VISIBLE
                 binding.txtNumPick.visibility = View.VISIBLE
@@ -174,13 +237,14 @@ class TestFragment : Fragment() {
 
 
         binding.btn2.setOnClickListener {
-            this.findNavController().navigate(TestFragmentDirections.actionTestFragmentToResultFragment())
+            this.findNavController()
+                .navigate(TestFragmentDirections.actionTestFragmentToResultFragment())
         }
 
         return binding.root
     }
 
-    fun hideAll(binding: FragmentTestBinding){
+    fun hideAll(binding: FragmentTestBinding) {
         binding.btnAns0.visibility = View.GONE
         binding.btnAns1.visibility = View.GONE
         binding.btnAns2.visibility = View.GONE
@@ -193,6 +257,52 @@ class TestFragment : Fragment() {
         binding.btnClear.visibility = View.GONE
     }
 
+    fun observeForNumPick(
+        binding: FragmentTestBinding,
+        testFragmentViewModel: TestFragmentViewModel,
+        numOfNumPick: Int
+    ) {
+        when (numOfNumPick) {
+            1 -> {
+                binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+                    var text = ""
+                    if (TonalityTest.currentQuestionNum.value == 2) {
+                        testFragmentViewModel.btnText.value?.get(newVal)?.let {
+                            text = "\n (${Tonality.valueOf(it).rusName})"
+                        }
+                    } else text = ""
+                    binding.txtNumPick.text =
+                        "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
+                    testFragmentViewModel.setCurrentNumPick(newVal)
+                }
+            }
+            2 -> {
+                var text = ""
+                var text1 = ""
+                var text2 = ""
+                text1 = testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0).toString()
+                text2 = testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(0).toString()
+                binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+                    text1 = testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(newVal).toString()
+                    text = "$text1-$text2"
+                    binding.txtNumPick.text =
+                        "Твой ответ будет: $text"
+                    testFragmentViewModel.setCurrentAnswer(text)
+                }
+                binding.numberPicker2.setOnValueChangedListener { picker, oldVal, newVal ->
+                    text2 = testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(newVal).toString()
+                    text = "$text1-$text2"
+                    binding.txtNumPick.text =
+                        "Твой ответ будет: $text"
+                    testFragmentViewModel.setCurrentAnswer(text)
+                }
+            }
+            0 -> {
+
+            }
+
+        }
+    }
 
 
 }

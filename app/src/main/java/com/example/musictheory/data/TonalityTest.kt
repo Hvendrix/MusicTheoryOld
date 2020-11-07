@@ -1,5 +1,6 @@
 package com.example.musictheory.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import java.util.*
@@ -17,6 +18,7 @@ object TonalityTest : TestInterface{
     private var _currentBtnTxt = MutableLiveData<Array<String>>()
     private var _allBtnText = MutableLiveData<MutableList<Array<String>>>()
     private var _allAnswers = MutableLiveData<Array<String>>()
+    private var _specificBtnTxt = MutableLiveData<Array<Array<String>>>()
 
     // Переменные для данного теста
     private var _currentTonality = MutableLiveData<Tonality>()
@@ -37,12 +39,14 @@ object TonalityTest : TestInterface{
     get() = _currentQuestNum
 
 
+
     init {
         initTonality()
         choiceTonality()
         allQuestionsInit()
         allBtnInit()
         allAnswersInit()
+//        _specificBtnTxt.value = arrayOf(arrayOf("ok"), arrayOf("okk"))
     }
 
 
@@ -94,7 +98,7 @@ object TonalityTest : TestInterface{
            findParallTonality(),
            signTest(),
            downTest(),
-           "Фа-диез",
+           noteFind(),
            _currentTonality.value?.signCount.toString()
        )
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
@@ -120,7 +124,6 @@ object TonalityTest : TestInterface{
     }
 
     private fun findParallTonality(): String {
-
         return _currentTonality.value?.parallTon.toString()
     }
 
@@ -132,11 +135,40 @@ object TonalityTest : TestInterface{
         return if(signTest() == "Диезы") "VII" else "I"
     }
 
-//    private fun signsTest(): String{
-//       return _currentTonality.value?.signCount?.let { Signs.compareByNum(it) }
-//
-//    }
+    private fun noteFind(): String{
+        if(_upperTestBool.value != true){
+            var ton = Tonality.valueOf(_currentTonality.value?.parallTon!!)
+            var tmp1 = ton.rusName?.let { findSign(it)}
+            var tmp2 = ton.rusName?.let { findNote(it, tmp1!!)}
+            Log.i("ttt", " up bool = false and note In Find = $tmp2 + $tmp1")
+            return "$tmp2-$tmp1"
+        } else{
+            var tmp1 = _currentTonality.value?.rusName?.let { findSign(it)}
+            var tmp2 = _currentTonality.value?.rusName?.let { findNote(it, tmp1!!)}
+            Log.i("ttt", "note In Find = $tmp2-$tmp1")
+            return "$tmp2-$tmp1"
 
+        }
+        return "not Ok"
+    }
+
+
+    private fun findNote(string: String, sign: String): String{
+        Notes.notes.forEachIndexed { i, el ->
+            if(string.contains(el)){
+                return if(sign=="бемоль"){
+                    Notes.notes[i]
+                } else Notes.notes[i-1]
+            }
+        }
+        return "not ok"
+    }
+    private fun findSign(string: String): String{
+        Notes.signs.forEachIndexed { i, el ->
+            if(string.contains(el))return el
+        }
+        return "диез"
+    }
 
 
 
@@ -182,10 +214,14 @@ object TonalityTest : TestInterface{
 
     override fun getBtnTxt(): Array<String>? {
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
+        if(_currentBtnTxt.value?.get(0)== "twoNumPick"){
+            _specificBtnTxt.value = arrayOf(Notes.notes, Notes.signs)
+        }
         return _currentBtnTxt.value
+
     }
-    override fun getBtnTxt2(): Array<String>? {
-        _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
-        return _currentBtnTxt.value
+
+    override fun getSpecificBtnTxt(): Array<Array<String>>? {
+        return _specificBtnTxt.value
     }
 }
