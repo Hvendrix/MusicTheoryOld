@@ -33,8 +33,13 @@ class TestFragmentViewModel(
     private var _specificBtnText= MutableLiveData<Array<Array<String>>>()
     private var _currentAnswer = MutableLiveData<String>()
 
+    private var _signInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
+
     private var _recViewBool = MutableLiveData<Boolean>()
     var testString = MutableLiveData<Answer?>()
+
+
+
 
     val question: LiveData<String>
     get() = _question
@@ -73,6 +78,10 @@ class TestFragmentViewModel(
     get() = _specificBtnText
 
 
+    val signInStave: LiveData<MutableList<Triple<Float, Float, String>>>
+        get() = _signInStave
+
+
     init {
         _currentTest.value = TonalityTest
         _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
@@ -81,6 +90,8 @@ class TestFragmentViewModel(
         _btnOverFlow.value = null
         _recyclerViewNeed.value = null
         _recViewBool.value = null
+
+//        _signInStave.value?.add(Triple(1f, 0.99f, "asd"))
 
     }
 
@@ -154,6 +165,11 @@ class TestFragmentViewModel(
             _correctAnswer.value?.let {
 //                _listErrors.value?.add("Твой ответ неверный: " + it)
                 _listErrors.value?.add("Твой ответ неверный: ")
+//                _signInStave.value = mutableListOf(Triple(1f, 0.2f, "diez"), Triple(2f, 80f, "qwe"))
+//                _signInStave.value?.add(Triple(1f, 0.55f, "diez"))
+//                _signInStave.value?.add(Triple(2f, 0.90f, "bemol"))
+
+
             }
             _recViewBool.value = null
             printErrors()
@@ -172,6 +188,8 @@ class TestFragmentViewModel(
             recyclerViewTest()
     }
 
+
+
     fun printErrors(){
         _question.value = _listErrors.value?.get(0) + "\n" + _currentTest.value?.getQuestion()
     }
@@ -188,6 +206,10 @@ class TestFragmentViewModel(
 
     fun setCurrentRecView():Boolean{
         return Signs.compareByNum()
+    }
+
+    fun onClickRecView(){
+        _signInStave.value = Signs._signsInStave.value
     }
 
     fun onClearRecView(adapter: SignsAdapter){

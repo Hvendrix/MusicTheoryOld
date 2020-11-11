@@ -61,13 +61,16 @@ object TonalityTest : TestInterface{
         allTonality.shuffle()
         _currentTonality.value = allTonality[0]
         _parallelTonality.value = ""
+
+        // Дебагинг
+        _currentTonality.value = Tonality.G
     }
 
 
     private fun allQuestionsInit(){
         upperTest()
         _allInterQuestions.value = mutableListOf(
-            "Нужно ли искать парралельную тональность?",
+            "Нужно ли искать параллельную тональность?",
             "На какой ступени строится пареллельный мажор",
             "Параллельная тональность для ${_currentTonality.value?.name} - ${_mollDur.value}:",
             "В данной тональности будут диезы или бемоли?",
@@ -193,14 +196,23 @@ object TonalityTest : TestInterface{
     }
 
     override fun nextIntermediateQuestion() {
+
         if(_currentQuestNum.value == 2 && upperTest()=="Да"){
             _upperTestBool.value = false
             _parallelTonality.value = "Параллельный мажор: ${_currentTonality.value?.parallTon.toString()} - dur"
         } else if(_upperTestBool.value!! && upperTest()=="Нет"){
             _upperTestBool.value = false
             _currentQuestNum.value = _currentQuestNum.value?.plus(2)
+
+
+            //Дебагинг
+            _currentQuestNum.value = _currentQuestNum.value?.plus(3)
         }
         _currentQuestNum.value = _currentQuestNum.value?.plus(1)
+
+
+
+
 
         if(_currentQuestNum.value == _questionNumTotal.value){
             nextQuestion()

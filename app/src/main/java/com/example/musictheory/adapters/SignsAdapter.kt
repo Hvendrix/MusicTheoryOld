@@ -59,6 +59,17 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 //                btnName.text = "qe"
                 btnName.isEnabled = false
                 Signs.addInList(item, position)
+
+
+                var numInRange = Signs.listInOrder.size.toFloat()
+                Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, "asdasd") as Triple<Float, Float, String>)
+                Signs._signsInStave.value = Signs._signsInStave.value
+                var x = 0
+                for(i in Signs._signsInStave.value!!){
+                    Log.i("ttt", "Triple in Adapter ${i.first} $x name is $item")
+                    x++
+                }
+                Log.i("ttt", "${Signs._signsInStave.value?.get(0)?.third}")
                 Signs.listEnabled[position] = 0
                 Signs.listDataEnabled.value?.set(position, 0)
                 Log.i("ttt", "${Signs.listDataEnabled.value?.get(position)}")

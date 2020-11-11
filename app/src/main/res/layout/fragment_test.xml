@@ -10,111 +10,188 @@
             type="com.example.musictheory.models.TestFragmentViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <!-- TODO: Update blank fragment layout -->
 
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{testFragmentViewModel.testString.stroka}" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@{testFragmentViewModel.testString.stroka}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="stroka" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{testFragmentViewModel.question}" />
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@{testFragmentViewModel.question}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:text="question" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sign_list"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:visibility="visible" />
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/txtNumPick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
-                <Button
-                    android:id="@+id/btnAns0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> testFragmentViewModel.onClickAnswer(0)}"
-                    android:text="@{testFragmentViewModel.btnText[0]}" />
+        <Button
+            android:id="@+id/btnAns0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:onClick="@{() -> testFragmentViewModel.onClickAnswer(0)}"
+            android:text="@{testFragmentViewModel.btnText[0]}"
+            app:layout_constraintBottom_toTopOf="@+id/btnAns1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintVertical_bias="0.06999999"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-                <Button
-                    android:id="@+id/btnAns1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> testFragmentViewModel.onClickAnswer(1)}"
-                    android:text="@{testFragmentViewModel.btnText[1]}" />
+        <Button
+            android:id="@+id/btnAns2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="@{() -> testFragmentViewModel.onClickAnswer(2)}"
+            android:text="@{testFragmentViewModel.btnText[2]}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAns1" />
 
-                <Button
-                    android:id="@+id/btnAns2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> testFragmentViewModel.onClickAnswer(2)}"
-                    android:text="@{testFragmentViewModel.btnText[2]}" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
-                    <NumberPicker
-                        android:id="@+id/numberPicker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:width="100dp"
-                        android:orientation="vertical" />
-                    <NumberPicker
-                        android:id="@+id/numberPicker2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:width="100dp"
-                        android:orientation="vertical" />
-
-                </LinearLayout>
+        <Button
+            android:id="@+id/btnAns1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:onClick="@{() -> testFragmentViewModel.onClickAnswer(1)}"
+            android:text="@{testFragmentViewModel.btnText[1]}"
+            app:layout_constraintBottom_toTopOf="@+id/btnAns2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAns0" />
 
 
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:width="100dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/txtNumPick"
+            app:layout_constraintEnd_toStartOf="@+id/numberPicker2"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-                <TextView
-                    android:id="@+id/txtNumPick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp" />
-
-
-                <Button
-                    android:id="@+id/btnAnswer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> testFragmentViewModel.onClickAnswer(testFragmentViewModel.currentNumPick)}"
-                    android:text="Ответить"
-                    />
-
-                <Button
-                    android:id="@+id/btnClear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Сбросить"/>
-
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> testFragmentViewModel.onClickTonality(2)}"
-                    android:visibility="gone"
-                    android:text="Тональность"/>
-                <Button
-                    android:id="@+id/btn2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:text="Next Fragment" />
+        <NumberPicker
+            android:id="@+id/numberPicker2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:width="100dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/numberPicker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/numberPicker"
+            app:layout_constraintTop_toTopOf="@+id/numberPicker" />
 
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/txtNumPick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="176dp"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="numPickTxt" />
+
+        <Button
+            android:id="@+id/btnAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="1dp"
+            android:onClick="@{() -> testFragmentViewModel.onClickAnswer(testFragmentViewModel.currentNumPick)}"
+            android:text="Ответить"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNumPick" />
+
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сбросить"
+            app:layout_constraintStart_toStartOf="@+id/btnAnswer"
+            app:layout_constraintTop_toBottomOf="@+id/btnAnswer" />
+
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> testFragmentViewModel.onClickTonality(2)}"
+            android:text="Тональность"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.961"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.02" />
+
+        <Button
+            android:id="@+id/btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next Fragment"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgStave"
+            android:layout_width="228dp"
+            android:layout_height="123dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.83"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNumPick"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/stave" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

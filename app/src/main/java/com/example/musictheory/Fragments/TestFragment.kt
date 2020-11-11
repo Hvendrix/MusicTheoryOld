@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -59,6 +62,12 @@ class TestFragment : Fragment() {
 
         val adapter = SignsAdapter()
 
+
+
+
+
+
+
         binding.signList.adapter = adapter
 
         Signs.signList.observe(viewLifecycleOwner, Observer {
@@ -110,6 +119,8 @@ class TestFragment : Fragment() {
             }
         })
 
+
+//
 
         testFragmentViewModel.btnOverFlow.observe(viewLifecycleOwner, Observer { num ->
             num?.let {
@@ -163,6 +174,9 @@ class TestFragment : Fragment() {
                     binding.txtNumPick.visibility = View.VISIBLE
                     binding.btnAnswer.visibility = View.VISIBLE
                     binding.numberPicker2.visibility = View.VISIBLE
+
+
+
                 }
 
             }
@@ -173,6 +187,8 @@ class TestFragment : Fragment() {
                 binding.btnAns1.visibility = View.VISIBLE
                 binding.btnAns2.visibility = View.VISIBLE
             }
+
+
 //            num?.let {
 //                binding.numberPicker.maxValue = 0
 //                binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
@@ -226,15 +242,76 @@ class TestFragment : Fragment() {
                 binding.btnClear.visibility = View.VISIBLE
                 binding.txtNumPick.text = "Твой ответ будет: ${it}"
                 testFragmentViewModel.setCurrentNumPick(0)
+                binding.imgStave.visibility = View.VISIBLE
+
+
+
+
 
 
             }
         })
 
 
+//        testFragmentViewModel.signInStave.observe(viewLifecycleOwner, Observer {pair ->
+//            pair?.let{
+//                val noteView = ImageView(this.context)
+//                noteView.id = View.generateViewId()
+//                noteView.setImageResource(R.drawable.int_note)
+//                binding.constraintLayout.addView(noteView)
+//                noteView.layoutParams.height = 45
+//                noteView.layoutParams.width = 45
+//                var set = ConstraintSet()
+//                set.clone(binding.constraintLayout)
+//                set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
+//                set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
+//                set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
+//                set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
+//                set.setHorizontalBias(noteView.id, 0.55f)
+//                set.setVerticalBias(noteView.id, Signs.positionInStaveVert[it.first]!!)
+//                set.applyTo(binding.constraintLayout)
+//            }
+//        })
+        var testListTripleasd : MutableList<ImageView> = mutableListOf()
+        Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
+            signTripleList?.let{
+                if(signTripleList.isEmpty()== true){
+                    for(i in testListTripleasd){
+                        Log.i("ttt", "all is clear")
+//                        binding.constraintLayout.removeViewAt(i)
+                        Log.i("ttt", "remove index $i")
+                        binding.constraintLayout.removeView(i)
+                    }
+                }
+                Log.i("ttt", "observe yes")
+                for(i in signTripleList){
+                    Log.i("ttt", "for sеart")
+                    val noteView = ImageView(this.context)
+                    noteView.id = View.generateViewId()
+                    Log.i("ttt", " image view id ${noteView.id} ${noteView.toString()}")
+                    testListTripleasd.add(noteView)
+                    noteView.setImageResource(R.drawable.int_note)
+                    binding.constraintLayout.addView(noteView)
+                    noteView.layoutParams.height = 52
+                    noteView.layoutParams.width = 52
+                    var set = ConstraintSet()
+                    set.clone(binding.constraintLayout)
+                    set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
+                    set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
+                    set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
+                    set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
+                    set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
+                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!!)
+                    set.applyTo(binding.constraintLayout)
+                }
+
+            }
+        })
 
 
-
+        binding.signList.setOnClickListener {
+            testFragmentViewModel.onClickRecView()
+        }
 
         binding.btn2.setOnClickListener {
             this.findNavController()
@@ -255,6 +332,7 @@ class TestFragment : Fragment() {
         binding.signList.visibility = View.GONE
         binding.btnClear.visibility = View.GONE
         binding.btnClear.visibility = View.GONE
+        binding.imgStave.visibility = View.GONE
     }
 
     fun observeForNumPick(
