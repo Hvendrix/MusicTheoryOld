@@ -206,7 +206,7 @@ object TonalityTest : TestInterface{
 
 
             //Дебагинг
-            _currentQuestNum.value = _currentQuestNum.value?.plus(3)
+//            _currentQuestNum.value = _currentQuestNum.value?.plus(3)
         }
         _currentQuestNum.value = _currentQuestNum.value?.plus(1)
 

@@ -140,6 +140,7 @@ class TestFragmentViewModel(
                 numPickTest()
                 recyclerViewTest()
                 Signs.clearEnabled()
+                Signs._signsInStave.value = mutableListOf()
             _recViewBool.value = true
 
         } else if(_correctAnswer.value == _btnText.value?.get(num)){
@@ -152,6 +153,7 @@ class TestFragmentViewModel(
             numPickTest()
             recyclerViewTest()
             _recViewBool.value = null
+            Signs._signsInStave.value = mutableListOf()
         } else if(_correctAnswer.value == _currentAnswer.value) {
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
@@ -161,6 +163,7 @@ class TestFragmentViewModel(
             numPickTest()
             recyclerViewTest()
             _recViewBool.value = null
+            Signs._signsInStave.value = mutableListOf()
         } else {
             _correctAnswer.value?.let {
 //                _listErrors.value?.add("Твой ответ неверный: " + it)

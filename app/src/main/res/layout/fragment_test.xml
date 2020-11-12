@@ -159,7 +159,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> testFragmentViewModel.onClickTonality(2)}"
             android:text="Тональность"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.961"

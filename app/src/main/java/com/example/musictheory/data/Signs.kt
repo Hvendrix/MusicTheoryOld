@@ -17,7 +17,8 @@ object Signs {
     var positionInStaveVert = mutableMapOf(-1f to 0.335f, -0.5f to 0.235f, 1f to 0.785f, 1.5f to 0.695f, 2f to 0.625f, 2.5f to 0.525f, 3f to 0.415f )
     var positionInStaveHorizont = mutableMapOf(1f to 0.255f, 2f to 0.405f, 3f to 0.555f, 4f to 0.705f, 5f to 0.855f, 6f to 0.999f, 7f to 0.415f )
     var _signsInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
-    var noteInOrderInLines = mapOf("До" to -1f, "Ре" to -0.5f, "Ми" to 1f, "Фа" to 1.5f, "Соль" to 2f, "Ля" to 2.5f, "Си" to 3f )
+    var noteInOrderInLines = mapOf("До" to -1f, "Ре" to -0.5f, "Ми" to 1f, "Фа" to 1.5f, "Соль" to 2f, "Ля" to 2.5f, "Си" to 3f,
+        "до" to -1f, "ре" to -0.5f, "ми" to 1f, "фа" to 1.5f, "соль" to 2f, "ля" to 2.5f, "си" to 3f)
 
     private var _TestString = MutableLiveData<String>()
 

@@ -62,7 +62,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
 
                 var numInRange = Signs.listInOrder.size.toFloat()
-                Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, "asdasd") as Triple<Float, Float, String>)
+                Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, "целая") as Triple<Float, Float, String>)
                 Signs._signsInStave.value = Signs._signsInStave.value
                 var x = 0
                 for(i in Signs._signsInStave.value!!){

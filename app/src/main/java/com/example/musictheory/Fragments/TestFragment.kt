@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -16,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musictheory.R
 import com.example.musictheory.adapters.SignsAdapter
-import com.example.musictheory.data.Notes
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.data.TonalityTest
@@ -24,7 +22,6 @@ import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.FragmentTestBinding
 import com.example.musictheory.models.TestFragmentViewModel
 import com.example.musictheory.models.TestFragmentViewModelFactory
-import kotlinx.android.synthetic.main.fragment_test.*
 
 class TestFragment : Fragment() {
 
@@ -136,6 +133,7 @@ class TestFragment : Fragment() {
                     binding.numberPicker.visibility = View.VISIBLE
                     binding.txtNumPick.visibility = View.VISIBLE
                     binding.btnAnswer.visibility = View.VISIBLE
+
                 } else if (num==2) {
 
                     hideAll(binding)
@@ -174,6 +172,7 @@ class TestFragment : Fragment() {
                     binding.txtNumPick.visibility = View.VISIBLE
                     binding.btnAnswer.visibility = View.VISIBLE
                     binding.numberPicker2.visibility = View.VISIBLE
+                    binding.imgStave.visibility = View.VISIBLE
 
 
 
@@ -272,25 +271,34 @@ class TestFragment : Fragment() {
 //                set.applyTo(binding.constraintLayout)
 //            }
 //        })
-        var testListTripleasd : MutableList<ImageView> = mutableListOf()
+        var notesViewInLineList : MutableList<ImageView> = mutableListOf()
         Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
             signTripleList?.let{
                 if(signTripleList.isEmpty()== true){
-                    for(i in testListTripleasd){
-                        Log.i("ttt", "all is clear")
+                    for(i in notesViewInLineList){
 //                        binding.constraintLayout.removeViewAt(i)
                         Log.i("ttt", "remove index $i")
                         binding.constraintLayout.removeView(i)
                     }
                 }
-                Log.i("ttt", "observe yes")
                 for(i in signTripleList){
-                    Log.i("ttt", "for sеart")
+                    var choiceImg = 0
+                    if(i.third=="диез"){
+                        choiceImg = R.drawable.sharp
+                    } else if(i.third =="бекар") {
+                        choiceImg = R.drawable.bekar
+                    } else if(i.third =="бемоль") {
+                        choiceImg = R.drawable.bemol
+                    }
+                    else if(i.third == "целая"){
+                        choiceImg = R.drawable.int_note
+                    }
                     val noteView = ImageView(this.context)
                     noteView.id = View.generateViewId()
                     Log.i("ttt", " image view id ${noteView.id} ${noteView.toString()}")
-                    testListTripleasd.add(noteView)
-                    noteView.setImageResource(R.drawable.int_note)
+                    notesViewInLineList.add(noteView)
+//                    noteView.setImageResource(R.drawable.int_note)
+                    noteView.setImageResource(choiceImg)
                     binding.constraintLayout.addView(noteView)
                     noteView.layoutParams.height = 52
                     noteView.layoutParams.width = 52
@@ -347,6 +355,8 @@ class TestFragment : Fragment() {
                     if (TonalityTest.currentQuestionNum.value == 2) {
                         testFragmentViewModel.btnText.value?.get(newVal)?.let {
                             text = "\n (${Tonality.valueOf(it).rusName})"
+//                            Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(it), Signs.listInOrder.size.toFloat(), "asdasd") as Triple<Float, Float, String>)
+//                            Signs._signsInStave.value = Signs._signsInStave.value
                         }
                     } else text = ""
                     binding.txtNumPick.text =
@@ -366,6 +376,10 @@ class TestFragment : Fragment() {
                     binding.txtNumPick.text =
                         "Твой ответ будет: $text"
                     testFragmentViewModel.setCurrentAnswer(text)
+                    Signs._signsInStave.value = mutableListOf()
+                    Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(text1), 2f, "целая") as Triple<Float, Float, String>)
+                    Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(text1), 1f, "$text2") as Triple<Float, Float, String>)
+                    Signs._signsInStave.value = Signs._signsInStave.value
                 }
                 binding.numberPicker2.setOnValueChangedListener { picker, oldVal, newVal ->
                     text2 = testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(newVal).toString()
@@ -373,6 +387,10 @@ class TestFragment : Fragment() {
                     binding.txtNumPick.text =
                         "Твой ответ будет: $text"
                     testFragmentViewModel.setCurrentAnswer(text)
+                    Signs._signsInStave.value = mutableListOf()
+                    Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(text1), 2f, "целая") as Triple<Float, Float, String>)
+                    Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(text1), 1f, "$text2") as Triple<Float, Float, String>)
+                    Signs._signsInStave.value = Signs._signsInStave.value
                 }
             }
             0 -> {
