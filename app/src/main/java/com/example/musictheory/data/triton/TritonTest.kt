@@ -25,7 +25,7 @@ object TritonTest: TestInterface {
 
     private fun allQuestionsInit(){
         _allInterQuestions.value = mutableListOf(
-            "Нужно ли искать парралельную тональность?",
+            "Укажите знаки в нужном порядке",
             "abd?")
         _questionNumTotal.value = _allInterQuestions.value!!.count()
         _currentQuestNum.value = 0
@@ -86,6 +86,10 @@ object TritonTest: TestInterface {
     }
 
     override fun getSpecificBtnTxt(): Array<Array<String>>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCurrentSignType(): MutableList<String> {
         TODO("Not yet implemented")
     }
 }

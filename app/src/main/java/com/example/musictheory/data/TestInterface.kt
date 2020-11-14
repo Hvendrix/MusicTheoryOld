@@ -12,4 +12,6 @@ interface TestInterface {
     fun getBtnTxt(): Array<String>?
 
     fun getSpecificBtnTxt(): Array<Array<String>>?
+
+    fun getCurrentSignType(): MutableList<String>
 }

@@ -63,7 +63,7 @@ object TonalityTest : TestInterface{
         _parallelTonality.value = ""
 
         // Дебагинг
-        _currentTonality.value = Tonality.G
+//        _currentTonality.value = Tonality.G
     }
 
 
@@ -235,5 +235,9 @@ object TonalityTest : TestInterface{
 
     override fun getSpecificBtnTxt(): Array<Array<String>>? {
         return _specificBtnTxt.value
+    }
+
+    override fun getCurrentSignType(): MutableList<String> {
+        return mutableListOf(signTest())
     }
 }

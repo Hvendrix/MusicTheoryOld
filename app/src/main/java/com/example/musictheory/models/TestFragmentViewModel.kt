@@ -32,6 +32,7 @@ class TestFragmentViewModel(
     private var _recyclerViewNeed = MutableLiveData<Boolean>()
     private var _specificBtnText= MutableLiveData<Array<Array<String>>>()
     private var _currentAnswer = MutableLiveData<String>()
+    private var _currentSignType = MutableLiveData<MutableList<String>>()
 
     private var _signInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
 
@@ -81,12 +82,16 @@ class TestFragmentViewModel(
     val signInStave: LiveData<MutableList<Triple<Float, Float, String>>>
         get() = _signInStave
 
+    val currentSignType: LiveData<MutableList<String>>
+    get() = _currentSignType
+
 
     init {
         _currentTest.value = TonalityTest
         _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
         _question.value = (_currentTest.value as TestInterface).getQuestion()
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
+        _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
         _btnOverFlow.value = null
         _recyclerViewNeed.value = null
         _recViewBool.value = null
@@ -131,6 +136,7 @@ class TestFragmentViewModel(
 
 
     fun onClickAnswer(num: Int){
+        _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
         if (_recyclerViewNeed.value != null && setCurrentRecView()){
                 _navigateToResult.value = null
                 _currentTest.value?.nextIntermediateQuestion()
@@ -166,11 +172,7 @@ class TestFragmentViewModel(
             Signs._signsInStave.value = mutableListOf()
         } else {
             _correctAnswer.value?.let {
-//                _listErrors.value?.add("Твой ответ неверный: " + it)
                 _listErrors.value?.add("Твой ответ неверный: ")
-//                _signInStave.value = mutableListOf(Triple(1f, 0.2f, "diez"), Triple(2f, 80f, "qwe"))
-//                _signInStave.value?.add(Triple(1f, 0.55f, "diez"))
-//                _signInStave.value?.add(Triple(2f, 0.90f, "bemol"))
 
 
             }
@@ -183,14 +185,12 @@ class TestFragmentViewModel(
     fun onClickTonality(num: Int){
             _navigateToResult.value = null
             _currentTest.value?.nextQuestion()
-//        _currentTonality.value = _currentTest.value?.getQuestion()
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
             numPickTest()
             recyclerViewTest()
     }
-
 
 
     fun printErrors(){
@@ -204,7 +204,6 @@ class TestFragmentViewModel(
 
     fun setCurrentAnswer(ans: String){
         _currentAnswer.value = ans
-        Log.i("ttt", "${_currentAnswer.value} ${_correctAnswer.value}")
     }
 
     fun setCurrentRecView():Boolean{

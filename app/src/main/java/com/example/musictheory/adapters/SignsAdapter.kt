@@ -16,6 +16,7 @@ import com.example.musictheory.R
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.databinding.ListItemSignsBinding
+import kotlin.math.sign
 
 class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
@@ -60,9 +61,9 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
                 btnName.isEnabled = false
                 Signs.addInList(item, position)
 
-
+                var signType = Signs.currentSignTypeInSigns[0].toLowerCase()
                 var numInRange = Signs.listInOrder.size.toFloat()
-                Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, "целая") as Triple<Float, Float, String>)
+                Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, signType) as Triple<Float, Float, String>)
                 Signs._signsInStave.value = Signs._signsInStave.value
                 var x = 0
                 for(i in Signs._signsInStave.value!!){

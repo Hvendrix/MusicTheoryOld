@@ -72,6 +72,10 @@ class TestFragment : Fragment() {
             adapter.notifyDataSetChanged()
         })
 
+        testFragmentViewModel.currentSignType.observe(viewLifecycleOwner, Observer {
+            Signs.currentSignTypeInSigns = it
+        })
+
         Signs.listDataEnabled.observe(viewLifecycleOwner, Observer {
             adapter.data2 = it
             adapter.notifyDataSetChanged()
@@ -138,28 +142,22 @@ class TestFragment : Fragment() {
 
                     hideAll(binding)
                     observeForNumPick(binding, testFragmentViewModel, 2)
-                    Log.i("ttt", "btnFlow =2")
-                    Log.i("ttt", "${testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0)}")
                     binding.numberPicker.maxValue = 0
                     binding.numberPicker.displayedValues =
                         testFragmentViewModel.specificBtnTxt.value?.get(0)
-                    Log.i("ttt", "size")
                     binding.numberPicker.maxValue =
                         testFragmentViewModel.specificBtnTxt.value?.get(0)?.size?.minus(1) ?: 0
-                    Log.i("ttt", "ok1")
                     binding.numberPicker2.maxValue = 0
                     binding.numberPicker2.displayedValues =
                         testFragmentViewModel.specificBtnTxt.value?.get(1)
                     binding.numberPicker2.maxValue =
                         testFragmentViewModel.specificBtnTxt.value?.get(1)?.size?.minus(1) ?: 0
-                    Log.i("ttt", "ok2")
 
                     //ужас
                     testFragmentViewModel.setCurrentNumPick(0)
                     var text = ""
                     var text1 = ""
                     var text2 = ""
-
                         text1 = testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0).toString()
                         text2 = testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(0).toString()
                         text = "$text1-$text2"
@@ -187,47 +185,6 @@ class TestFragment : Fragment() {
                 binding.btnAns2.visibility = View.VISIBLE
             }
 
-
-//            num?.let {
-//                binding.numberPicker.maxValue = 0
-//                binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
-//                binding.numberPicker.maxValue =
-//                    testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
-////                binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(0)}"
-//                observeForNumPick(binding, testFragmentViewModel, 1)
-//                testFragmentViewModel.setCurrentNumPick(0)
-//                hideAll(binding)
-//                binding.numberPicker.visibility = View.VISIBLE
-//                binding.txtNumPick.visibility = View.VISIBLE
-//                binding.btnAnswer.visibility = View.VISIBLE
-//                if (testFragmentViewModel.btnOverFlow.value == 2) {
-//                    observeForNumPick(binding, testFragmentViewModel, 2)
-//                    Log.i("ttt", "btnFlow =2")
-//                    Log.i("ttt", "${testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0)}")
-//                    binding.numberPicker.maxValue = 0
-//                    binding.numberPicker.displayedValues =
-//                        testFragmentViewModel.specificBtnTxt.value?.get(0)
-//                    Log.i("ttt", "size")
-//                    binding.numberPicker.maxValue =
-//                        testFragmentViewModel.specificBtnTxt.value?.get(0)?.size?.minus(1) ?: 0
-//                    Log.i("ttt", "ok1")
-//                    binding.numberPicker2.maxValue = 0
-//                    binding.numberPicker2.displayedValues =
-//                        testFragmentViewModel.specificBtnTxt.value?.get(1)
-//                    binding.numberPicker2.maxValue =
-//                        testFragmentViewModel.specificBtnTxt.value?.get(1)?.size?.minus(1) ?: 0
-//                    Log.i("ttt", "ok2")
-//                    binding.numberPicker2.visibility = View.VISIBLE
-//                }
-//
-//            }
-//            if (num == null) {
-//                observeForNumPick(binding, testFragmentViewModel, 0)
-//                hideAll(binding)
-//                binding.btnAns0.visibility = View.VISIBLE
-//                binding.btnAns1.visibility = View.VISIBLE
-//                binding.btnAns2.visibility = View.VISIBLE
-//            }
         })
 
 
@@ -239,38 +196,14 @@ class TestFragment : Fragment() {
                 binding.txtNumPick.visibility = View.VISIBLE
                 binding.signList.visibility = View.VISIBLE
                 binding.btnClear.visibility = View.VISIBLE
-                binding.txtNumPick.text = "Твой ответ будет: ${it}"
-                testFragmentViewModel.setCurrentNumPick(0)
                 binding.imgStave.visibility = View.VISIBLE
-
-
-
-
-
+                binding.txtNumPick.text = "Твой ответ будет:"
+                testFragmentViewModel.setCurrentNumPick(0)
 
             }
         })
 
 
-//        testFragmentViewModel.signInStave.observe(viewLifecycleOwner, Observer {pair ->
-//            pair?.let{
-//                val noteView = ImageView(this.context)
-//                noteView.id = View.generateViewId()
-//                noteView.setImageResource(R.drawable.int_note)
-//                binding.constraintLayout.addView(noteView)
-//                noteView.layoutParams.height = 45
-//                noteView.layoutParams.width = 45
-//                var set = ConstraintSet()
-//                set.clone(binding.constraintLayout)
-//                set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
-//                set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
-//                set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
-//                set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-//                set.setHorizontalBias(noteView.id, 0.55f)
-//                set.setVerticalBias(noteView.id, Signs.positionInStaveVert[it.first]!!)
-//                set.applyTo(binding.constraintLayout)
-//            }
-//        })
         var notesViewInLineList : MutableList<ImageView> = mutableListOf()
         Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
             signTripleList?.let{
@@ -283,21 +216,24 @@ class TestFragment : Fragment() {
                 }
                 for(i in signTripleList){
                     var choiceImg = 0
-                    if(i.third=="диез"){
-                        choiceImg = R.drawable.sharp
-                    } else if(i.third =="бекар") {
-                        choiceImg = R.drawable.bekar
-                    } else if(i.third =="бемоль") {
-                        choiceImg = R.drawable.bemol
-                    }
-                    else if(i.third == "целая"){
-                        choiceImg = R.drawable.int_note
+                    var vertChang = 0f
+                    when (i.third) {
+                        "диез" -> choiceImg = R.drawable.sharp
+                        "диезы" -> choiceImg = R.drawable.sharp
+                        "бекар" -> choiceImg = R.drawable.bekar
+                        "бемоли" -> {
+                            choiceImg = R.drawable.bemol
+                            vertChang = -0.05f
+                        }
+                        "бемоль" -> {
+                            choiceImg = R.drawable.bemol
+                            vertChang = -0.05f
+                        }
+                        "целая" -> choiceImg = R.drawable.int_note
                     }
                     val noteView = ImageView(this.context)
                     noteView.id = View.generateViewId()
-                    Log.i("ttt", " image view id ${noteView.id} ${noteView.toString()}")
                     notesViewInLineList.add(noteView)
-//                    noteView.setImageResource(R.drawable.int_note)
                     noteView.setImageResource(choiceImg)
                     binding.constraintLayout.addView(noteView)
                     noteView.layoutParams.height = 52
@@ -309,7 +245,7 @@ class TestFragment : Fragment() {
                     set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
                     set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
                     set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
-                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!!)
+                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
                     set.applyTo(binding.constraintLayout)
                 }
 
@@ -355,8 +291,6 @@ class TestFragment : Fragment() {
                     if (TonalityTest.currentQuestionNum.value == 2) {
                         testFragmentViewModel.btnText.value?.get(newVal)?.let {
                             text = "\n (${Tonality.valueOf(it).rusName})"
-//                            Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(it), Signs.listInOrder.size.toFloat(), "asdasd") as Triple<Float, Float, String>)
-//                            Signs._signsInStave.value = Signs._signsInStave.value
                         }
                     } else text = ""
                     binding.txtNumPick.text =
@@ -376,10 +310,7 @@ class TestFragment : Fragment() {
                     binding.txtNumPick.text =
                         "Твой ответ будет: $text"
                     testFragmentViewModel.setCurrentAnswer(text)
-                    Signs._signsInStave.value = mutableListOf()
-                    Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(text1), 2f, "целая") as Triple<Float, Float, String>)
-                    Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(text1), 1f, "$text2") as Triple<Float, Float, String>)
-                    Signs._signsInStave.value = Signs._signsInStave.value
+                    updateSignsInLineList(text1, text2)
                 }
                 binding.numberPicker2.setOnValueChangedListener { picker, oldVal, newVal ->
                     text2 = testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(newVal).toString()
@@ -387,10 +318,7 @@ class TestFragment : Fragment() {
                     binding.txtNumPick.text =
                         "Твой ответ будет: $text"
                     testFragmentViewModel.setCurrentAnswer(text)
-                    Signs._signsInStave.value = mutableListOf()
-                    Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(text1), 2f, "целая") as Triple<Float, Float, String>)
-                    Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(text1), 1f, "$text2") as Triple<Float, Float, String>)
-                    Signs._signsInStave.value = Signs._signsInStave.value
+                    updateSignsInLineList(text1, text2)
                 }
             }
             0 -> {
@@ -398,6 +326,25 @@ class TestFragment : Fragment() {
             }
 
         }
+    }
+
+    private fun updateSignsInLineList(text1: String, text2: String) {
+        Signs._signsInStave.value = mutableListOf()
+        Signs._signsInStave.value?.add(
+            Triple(
+                Signs.noteInOrderInLines.get(text1),
+                2f,
+                "целая"
+            ) as Triple<Float, Float, String>
+        )
+        Signs._signsInStave.value?.add(
+            Triple(
+                Signs.noteInOrderInLines.get(text1),
+                1f,
+                "$text2"
+            ) as Triple<Float, Float, String>
+        )
+        Signs._signsInStave.value = Signs._signsInStave.value
     }
 
 

@@ -20,6 +20,8 @@ object Signs {
     var noteInOrderInLines = mapOf("До" to -1f, "Ре" to -0.5f, "Ми" to 1f, "Фа" to 1.5f, "Соль" to 2f, "Ля" to 2.5f, "Си" to 3f,
         "до" to -1f, "ре" to -0.5f, "ми" to 1f, "фа" to 1.5f, "соль" to 2f, "ля" to 2.5f, "си" to 3f)
 
+    var currentSignTypeInSigns = mutableListOf<String>()
+
     private var _TestString = MutableLiveData<String>()
 
 
