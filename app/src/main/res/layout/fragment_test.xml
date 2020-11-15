@@ -144,14 +144,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtNumPick" />
 
+
         <Button
             android:id="@+id/btnClear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="Сбросить"
-            app:layout_constraintStart_toStartOf="@+id/btnAnswer"
-            app:layout_constraintTop_toBottomOf="@+id/btnAnswer" />
-
+            app:layout_constraintBottom_toBottomOf="@+id/btnAnswer"
+            app:layout_constraintStart_toEndOf="@+id/btnAnswer" />
 
         <Button
             android:id="@+id/button"
@@ -186,10 +187,10 @@
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.83"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtNumPick"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.911"
             app:srcCompat="@drawable/stave" />
 
 

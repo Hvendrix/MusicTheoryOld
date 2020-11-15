@@ -14,4 +14,6 @@ interface TestInterface {
     fun getSpecificBtnTxt(): Array<Array<String>>?
 
     fun getCurrentSignType(): MutableList<String>
+
+    fun getTonality(): Tonality?
 }

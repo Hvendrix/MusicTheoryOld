@@ -3,6 +3,7 @@ package com.example.musictheory.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.musictheory.data.triton.TritonTest
 import java.util.stream.IntStream.range
 
 object Signs {
@@ -19,6 +20,12 @@ object Signs {
     var _signsInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
     var noteInOrderInLines = mapOf("До" to -1f, "Ре" to -0.5f, "Ми" to 1f, "Фа" to 1.5f, "Соль" to 2f, "Ля" to 2.5f, "Си" to 3f,
         "до" to -1f, "ре" to -0.5f, "ми" to 1f, "фа" to 1.5f, "соль" to 2f, "ля" to 2.5f, "си" to 3f)
+
+    private var _testIntDeleteThis = MutableLiveData<Int>()
+
+
+    val testIntDeleteThis : LiveData<Int>
+    get() = _testIntDeleteThis
 
     var currentSignTypeInSigns = mutableListOf<String>()
 
@@ -45,6 +52,8 @@ object Signs {
         _listDataEnabled.value = mutableListOf(1, 1, 1, 1, 1, 1, 1)
         _TestString.value = ""
         _signsInStave.value = mutableListOf()
+        Log.i("ttt", "init???!!!!")
+        _testIntDeleteThis.value = 0
     }
 
 
@@ -55,25 +64,28 @@ object Signs {
             _TestString.value = _TestString.value + " " + i
         }
 
+        _testIntDeleteThis.value = _testIntDeleteThis.value!! + 1
+        Log.i("ttt", "test number is ${_testIntDeleteThis.value.toString()}")
+
     }
 
 
-    fun compareByNum(): Boolean {
+    fun compareByNum(tonality: Tonality): Boolean {
         Log.i("ttt", "start compare fun")
         var test = true
         var num = 0
-        TonalityTest.currentTonality.value?.signCount?.let {
+        tonality.signCount.let {
             num = it
         }
         if (num != listInOrder.size) return false
-        if (TonalityTest.currentTonality.value?.signType == "Диезы") {
+        if (tonality.signType == "Диезы") {
             for (i in 0..num - 1) {
                 if (listInOrder[i] != rightSharpOrder[i]) {
                     test = false
                 }
             }
             return@compareByNum test
-        } else if (TonalityTest.currentTonality.value?.signType == "Бемоли") {
+        } else if (tonality.signType == "Бемоли") {
             for (i in 0..num - 1) {
                 if (listInOrder[i] != rightFlatOrder[i]) {
                     test = false
@@ -93,6 +105,7 @@ object Signs {
 
         _TestString.value = ""
         signList.value!!.shuffle()
+
 
 
         _signsInStave.value = mutableListOf()

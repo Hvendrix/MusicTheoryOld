@@ -35,9 +35,11 @@ class TestFragmentViewModel(
     private var _currentSignType = MutableLiveData<MutableList<String>>()
 
     private var _signInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
+    private var _staticSignInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
 
     private var _recViewBool = MutableLiveData<Boolean>()
     var testString = MutableLiveData<Answer?>()
+    private var _currentTonality = MutableLiveData<Tonality>()
 
 
 
@@ -82,8 +84,14 @@ class TestFragmentViewModel(
     val signInStave: LiveData<MutableList<Triple<Float, Float, String>>>
         get() = _signInStave
 
+    val staticSignInStave: LiveData<MutableList<Triple<Float, Float, String>>>
+        get() = _staticSignInStave
+
     val currentSignType: LiveData<MutableList<String>>
     get() = _currentSignType
+
+    val currentTonality: LiveData<Tonality>
+    get() = _currentTonality
 
 
     init {
@@ -92,11 +100,13 @@ class TestFragmentViewModel(
         _question.value = (_currentTest.value as TestInterface).getQuestion()
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
         _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
+        _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
         _btnOverFlow.value = null
         _recyclerViewNeed.value = null
         _recViewBool.value = null
 
-//        _signInStave.value?.add(Triple(1f, 0.99f, "asd"))
+
+
 
     }
 
@@ -130,6 +140,9 @@ class TestFragmentViewModel(
     fun recyclerViewTest(){
         if(_btnText.value?.get(0) == "table"){
             _recyclerViewNeed.value = true
+            _staticSignInStave.value = mutableListOf()
+            _staticSignInStave.value?.add(Triple(1f, 1f, "целая"))
+            _staticSignInStave.value = _staticSignInStave.value
         } else _recyclerViewNeed.value = null
     }
 
@@ -137,7 +150,8 @@ class TestFragmentViewModel(
 
     fun onClickAnswer(num: Int){
         _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
-        if (_recyclerViewNeed.value != null && setCurrentRecView()){
+        _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
+        if (_recyclerViewNeed.value != null && setCurrentRecView(_currentTonality.value!!)){
                 _navigateToResult.value = null
                 _currentTest.value?.nextIntermediateQuestion()
                 _question.value = _currentTest.value?.getQuestion()
@@ -147,6 +161,8 @@ class TestFragmentViewModel(
                 recyclerViewTest()
                 Signs.clearEnabled()
                 Signs._signsInStave.value = mutableListOf()
+
+
             _recViewBool.value = true
 
         } else if(_correctAnswer.value == _btnText.value?.get(num)){
@@ -206,8 +222,8 @@ class TestFragmentViewModel(
         _currentAnswer.value = ans
     }
 
-    fun setCurrentRecView():Boolean{
-        return Signs.compareByNum()
+    fun setCurrentRecView(tonality: Tonality):Boolean{
+        return Signs.compareByNum(tonality)
     }
 
     fun onClickRecView(){
@@ -218,5 +234,6 @@ class TestFragmentViewModel(
         Signs.clearEnabled()
         adapter.notifyDataSetChanged()
     }
+
 
 }

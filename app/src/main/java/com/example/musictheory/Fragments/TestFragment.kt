@@ -203,6 +203,10 @@ class TestFragment : Fragment() {
             }
         })
 
+        Signs.testIntDeleteThis.observe(viewLifecycleOwner, Observer{
+            Log.i("ttt", "my number is ${Signs.testIntDeleteThis.value.toString()}")
+        })
+
 
         var notesViewInLineList : MutableList<ImageView> = mutableListOf()
         Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
@@ -253,6 +257,55 @@ class TestFragment : Fragment() {
         })
 
 
+//        var staticNotesViewInLineList : MutableList<ImageView> = mutableListOf()
+//        testFragmentViewModel.staticSignInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
+//            signTripleList?.let{
+//                if(signTripleList.isEmpty()== true){
+//                    for(i in staticNotesViewInLineList){
+////                        binding.constraintLayout.removeViewAt(i)
+//                        Log.i("ttt", "remove index $i")
+//                        binding.constraintLayout.removeView(i)
+//                    }
+//                }
+//                for(i in signTripleList){
+//                    var choiceImg = 0
+//                    var vertChang = 0f
+//                    when (i.third) {
+//                        "диез" -> choiceImg = R.drawable.sharp
+//                        "диезы" -> choiceImg = R.drawable.sharp
+//                        "бекар" -> choiceImg = R.drawable.bekar
+//                        "бемоли" -> {
+//                            choiceImg = R.drawable.bemol
+//                            vertChang = -0.05f
+//                        }
+//                        "бемоль" -> {
+//                            choiceImg = R.drawable.bemol
+//                            vertChang = -0.05f
+//                        }
+//                        "целая" -> choiceImg = R.drawable.int_note
+//                    }
+//                    val noteView = ImageView(this.context)
+//                    noteView.id = View.generateViewId()
+//                    staticNotesViewInLineList.add(noteView)
+//                    noteView.setImageResource(choiceImg)
+//                    binding.constraintLayout.addView(noteView)
+//                    noteView.layoutParams.height = 52
+//                    noteView.layoutParams.width = 52
+//                    var set = ConstraintSet()
+//                    set.clone(binding.constraintLayout)
+//                    set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
+//                    set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
+//                    set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
+//                    set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
+//                    set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
+//                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
+//                    set.applyTo(binding.constraintLayout)
+//                }
+//
+//            }
+//        })
+
+
         binding.signList.setOnClickListener {
             testFragmentViewModel.onClickRecView()
         }
@@ -278,6 +331,8 @@ class TestFragment : Fragment() {
         binding.btnClear.visibility = View.GONE
         binding.imgStave.visibility = View.GONE
     }
+
+
 
     fun observeForNumPick(
         binding: FragmentTestBinding,

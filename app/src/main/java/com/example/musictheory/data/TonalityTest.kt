@@ -61,7 +61,6 @@ object TonalityTest : TestInterface{
         allTonality.shuffle()
         _currentTonality.value = allTonality[0]
         _parallelTonality.value = ""
-
         // Дебагинг
 //        _currentTonality.value = Tonality.G
     }
@@ -177,7 +176,6 @@ object TonalityTest : TestInterface{
 
 
     override fun getQuestion(): String? {
-//        _currentQuestion.value = "Сколько знаков в ${_currentTonality.value!!.name}?"
         _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n(${_currentTonality.value?.rusName})"+ "\n"+
                 "${_parallelTonality.value}" + "\n\n" +
                 _currentQuestNum.value?.let {
@@ -238,6 +236,10 @@ object TonalityTest : TestInterface{
     }
 
     override fun getCurrentSignType(): MutableList<String> {
-        return mutableListOf(signTest())
+        return mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
+    }
+
+    override fun getTonality(): Tonality? {
+        return currentTonality.value
     }
 }
