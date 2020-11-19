@@ -1,5 +1,6 @@
 package com.example.musictheory.data.triton
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.musictheory.data.TestInterface
@@ -73,8 +74,8 @@ object TritonTest: TestInterface {
     private fun allAnswersInit(){
        _allAnswers.value = arrayOf(
            "Да",
-           _currentTonality.value?.signCount.toString(),
-            "answer"
+           "signsInTonalityStatic",
+           "tonicTriad"
        )
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
     }
@@ -108,6 +109,7 @@ object TritonTest: TestInterface {
 
     override fun getAnswer(): String? {
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
+        Log.i("ttt", "current answer in triton ${_currentAnswer.value}")
         return _currentAnswer.value
     }
 
@@ -121,6 +123,7 @@ object TritonTest: TestInterface {
     }
 
     override fun getCurrentSignType(): MutableList<String> {
+        if(_currentAnswer.value=="tonicTriad") return mutableListOf("целаятрезвучие")
         return mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
 
     }

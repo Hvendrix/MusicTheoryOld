@@ -21,11 +21,6 @@ object Signs {
     var noteInOrderInLines = mapOf("До" to -1f, "Ре" to -0.5f, "Ми" to 1f, "Фа" to 1.5f, "Соль" to 2f, "Ля" to 2.5f, "Си" to 3f,
         "до" to -1f, "ре" to -0.5f, "ми" to 1f, "фа" to 1.5f, "соль" to 2f, "ля" to 2.5f, "си" to 3f)
 
-    private var _testIntDeleteThis = MutableLiveData<Int>()
-
-
-    val testIntDeleteThis : LiveData<Int>
-    get() = _testIntDeleteThis
 
     var currentSignTypeInSigns = mutableListOf<String>()
 
@@ -53,20 +48,13 @@ object Signs {
         _TestString.value = ""
         _signsInStave.value = mutableListOf()
         Log.i("ttt", "init???!!!!")
-        _testIntDeleteThis.value = 0
     }
 
 
     fun addInList(strVal: String, pos: Int){
         listInOrder.add(strVal)
         _TestString.value = ""
-        for(i in listInOrder){
-            _TestString.value = _TestString.value + " " + i
-        }
-
-        _testIntDeleteThis.value = _testIntDeleteThis.value!! + 1
-        Log.i("ttt", "test number is ${_testIntDeleteThis.value.toString()}")
-
+        for(i in listInOrder)_TestString.value += " $i"
     }
 
 
@@ -79,14 +67,14 @@ object Signs {
         }
         if (num != listInOrder.size) return false
         if (tonality.signType == "Диезы") {
-            for (i in 0..num - 1) {
+            for (i in 0 until num) {
                 if (listInOrder[i] != rightSharpOrder[i]) {
                     test = false
                 }
             }
             return@compareByNum test
         } else if (tonality.signType == "Бемоли") {
-            for (i in 0..num - 1) {
+            for (i in 0 until num) {
                 if (listInOrder[i] != rightFlatOrder[i]) {
                     test = false
                 }
@@ -95,6 +83,27 @@ object Signs {
         }
         return false
     }
+
+    fun triadTest(tonality: Tonality): Boolean{
+        var num = 3
+        if(num != listInOrder.size) return false
+        var listNeeded = mutableListOf<String>()
+
+        listNeeded.add(tonality.rusName.substringBefore(" ").toLowerCase())
+        if(listNeeded[0].indexOf("-")!=-1) listNeeded[0] = listNeeded[0].substringBefore("-")
+        var numOfTon = Notes.notesTwoOctaves.indexOf(listNeeded[0])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon+2])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon+4])
+
+        listInOrder.forEachIndexed { i, el ->
+            Log.i("ttt", "triad compare \'$el\', \'${listNeeded[i]}\'")
+            if(el.toLowerCase() != listNeeded[i]) return false
+        }
+        return true
+    }
+
+
+
 
     fun clearEnabled(){
         for (i in 0 until listDataEnabled.value?.size!!){

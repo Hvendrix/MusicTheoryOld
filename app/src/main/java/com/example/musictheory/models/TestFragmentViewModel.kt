@@ -19,7 +19,8 @@ import kotlinx.android.synthetic.main.fragment_test.view.*
 import kotlinx.coroutines.*
 
 class TestFragmentViewModel(
-    val database: AnswerDatabaseDao, application: Application) : AndroidViewModel(application) {
+    val database: AnswerDatabaseDao, application: Application
+) : AndroidViewModel(application) {
 
     private var _btnText = MutableLiveData<Array<String>>()
     private val _question = MutableLiveData<String>()
@@ -30,7 +31,7 @@ class TestFragmentViewModel(
     private var _btnOverFlow = MutableLiveData<Int>()
     private var _currentNumPick = MutableLiveData<Int>()
     private var _recyclerViewNeed = MutableLiveData<Boolean>()
-    private var _specificBtnText= MutableLiveData<Array<Array<String>>>()
+    private var _specificBtnText = MutableLiveData<Array<Array<String>>>()
     private var _currentAnswer = MutableLiveData<String>()
     private var _currentSignType = MutableLiveData<MutableList<String>>()
 
@@ -42,43 +43,40 @@ class TestFragmentViewModel(
     private var _currentTonality = MutableLiveData<Tonality>()
 
 
-
-
     val question: LiveData<String>
-    get() = _question
-
+        get() = _question
 
 
     val btnText: LiveData<Array<String>>
-    get() = _btnText
+        get() = _btnText
 
 
     val listErrors: LiveData<MutableList<String>>
-    get() = _listErrors
+        get() = _listErrors
 
 
     val correctAnswer: LiveData<String>
-    get() =  _correctAnswer
+        get() = _correctAnswer
 
 
     val navigateToResult: LiveData<Int>
-    get() = _navigateToResult
+        get() = _navigateToResult
 
     val btnOverFlow: LiveData<Int>
-    get() = _btnOverFlow
+        get() = _btnOverFlow
 
 
     val currentNumPick: LiveData<Int>
-    get() = _currentNumPick
+        get() = _currentNumPick
 
     val recyclerViewNeed: LiveData<Boolean>
         get() = _recyclerViewNeed
 
     val recViewBool: LiveData<Boolean>
-    get() = _recViewBool
+        get() = _recViewBool
 
     val specificBtnTxt: LiveData<Array<Array<String>>>
-    get() = _specificBtnText
+        get() = _specificBtnText
 
 
     val signInStave: LiveData<MutableList<Triple<Float, Float, String>>>
@@ -88,14 +86,14 @@ class TestFragmentViewModel(
         get() = _staticSignInStave
 
     val currentSignType: LiveData<MutableList<String>>
-    get() = _currentSignType
+        get() = _currentSignType
 
     val currentTonality: LiveData<Tonality>
-    get() = _currentTonality
+        get() = _currentTonality
 
 
     init {
-        _currentTest.value = TonalityTest
+        _currentTest.value = TritonTest
         _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
         _question.value = (_currentTest.value as TestInterface).getQuestion()
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
@@ -106,12 +104,10 @@ class TestFragmentViewModel(
         _recViewBool.value = null
 
 
-
-
     }
 
 
-    fun doneNavigate(){
+    fun doneNavigate() {
         _navigateToResult.value = null
     }
 
@@ -126,10 +122,10 @@ class TestFragmentViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
 
-    fun numPickTest(){
-        if(_btnText.value?.size!! > 3){
+    fun numPickTest() {
+        if (_btnText.value?.size!! > 3) {
             _btnOverFlow.value = 1
-        }else if (_btnText.value?.get(0) == "twoNumPick"){
+        } else if (_btnText.value?.get(0) == "twoNumPick") {
             _specificBtnText.value = _currentTest.value?.getSpecificBtnTxt()
             _btnOverFlow.value = 2
 
@@ -137,38 +133,34 @@ class TestFragmentViewModel(
     }
 
 
-    fun recyclerViewTest(){
-        if(_btnText.value?.get(0) == "table"){
+    fun recyclerViewTest() {
+        if (_btnText.value?.get(0) == "table") {
             _recyclerViewNeed.value = true
+        } else {
+            //возможно в дальшнейшем следует убрать
             _staticSignInStave.value = mutableListOf()
-            _staticSignInStave.value?.add(Triple(1f, 1f, "целая"))
-            _staticSignInStave.value = _staticSignInStave.value
-        } else _recyclerViewNeed.value = null
+            _recyclerViewNeed.value = null
+        }
     }
 
 
+    fun onClickAnswer(num: Int) {
 
-    fun onClickAnswer(num: Int){
-        _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
-        _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
-        if (_recyclerViewNeed.value != null && setCurrentRecView(_currentTonality.value!!)){
-                _navigateToResult.value = null
-                _currentTest.value?.nextIntermediateQuestion()
-                _question.value = _currentTest.value?.getQuestion()
-                _btnText.value = _currentTest.value?.getBtnTxt()
-                _correctAnswer.value = _currentTest.value?.getAnswer()
-                numPickTest()
-                recyclerViewTest()
-                Signs.clearEnabled()
-                Signs._signsInStave.value = mutableListOf()
-
-
-            _recViewBool.value = true
-
-        } else if(_correctAnswer.value == _btnText.value?.get(num)){
+        if (_recyclerViewNeed.value != null && setCurrentRecView(_currentTonality.value!!)) {
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
-//        _currentTonality.value = _currentTest.value?.getQuestion()
+            _question.value = _currentTest.value?.getQuestion()
+            _btnText.value = _currentTest.value?.getBtnTxt()
+            _correctAnswer.value = _currentTest.value?.getAnswer()
+            numPickTest()
+            recyclerViewTest()
+            Signs.clearEnabled()
+            Signs._signsInStave.value = mutableListOf()
+            _recViewBool.value = true
+
+        } else if (_correctAnswer.value == _btnText.value?.get(num)) {
+            _navigateToResult.value = null
+            _currentTest.value?.nextIntermediateQuestion()
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
@@ -176,7 +168,7 @@ class TestFragmentViewModel(
             recyclerViewTest()
             _recViewBool.value = null
             Signs._signsInStave.value = mutableListOf()
-        } else if(_correctAnswer.value == _currentAnswer.value) {
+        } else if (_correctAnswer.value == _currentAnswer.value) {
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
             _question.value = _currentTest.value?.getQuestion()
@@ -189,48 +181,60 @@ class TestFragmentViewModel(
         } else {
             _correctAnswer.value?.let {
                 _listErrors.value?.add("Твой ответ неверный: ")
-
-
             }
             _recViewBool.value = null
             printErrors()
             Signs.clearEnabled()
         }
+        _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
+        _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
     }
 
-    fun onClickTonality(num: Int){
-            _navigateToResult.value = null
-            _currentTest.value?.nextQuestion()
-            _question.value = _currentTest.value?.getQuestion()
-            _btnText.value = _currentTest.value?.getBtnTxt()
-            _correctAnswer.value = _currentTest.value?.getAnswer()
-            numPickTest()
-            recyclerViewTest()
+    fun onClickTonality(num: Int) {
+        _navigateToResult.value = null
+        _currentTest.value?.nextQuestion()
+        _question.value = _currentTest.value?.getQuestion()
+        _btnText.value = _currentTest.value?.getBtnTxt()
+        _correctAnswer.value = _currentTest.value?.getAnswer()
+        numPickTest()
+        recyclerViewTest()
     }
 
 
-    fun printErrors(){
+    fun printErrors() {
         _question.value = _listErrors.value?.get(0) + "\n" + _currentTest.value?.getQuestion()
     }
 
 
-    fun setCurrentNumPick(num: Int){
+    fun setCurrentNumPick(num: Int) {
         _currentNumPick.value = num
     }
 
-    fun setCurrentAnswer(ans: String){
+    fun setCurrentAnswer(ans: String) {
         _currentAnswer.value = ans
     }
 
-    fun setCurrentRecView(tonality: Tonality):Boolean{
-        return Signs.compareByNum(tonality)
+    fun setCurrentRecView(tonality: Tonality): Boolean {
+        when(_correctAnswer.value){
+            "signsInTonality" -> return Signs.compareByNum(tonality)
+            "signsInTonalityStatic" -> {
+                if(Signs.compareByNum(tonality)) {
+                    _staticSignInStave.value = mutableListOf()
+                    _staticSignInStave.value = Signs._signsInStave.value
+                }
+                return Signs.compareByNum(tonality)
+            }
+            "tonicTriad" -> return Signs.triadTest(tonality)
+
+        }
+        return false
     }
 
-    fun onClickRecView(){
+    fun onClickRecView() {
         _signInStave.value = Signs._signsInStave.value
     }
 
-    fun onClearRecView(adapter: SignsAdapter){
+    fun onClearRecView(adapter: SignsAdapter) {
         Signs.clearEnabled()
         adapter.notifyDataSetChanged()
     }
