@@ -8,10 +8,8 @@ import java.util.stream.IntStream.range
 
 object Signs {
     private var _signList = MutableLiveData<MutableList<String>>()
-    var listData = mutableListOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
     var listEnabled = mutableListOf(1, 1, 1, 1, 1, 1, 1)
     private var _listDataEnabled = MutableLiveData<MutableList<Int>>()
-    var mapSigns = mapOf<String, Int>("Фа" to 1, "До" to 1, "Соль" to 1,  "Ре" to 1, "Ля" to 1,  "Ми" to 1,  "Си" to 1)
     var listInOrder = mutableListOf<String>()
     var rightSharpOrder = listOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
     var rightFlatOrder = listOf("Си", "Ми", "Ля", "Ре", "Соль", "До", "Фа")
@@ -47,7 +45,6 @@ object Signs {
         _listDataEnabled.value = mutableListOf(1, 1, 1, 1, 1, 1, 1)
         _TestString.value = ""
         _signsInStave.value = mutableListOf()
-        Log.i("ttt", "init???!!!!")
     }
 
 
@@ -59,33 +56,30 @@ object Signs {
 
 
     fun compareByNum(tonality: Tonality): Boolean {
-        Log.i("ttt", "start compare fun")
-        var test = true
-        var num = 0
-        tonality.signCount.let {
-            num = it
-        }
+        val num = tonality.signCount
+
         if (num != listInOrder.size) return false
+
         if (tonality.signType == "Диезы") {
             for (i in 0 until num) {
                 if (listInOrder[i] != rightSharpOrder[i]) {
-                    test = false
+                    return false
                 }
             }
-            return@compareByNum test
+            return true
         } else if (tonality.signType == "Бемоли") {
             for (i in 0 until num) {
                 if (listInOrder[i] != rightFlatOrder[i]) {
-                    test = false
+                    return false
                 }
             }
-            return@compareByNum test
+            return true
         }
         return false
     }
 
     fun triadTest(tonality: Tonality): Boolean{
-        var num = 3
+        val num = 3
         if(num != listInOrder.size) return false
         var listNeeded = mutableListOf<String>()
 

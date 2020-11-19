@@ -139,19 +139,17 @@ object TonalityTest : TestInterface{
 
     private fun noteFind(): String{
         if(_upperTestBool.value != true){
-            var ton = Tonality.valueOf(_currentTonality.value?.parallTon!!)
-            var tmp1 = ton.rusName?.let { findSign(it)}
-            var tmp2 = ton.rusName?.let { findNote(it, tmp1!!)}
+            val ton = Tonality.valueOf(_currentTonality.value?.parallTon!!)
+            val tmp1 = ton.rusName?.let { findSign(it)}
+            val tmp2 = ton.rusName?.let { findNote(it, tmp1!!)}
             Log.i("ttt", " up bool = false and note In Find = $tmp2 + $tmp1")
             return "$tmp2-$tmp1"
         } else{
-            var tmp1 = _currentTonality.value?.rusName?.let { findSign(it)}
-            var tmp2 = _currentTonality.value?.rusName?.let { findNote(it, tmp1!!)}
+            val tmp1 = _currentTonality.value?.rusName?.let { findSign(it)}
+            val tmp2 = _currentTonality.value?.rusName?.let { findNote(it, tmp1!!)}
             Log.i("ttt", "note In Find = $tmp2-$tmp1")
             return "$tmp2-$tmp1"
-
         }
-        return "not Ok"
     }
 
 
