@@ -201,7 +201,7 @@ class TestFragment : Fragment() {
 
 
 
-        var notesViewInLineList : MutableList<ImageView> = mutableListOf()
+        val notesViewInLineList : MutableList<ImageView> = mutableListOf()
         Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
             signTripleList?.let{
                 if(signTripleList.isEmpty()){
@@ -215,14 +215,9 @@ class TestFragment : Fragment() {
                     var choiceImg = 0
                     var vertChang = 0f
                     when (i.third) {
-                        "диез" -> choiceImg = R.drawable.sharp
-                        "диезы" -> choiceImg = R.drawable.sharp
+                        "диезы", "диез" -> choiceImg = R.drawable.sharp
                         "бекар" -> choiceImg = R.drawable.bekar
-                        "бемоли" -> {
-                            choiceImg = R.drawable.bemol
-                            vertChang = -0.05f
-                        }
-                        "бемоль" -> {
+                        "бемоли", "бемоль" -> {
                             choiceImg = R.drawable.bemol
                             vertChang = -0.05f
                         }
@@ -237,7 +232,7 @@ class TestFragment : Fragment() {
                             binding.constraintLayout.addView(noteView)
                             noteView.layoutParams.height = 52
                             noteView.layoutParams.width = 52
-                            var set = ConstraintSet()
+                            val set = ConstraintSet()
                             set.clone(binding.constraintLayout)
                             set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
                             set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
@@ -286,14 +281,9 @@ class TestFragment : Fragment() {
                     var choiceImg = 0
                     var vertChang = 0f
                     when (i.third) {
-                        "диез" -> choiceImg = R.drawable.sharp
-                        "диезы" -> choiceImg = R.drawable.sharp
+                        "диезы", "диез" -> choiceImg = R.drawable.sharp
                         "бекар" -> choiceImg = R.drawable.bekar
-                        "бемоли" -> {
-                            choiceImg = R.drawable.bemol
-                            vertChang = -0.05f
-                        }
-                        "бемоль" -> {
+                        "бемоли", "бемоль" -> {
                             choiceImg = R.drawable.bemol
                             vertChang = -0.05f
                         }

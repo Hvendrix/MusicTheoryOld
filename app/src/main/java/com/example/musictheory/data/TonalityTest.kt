@@ -101,7 +101,7 @@ object TonalityTest : TestInterface{
            signTest(),
            downTest(),
            noteFind(),
-           _currentTonality.value?.signCount.toString()
+           "signsInTonality"
        )
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
     }
@@ -140,8 +140,8 @@ object TonalityTest : TestInterface{
     private fun noteFind(): String{
         if(_upperTestBool.value != true){
             val ton = Tonality.valueOf(_currentTonality.value?.parallTon!!)
-            val tmp1 = ton.rusName?.let { findSign(it)}
-            val tmp2 = ton.rusName?.let { findNote(it, tmp1!!)}
+            val tmp1 = ton.rusName.let { findSign(it)}
+            val tmp2 = ton.rusName.let { findNote(it, tmp1!!)}
             Log.i("ttt", " up bool = false and note In Find = $tmp2 + $tmp1")
             return "$tmp2-$tmp1"
         } else{
@@ -199,8 +199,6 @@ object TonalityTest : TestInterface{
         } else if(_upperTestBool.value!! && upperTest()=="Нет"){
             _upperTestBool.value = false
             _currentQuestNum.value = _currentQuestNum.value?.plus(2)
-
-
             //Дебагинг
 //            _currentQuestNum.value = _currentQuestNum.value?.plus(3)
         }

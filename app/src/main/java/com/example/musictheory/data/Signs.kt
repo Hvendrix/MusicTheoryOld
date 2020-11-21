@@ -58,7 +58,7 @@ object Signs {
     fun compareByNum(tonality: Tonality): Boolean {
         val num = tonality.signCount
 
-        if (num != listInOrder.size) return false
+        if (listInOrder.size != num) return false
 
         if (tonality.signType == "Диезы") {
             for (i in 0 until num) {
@@ -81,11 +81,11 @@ object Signs {
     fun triadTest(tonality: Tonality): Boolean{
         val num = 3
         if(num != listInOrder.size) return false
-        var listNeeded = mutableListOf<String>()
+        val listNeeded = mutableListOf<String>()
 
         listNeeded.add(tonality.rusName.substringBefore(" ").toLowerCase())
         if(listNeeded[0].indexOf("-")!=-1) listNeeded[0] = listNeeded[0].substringBefore("-")
-        var numOfTon = Notes.notesTwoOctaves.indexOf(listNeeded[0])
+        val numOfTon = Notes.notesTwoOctaves.indexOf(listNeeded[0])
         listNeeded.add(Notes.notesTwoOctaves[numOfTon+2])
         listNeeded.add(Notes.notesTwoOctaves[numOfTon+4])
 
@@ -108,9 +108,6 @@ object Signs {
 
         _TestString.value = ""
         signList.value!!.shuffle()
-
-
-
         _signsInStave.value = mutableListOf()
     }
 }
