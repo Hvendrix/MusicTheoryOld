@@ -1,21 +1,14 @@
 package com.example.musictheory.models
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.musictheory.Activities.MainActivity
-import com.example.musictheory.Fragments.TestFragment
-import com.example.musictheory.R
 import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.*
-import com.example.musictheory.data.triton.TritonTest
+import com.example.musictheory.data.tests.TritonTest
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
-import com.example.musictheory.databinding.FragmentTestBinding
-import kotlinx.android.synthetic.main.fragment_test.*
-import kotlinx.android.synthetic.main.fragment_test.view.*
 import kotlinx.coroutines.*
 
 class TestFragmentViewModel(
@@ -93,7 +86,8 @@ class TestFragmentViewModel(
 
 
     init {
-        _currentTest.value = TonalityTest
+        _currentTest.value =
+            TritonTest
         _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
         _question.value = (_currentTest.value as TestInterface).getQuestion()
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
@@ -225,6 +219,7 @@ class TestFragmentViewModel(
                 return Signs.compareByNum(tonality)
             }
             "tonicTriad" -> return Signs.triadTest(tonality)
+            "twoTonicThird" -> return Signs.twoTonicThird(tonality)
 
         }
         return false

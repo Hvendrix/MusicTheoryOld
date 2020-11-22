@@ -3,8 +3,6 @@ package com.example.musictheory.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.musictheory.data.triton.TritonTest
-import java.util.stream.IntStream.range
 
 object Signs {
     private var _signList = MutableLiveData<MutableList<String>>()
@@ -96,6 +94,24 @@ object Signs {
         return true
     }
 
+    fun twoTonicThird(tonality: Tonality): Boolean {
+        val num = 4
+        if(num != listInOrder.size) return false
+        val listNeeded = mutableListOf<String>()
+
+        listNeeded.add(tonality.rusName.substringBefore(" ").toLowerCase())
+        if(listNeeded[0].indexOf("-")!=-1) listNeeded[0] = listNeeded[0].substringBefore("-")
+        val numOfTon = Notes.notesTwoOctaves.indexOf(listNeeded[0])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon+2])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon+2])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon+4])
+        listInOrder.forEachIndexed { i, el ->
+            Log.i("ttt", "triad compare \'$el\', \'${listNeeded[i]}\'")
+            if(el.toLowerCase() != listNeeded[i]) return false
+        }
+        return true
+    }
+
 
 
 
@@ -110,4 +126,6 @@ object Signs {
         signList.value!!.shuffle()
         _signsInStave.value = mutableListOf()
     }
+
+
 }

@@ -17,7 +17,7 @@ import com.example.musictheory.R
 import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
-import com.example.musictheory.data.TonalityTest
+import com.example.musictheory.data.tests.TonalityTest
 import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.FragmentTestBinding
 import com.example.musictheory.models.TestFragmentViewModel

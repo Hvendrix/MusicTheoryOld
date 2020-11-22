@@ -1,12 +1,14 @@
-package com.example.musictheory.data
+package com.example.musictheory.data.tests
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import java.util.*
+import com.example.musictheory.data.Notes
+import com.example.musictheory.data.TestInterface
+import com.example.musictheory.data.Tonality
 
 
-object TonalityTest : TestInterface{
+object TonalityTest : TestInterface {
 
 
     // Общие переменные для всех тестов
@@ -139,14 +141,33 @@ object TonalityTest : TestInterface{
 
     private fun noteFind(): String{
         if(_upperTestBool.value != true){
-            val ton = Tonality.valueOf(_currentTonality.value?.parallTon!!)
-            val tmp1 = ton.rusName.let { findSign(it)}
-            val tmp2 = ton.rusName.let { findNote(it, tmp1!!)}
+            val ton = Tonality.valueOf(
+                _currentTonality.value?.parallTon!!)
+            val tmp1 = ton.rusName.let {
+                findSign(
+                    it
+                )
+            }
+            val tmp2 = ton.rusName.let {
+                findNote(
+                    it,
+                    tmp1!!
+                )
+            }
             Log.i("ttt", " up bool = false and note In Find = $tmp2 + $tmp1")
             return "$tmp2-$tmp1"
         } else{
-            val tmp1 = _currentTonality.value?.rusName?.let { findSign(it)}
-            val tmp2 = _currentTonality.value?.rusName?.let { findNote(it, tmp1!!)}
+            val tmp1 = _currentTonality.value?.rusName?.let {
+                findSign(
+                    it
+                )
+            }
+            val tmp2 = _currentTonality.value?.rusName?.let {
+                findNote(
+                    it,
+                    tmp1!!
+                )
+            }
             Log.i("ttt", "note In Find = $tmp2-$tmp1")
             return "$tmp2-$tmp1"
         }
@@ -193,10 +214,10 @@ object TonalityTest : TestInterface{
 
     override fun nextIntermediateQuestion() {
 
-        if(_currentQuestNum.value == 2 && upperTest()=="Да"){
+        if(_currentQuestNum.value == 2 && upperTest() =="Да"){
             _upperTestBool.value = false
             _parallelTonality.value = "Параллельный мажор: ${_currentTonality.value?.parallTon.toString()} - dur"
-        } else if(_upperTestBool.value!! && upperTest()=="Нет"){
+        } else if(_upperTestBool.value!! && upperTest() =="Нет"){
             _upperTestBool.value = false
             _currentQuestNum.value = _currentQuestNum.value?.plus(2)
             //Дебагинг
@@ -221,7 +242,10 @@ object TonalityTest : TestInterface{
     override fun getBtnTxt(): Array<String>? {
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
         if(_currentBtnTxt.value?.get(0)== "twoNumPick"){
-            _specificBtnTxt.value = arrayOf(Notes.notes, Notes.signs)
+            _specificBtnTxt.value = arrayOf(
+                Notes.notes,
+                Notes.signs
+            )
         }
         return _currentBtnTxt.value
 

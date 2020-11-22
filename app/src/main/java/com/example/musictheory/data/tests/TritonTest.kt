@@ -1,11 +1,11 @@
-package com.example.musictheory.data.triton
+package com.example.musictheory.data.tests
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.musictheory.data.Notes
 import com.example.musictheory.data.TestInterface
 import com.example.musictheory.data.Tonality
-import com.example.musictheory.data.TonalityTest
 
 object TritonTest: TestInterface {
     // Общие переменные для всех тестов
@@ -17,6 +17,7 @@ object TritonTest: TestInterface {
     private var _currentBtnTxt = MutableLiveData<Array<String>>()
     private var _allBtnText = MutableLiveData<MutableList<Array<String>>>()
     private var _allAnswers = MutableLiveData<Array<String>>()
+    private var _specificBtnTxt = MutableLiveData<Array<Array<String>>>()
 
 
     private var _currentTonality = MutableLiveData<Tonality>()
@@ -29,11 +30,12 @@ object TritonTest: TestInterface {
 
 
     init{
+        initTonality()
+        choiceTonality()
         allQuestionsInit()
         allBtnInit()
         allAnswersInit()
-        initTonality()
-        choiceTonality()
+
     }
 
     private fun initTonality(){
@@ -55,19 +57,23 @@ object TritonTest: TestInterface {
         _allInterQuestions.value = mutableListOf(
             "Укажите да",
             "Укажите знаки в нужном порядке",
-            "Постройте тоническое трезвучие")
+            "Постройте тоническое трезвучие",
+            "Назови, какая нота появляется в гармоническом виде",
+            "Построй две тонические терции"
+            )
         _questionNumTotal.value = _allInterQuestions.value!!.count()
         _currentQuestNum.value = 0
     }
-
 
     private fun allBtnInit(){
         _allBtnText.value = mutableListOf(
             arrayOf("Да", "Нет", "Не знаю"),
             arrayOf("table"),
+            arrayOf("table"),
+            arrayOf("twoNumPick"),
             arrayOf("table")
         )
-        _currentBtnTxt.value = _currentQuestNum.value?.let {_allBtnText.value!![it] }
+        _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
     }
 
 
@@ -75,9 +81,16 @@ object TritonTest: TestInterface {
        _allAnswers.value = arrayOf(
            "Да",
            "signsInTonalityStatic",
-           "tonicTriad"
+           "tonicTriad",
+           findHarm(),
+           "twoTonicThird"
        )
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
+    }
+
+
+    private fun findHarm(): String {
+        return _currentTonality.value?.harmNote ?: "ошибка"
     }
 
 
@@ -115,11 +128,17 @@ object TritonTest: TestInterface {
 
     override fun getBtnTxt(): Array<String>? {
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
+        if(_currentBtnTxt.value?.get(0)== "twoNumPick"){
+            _specificBtnTxt.value = arrayOf(
+                Notes.notes,
+                Notes.signs
+            )
+        }
         return _currentBtnTxt.value
     }
 
     override fun getSpecificBtnTxt(): Array<Array<String>>? {
-        TODO("Not yet implemented")
+        return _specificBtnTxt.value
     }
 
     override fun getCurrentSignType(): MutableList<String> {
