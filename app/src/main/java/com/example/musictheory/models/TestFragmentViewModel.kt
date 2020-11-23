@@ -1,6 +1,7 @@
 package com.example.musictheory.models
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -46,26 +47,13 @@ class TestFragmentViewModel(
         get() = _btnText
 
 
-    val listErrors: LiveData<MutableList<String>>
-        get() = _listErrors
-
-
-    val correctAnswer: LiveData<String>
-        get() = _correctAnswer
-
-
     val navigateToResult: LiveData<Int>
         get() = _navigateToResult
-
-    val btnOverFlow: LiveData<Int>
-        get() = _btnOverFlow
 
 
     val currentNumPick: LiveData<Int>
         get() = _currentNumPick
 
-    val recyclerViewNeed: LiveData<Boolean>
-        get() = _recyclerViewNeed
 
     val recViewBool: LiveData<Boolean>
         get() = _recViewBool
@@ -74,24 +62,18 @@ class TestFragmentViewModel(
         get() = _specificBtnText
 
 
-    val signInStave: LiveData<MutableList<Triple<Float, Float, String>>>
-        get() = _signInStave
-
     val staticSignInStave: LiveData<MutableList<Triple<Float, Float, String>>>
         get() = _staticSignInStave
 
     val currentSignType: LiveData<MutableList<String>>
         get() = _currentSignType
 
-    val currentTonality: LiveData<Tonality>
-        get() = _currentTonality
-
     val interfaceType: LiveData<String>
         get() = _interfaceType
 
 
     init {
-        _currentTest.value = TonalityTest
+        _currentTest.value = TritonTest
         _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
         _question.value = (_currentTest.value as TestInterface).getQuestion()
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
@@ -121,55 +103,54 @@ class TestFragmentViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
 
-    fun numPickTest() {
-        if (_btnText.value?.size!! > 3) {
-            _btnOverFlow.value = 1
-        } else if (_btnText.value?.get(0) == "twoNumPick") {
-            _specificBtnText.value = _currentTest.value?.getSpecificBtnTxt()
-            _btnOverFlow.value = 2
-
-        } else _btnOverFlow.value = null
-    }
-
-
-    fun recyclerViewTest() {
-        if (_btnText.value?.get(0) == "table") {
-            _recyclerViewNeed.value = true
-        } else {
-            //возможно в дальшнейшем следует убрать
-            _staticSignInStave.value = mutableListOf()
-            _recyclerViewNeed.value = null
-        }
-    }
+//    fun numPickTest() {
+//        if (_btnText.value?.size!! > 3) {
+//            _btnOverFlow.value = 1
+//        } else if (_btnText.value?.get(0) == "twoNumPick") {
+//            _specificBtnText.value = _currentTest.value?.getSpecificBtnTxt()
+//            _btnOverFlow.value = 2
+//
+//        } else _btnOverFlow.value = null
+//    }
+//
+//
+//    fun recyclerViewTest() {
+//        if (_btnText.value?.get(0) == "table") {
+//            _recyclerViewNeed.value = true
+//        } else {
+//            //возможно в дальшнейшем следует убрать
+//            _staticSignInStave.value = mutableListOf()
+//            _recyclerViewNeed.value = null
+//        }
+//    }
 
 
     private fun setInterfaceType() : String{
-        when {
-            _btnText.value?.size!! > 3 -> return "numPick"
+        return when {
+            _btnText.value?.size!! > 3 -> "numPick"
             _btnText.value?.get(0) == "twoNumPick" -> {
                 _specificBtnText.value = _currentTest.value?.getSpecificBtnTxt()
-                return "twoNumPick"
+                "twoNumPick"
             }
-            _btnText.value?.get(0) == "table" -> return "table"
-            _btnText.value?.size!! <= 3 -> return "buttons"
-            else -> return "ошибка"
+            _btnText.value?.get(0) == "table" -> "table"
+            _btnText.value?.size!! <= 3 -> "buttons"
+            else -> "ошибка"
         }
     }
 
 
     fun onClickAnswer(num: Int) {
-
-        if (_recyclerViewNeed.value != null && setCurrentRecView(_currentTonality.value!!)) {
+        if (_interfaceType.value == "table" && setCurrentRecView(_currentTonality.value!!)) {
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
-            numPickTest()
-            recyclerViewTest()
+//            numPickTest()
+//            recyclerViewTest()
             Signs.clearEnabled()
             Signs._signsInStave.value = mutableListOf()
-            _recViewBool.value = true
+//            _recViewBool.value = true
             _interfaceType.value = setInterfaceType()
 
         } else if (_correctAnswer.value == _btnText.value?.get(num)) {
@@ -178,9 +159,9 @@ class TestFragmentViewModel(
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
-            numPickTest()
-            recyclerViewTest()
-            _recViewBool.value = null
+//            numPickTest()
+//            recyclerViewTest()
+//            _recViewBool.value = null
             Signs._signsInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
         } else if (_correctAnswer.value == _currentAnswer.value) {
@@ -189,16 +170,16 @@ class TestFragmentViewModel(
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
-            numPickTest()
-            recyclerViewTest()
-            _recViewBool.value = null
+//            numPickTest()
+//            recyclerViewTest()
+//            _recViewBool.value = null
             Signs._signsInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
         } else {
             _correctAnswer.value?.let {
                 _listErrors.value?.add("Твой ответ неверный: ")
             }
-            _recViewBool.value = null
+//            _recViewBool.value = null
             printErrors()
             Signs.clearEnabled()
         }
@@ -212,8 +193,9 @@ class TestFragmentViewModel(
         _question.value = _currentTest.value?.getQuestion()
         _btnText.value = _currentTest.value?.getBtnTxt()
         _correctAnswer.value = _currentTest.value?.getAnswer()
-        numPickTest()
-        recyclerViewTest()
+        _interfaceType.value = setInterfaceType()
+//        numPickTest()
+//        recyclerViewTest()
     }
 
 
@@ -230,7 +212,7 @@ class TestFragmentViewModel(
         _currentAnswer.value = ans
     }
 
-    fun setCurrentRecView(tonality: Tonality): Boolean {
+    private fun setCurrentRecView(tonality: Tonality): Boolean {
         when (_correctAnswer.value) {
             "signsInTonality" -> return Signs.compareByNum(tonality)
             "signsInTonalityStatic" -> {

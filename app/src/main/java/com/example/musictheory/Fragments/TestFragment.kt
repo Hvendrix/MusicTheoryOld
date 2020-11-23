@@ -59,8 +59,6 @@ class TestFragment : Fragment() {
 
         val adapter = SignsAdapter()
 
-
-
         binding.signList.adapter = adapter
 
         Signs.signList.observe(viewLifecycleOwner, Observer {
@@ -78,10 +76,10 @@ class TestFragment : Fragment() {
             adapter.data2 = it
             adapter.notifyDataSetChanged()
         })
-
-        testFragmentViewModel.recViewBool.observe(viewLifecycleOwner, Observer {
-            adapter.notifyDataSetChanged()
-        })
+7
+//        testFragmentViewModel.recViewBool.observe(viewLifecycleOwner, Observer {
+//            adapter.notifyDataSetChanged()
+//        })
 
         Signs.TestString.observe(viewLifecycleOwner, Observer {
             binding.txtNumPick.text = "Твой ответ будет: ${it}"
@@ -92,6 +90,8 @@ class TestFragment : Fragment() {
         }
 
 
+
+
         testFragmentViewModel.onClearRecView(adapter)
 
 
@@ -100,10 +100,12 @@ class TestFragment : Fragment() {
         binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
         binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
 
-
+        val notesViewInLineList : MutableList<ImageView> = mutableListOf()
+        val staticNotesViewInLineList : MutableList<ImageView> = mutableListOf()
 
         testFragmentViewModel.interfaceType.observe(viewLifecycleOwner, Observer{ type ->
             type?.let {
+                adapter.notifyDataSetChanged()
                 when (type) {
                     "numPick" -> {
                         binding.numberPicker.maxValue = 0
@@ -152,7 +154,110 @@ class TestFragment : Fragment() {
                     "table" -> {
                         hideAll(binding)
 
+                        Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
+                            signTripleList?.let{
+                                if(signTripleList.isEmpty()){
+                                    for(i in notesViewInLineList){
+//                        binding.constraintLayout.removeViewAt(i)
+                                        Log.i("ttt", "remove index $i")
+                                        binding.constraintLayout.removeView(i)
+                                    }
+                                }
+                                for(i in signTripleList){
+                                    var choiceImg = 0
+                                    var vertChang = 0f
+                                    when (i.third) {
+                                        "диезы", "диез" -> choiceImg = R.drawable.sharp
+                                        "бекар" -> choiceImg = R.drawable.bekar
+                                        "бемоли", "бемоль" -> {
+                                            choiceImg = R.drawable.bemol
+                                            vertChang = -0.05f
+                                        }
+                                        "целая" -> choiceImg = R.drawable.int_note
+                                        "целаятрезвучие" -> {
+                                            Log.i("xxx", "start")
+                                            choiceImg = R.drawable.int_note
+                                            val noteView = ImageView(this.context)
+                                            noteView.id = View.generateViewId()
+                                            notesViewInLineList.add(noteView)
+                                            noteView.setImageResource(choiceImg)
+                                            binding.constraintLayout.addView(noteView)
+                                            noteView.layoutParams.height = 52
+                                            noteView.layoutParams.width = 52
+                                            val set = ConstraintSet()
+                                            set.clone(binding.constraintLayout)
+                                            set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
+                                            set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
+                                            set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
+                                            set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
+                                            set.setHorizontalBias(noteView.id, 0.9f)
+                                            set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
+                                            set.applyTo(binding.constraintLayout)
+                                            Log.i("xxx", "stop")
+                                            continue
+                                        }
+                                    }
+                                    val noteView = ImageView(this.context)
+                                    noteView.id = View.generateViewId()
+                                    notesViewInLineList.add(noteView)
+                                    noteView.setImageResource(choiceImg)
+                                    binding.constraintLayout.addView(noteView)
+                                    noteView.layoutParams.height = 52
+                                    noteView.layoutParams.width = 52
+                                    val set = ConstraintSet()
+                                    set.clone(binding.constraintLayout)
+                                    set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
+                                    set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
+                                    set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
+                                    set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
+                                    set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
+                                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
+                                    set.applyTo(binding.constraintLayout)
+                                }
 
+                            }
+                        })
+                        
+
+                        testFragmentViewModel.staticSignInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
+                            signTripleList?.let{
+                                if(signTripleList.isEmpty()){
+                                    for(i in staticNotesViewInLineList){
+                                        binding.constraintLayout.removeView(i)
+                                    }
+                                }
+                                for(i in signTripleList){
+                                    var choiceImg = 0
+                                    var vertChang = 0f
+                                    when (i.third) {
+                                        "диезы", "диез" -> choiceImg = R.drawable.sharp
+                                        "бекар" -> choiceImg = R.drawable.bekar
+                                        "бемоли", "бемоль" -> {
+                                            choiceImg = R.drawable.bemol
+                                            vertChang = -0.05f
+                                        }
+                                        "целая" -> choiceImg = R.drawable.int_note
+                                    }
+                                    val noteView = ImageView(this.context)
+                                    noteView.id = View.generateViewId()
+                                    staticNotesViewInLineList.add(noteView)
+                                    noteView.setImageResource(choiceImg)
+                                    binding.constraintLayout.addView(noteView)
+                                    noteView.layoutParams.height = 52
+                                    noteView.layoutParams.width = 52
+                                    val set = ConstraintSet()
+                                    set.clone(binding.constraintLayout)
+                                    set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
+                                    set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
+                                    set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
+                                    set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
+                                    set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
+                                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
+                                    set.applyTo(binding.constraintLayout)
+                                }
+
+                            }
+                        })
 
                         binding.btnAnswer.visibility = View.VISIBLE
                         binding.txtNumPick.visibility = View.VISIBLE
@@ -182,116 +287,6 @@ class TestFragment : Fragment() {
                         .actionTestFragmentToResultFragment()
                 )
                 testFragmentViewModel.doneNavigate()
-
-            }
-        })
-
-
-
-        val notesViewInLineList : MutableList<ImageView> = mutableListOf()
-        Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
-            signTripleList?.let{
-                if(signTripleList.isEmpty()){
-                    for(i in notesViewInLineList){
-//                        binding.constraintLayout.removeViewAt(i)
-                        Log.i("ttt", "remove index $i")
-                        binding.constraintLayout.removeView(i)
-                    }
-                }
-                for(i in signTripleList){
-                    var choiceImg = 0
-                    var vertChang = 0f
-                    when (i.third) {
-                        "диезы", "диез" -> choiceImg = R.drawable.sharp
-                        "бекар" -> choiceImg = R.drawable.bekar
-                        "бемоли", "бемоль" -> {
-                            choiceImg = R.drawable.bemol
-                            vertChang = -0.05f
-                        }
-                        "целая" -> choiceImg = R.drawable.int_note
-                        "целаятрезвучие" -> {
-                            Log.i("xxx", "start")
-                            choiceImg = R.drawable.int_note
-                            val noteView = ImageView(this.context)
-                            noteView.id = View.generateViewId()
-                            notesViewInLineList.add(noteView)
-                            noteView.setImageResource(choiceImg)
-                            binding.constraintLayout.addView(noteView)
-                            noteView.layoutParams.height = 52
-                            noteView.layoutParams.width = 52
-                            val set = ConstraintSet()
-                            set.clone(binding.constraintLayout)
-                            set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
-                            set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
-                            set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
-                            set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-                            set.setHorizontalBias(noteView.id, 0.9f)
-                            set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
-                            set.applyTo(binding.constraintLayout)
-                            Log.i("xxx", "stop")
-                            continue
-                        }
-                    }
-                    val noteView = ImageView(this.context)
-                    noteView.id = View.generateViewId()
-                    notesViewInLineList.add(noteView)
-                    noteView.setImageResource(choiceImg)
-                    binding.constraintLayout.addView(noteView)
-                    noteView.layoutParams.height = 52
-                    noteView.layoutParams.width = 52
-                    val set = ConstraintSet()
-                    set.clone(binding.constraintLayout)
-                    set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
-                    set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
-                    set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
-                    set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-                    set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
-                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
-                    set.applyTo(binding.constraintLayout)
-                }
-
-            }
-        })
-
-
-        val staticNotesViewInLineList : MutableList<ImageView> = mutableListOf()
-        testFragmentViewModel.staticSignInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
-            signTripleList?.let{
-                if(signTripleList.isEmpty()){
-                    for(i in staticNotesViewInLineList){
-                        binding.constraintLayout.removeView(i)
-                    }
-                }
-                for(i in signTripleList){
-                    var choiceImg = 0
-                    var vertChang = 0f
-                    when (i.third) {
-                        "диезы", "диез" -> choiceImg = R.drawable.sharp
-                        "бекар" -> choiceImg = R.drawable.bekar
-                        "бемоли", "бемоль" -> {
-                            choiceImg = R.drawable.bemol
-                            vertChang = -0.05f
-                        }
-                        "целая" -> choiceImg = R.drawable.int_note
-                    }
-                    val noteView = ImageView(this.context)
-                    noteView.id = View.generateViewId()
-                    staticNotesViewInLineList.add(noteView)
-                    noteView.setImageResource(choiceImg)
-                    binding.constraintLayout.addView(noteView)
-                    noteView.layoutParams.height = 52
-                    noteView.layoutParams.width = 52
-                    val set = ConstraintSet()
-                    set.clone(binding.constraintLayout)
-                    set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
-                    set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
-                    set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
-                    set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-                    set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
-                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
-                    set.applyTo(binding.constraintLayout)
-                }
-
             }
         })
 
