@@ -50,7 +50,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
 
     class ViewHolder private constructor(val binding: ListItemSignsBinding) : RecyclerView.ViewHolder(binding.root){
-        val btnName: Button = itemView.findViewById(R.id.btnSign)
+        private val btnName: Button = itemView.findViewById(R.id.btnSign)
 
 
         fun bind(item: String, position: Int, item2: Int) {
@@ -58,35 +58,41 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
             btnName.text = item
             btnName.setOnClickListener {
 //                btnName.text = "qe"
-                btnName.isEnabled = false
+
                 Signs.addInList(item, position)
 
-                var signType = Signs.currentSignTypeInSigns[0].toLowerCase()
-                var numInRange = Signs.listInOrder.size.toFloat()
+                val signType = Signs.currentSignTypeInSigns[0].toLowerCase()
+                val numInRange = Signs.listInOrder.size.toFloat()
                 Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, signType) as Triple<Float, Float, String>)
                 Signs._signsInStave.value = Signs._signsInStave.value
-                var x = 0
-                for(i in Signs._signsInStave.value!!){
+                for((x, i) in Signs._signsInStave.value!!.withIndex()){
                     Log.i("ttt", "Triple in Adapter ${i.first} $x name is $item")
-                    x++
                 }
                 Log.i("ttt", "${Signs._signsInStave.value?.get(0)?.third}")
                 Signs.listEnabled[position] = 0
-                Signs.listDataEnabled.value?.set(position, 0)
-                Log.i("ttt", "${Signs.listDataEnabled.value?.get(position)}")
-                btnName.setBackgroundColor(Color.LTGRAY)
+                Log.i("xxx", "current sign type = $signType")
+                if(signType!=("дветерции")){
+                    Signs.listDataEnabled.value?.set(position, 0)
+                    btnName.setBackgroundColor(Color.LTGRAY)
+                    btnName.isEnabled = false
+
+                }
 
 
             }
             Log.i("ttt", "${Signs.listDataEnabled.value?.get(position)}")
-            if(item2 == 1){
-                btnName.isEnabled = true
-                btnName.setBackgroundColor(Color.GRAY)
-            } else if(item2 == 0){
-                btnName.isEnabled = false
-            } else {
-                btnName.text = "ЧТо то не так"
-                btnName.setBackgroundColor(Color.LTGRAY)
+            when (item2) {
+                1 -> {
+                    btnName.isEnabled = true
+                    btnName.setBackgroundColor(Color.GRAY)
+                }
+                0 -> {
+                    btnName.isEnabled = false
+                }
+                else -> {
+                    btnName.text = "Чnо то не так"
+                    btnName.setBackgroundColor(Color.LTGRAY)
+                }
             }
         }
 

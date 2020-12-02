@@ -112,7 +112,25 @@ object Signs {
         return true
     }
 
+    fun twoReducedFifth(tonality: Tonality): Boolean {
+        val num = 4
+        if(num != listInOrder.size) return false
+        val listNeeded = mutableListOf<String>()
 
+        listNeeded.add(tonality.rusName.substringBefore(" ").toLowerCase())
+        if(listNeeded[0].indexOf("-")!=-1) listNeeded[0] = listNeeded[0].substringBefore("-")
+        val numOfTon = Notes.notesTwoOctaves.indexOf(listNeeded[0])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon+6])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon+3])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon+1])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon+5])
+        listNeeded.removeAt(0)
+        listInOrder.forEachIndexed { i, el ->
+            Log.i("ttt", "triad compare \'$el\', \'${listNeeded[i]}\'")
+            if(el.toLowerCase() != listNeeded[i]) return false
+        }
+        return true
+    }
 
 
     fun clearEnabled(){
@@ -126,6 +144,8 @@ object Signs {
         signList.value!!.shuffle()
         _signsInStave.value = mutableListOf()
     }
+
+
 
 
 }

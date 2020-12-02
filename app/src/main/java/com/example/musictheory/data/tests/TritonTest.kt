@@ -59,7 +59,8 @@ object TritonTest: TestInterface {
             "Укажите знаки в нужном порядке",
             "Постройте тоническое трезвучие",
             "Назови, какая нота появляется в гармоническом виде",
-            "Построй две тонические терции"
+            "Построй две тонические терции",
+            "Построй уменьшенные квинты"
             )
         _questionNumTotal.value = _allInterQuestions.value!!.count()
         _currentQuestNum.value = 0
@@ -71,6 +72,7 @@ object TritonTest: TestInterface {
             arrayOf("table"),
             arrayOf("table"),
             arrayOf("twoNumPick"),
+            arrayOf("table"),
             arrayOf("table")
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
@@ -83,7 +85,8 @@ object TritonTest: TestInterface {
            "signsInTonalityStatic",
            "tonicTriad",
            findHarm(),
-           "twoTonicThird"
+           "twoTonicThirdInStatic",
+           "twoReducedFifthInStatic",
        )
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
     }
@@ -142,9 +145,11 @@ object TritonTest: TestInterface {
     }
 
     override fun getCurrentSignType(): MutableList<String> {
-        if(_currentAnswer.value=="tonicTriad") return mutableListOf("целаятрезвучие")
-        return mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
-
+        return when(_currentAnswer.value){
+            "tonicTriad" -> mutableListOf("целаятрезвучие")
+            "twoTonicThirdInStatic", "twoReducedFifthInStatic" -> mutableListOf("дветерции")
+            else -> mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
+        }
     }
 
     override fun getTonality(): Tonality? {

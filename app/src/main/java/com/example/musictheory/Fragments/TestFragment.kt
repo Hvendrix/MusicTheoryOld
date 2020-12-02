@@ -57,7 +57,8 @@ class TestFragment : Fragment() {
         binding.signList.layoutManager = manager
 
 
-        val adapter = SignsAdapter()
+//        val adapter = SignsAdapter()
+        val adapter = testFragmentViewModel.adapter
 
         binding.signList.adapter = adapter
 
@@ -196,6 +197,9 @@ class TestFragment : Fragment() {
                                             Log.i("xxx", "stop")
                                             continue
                                         }
+                                        "дветерции" ->{
+                                            choiceImg = R.drawable.int_note
+                                        }
                                     }
                                     val noteView = ImageView(this.context)
                                     noteView.id = View.generateViewId()
@@ -237,6 +241,9 @@ class TestFragment : Fragment() {
                                             vertChang = -0.05f
                                         }
                                         "целая" -> choiceImg = R.drawable.int_note
+                                        "дветерции" ->{
+                                            choiceImg = R.drawable.int_note
+                                        }
                                     }
                                     val noteView = ImageView(this.context)
                                     noteView.id = View.generateViewId()

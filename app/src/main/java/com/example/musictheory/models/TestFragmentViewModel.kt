@@ -38,6 +38,8 @@ class TestFragmentViewModel(
     var testString = MutableLiveData<Answer?>()
     private var _currentTonality = MutableLiveData<Tonality>()
 
+    val adapter = SignsAdapter()
+
 
     val question: LiveData<String>
         get() = _question
@@ -79,9 +81,9 @@ class TestFragmentViewModel(
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
         _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
         _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
-        _btnOverFlow.value = null
-        _recyclerViewNeed.value = null
-        _recViewBool.value = null
+//        _btnOverFlow.value = null
+//        _recyclerViewNeed.value = null
+//        _recViewBool.value = null
         _interfaceType.value = setInterfaceType()
 
 
@@ -140,6 +142,7 @@ class TestFragmentViewModel(
 
 
     fun onClickAnswer(num: Int) {
+        adapter.notifyDataSetChanged()
         if (_interfaceType.value == "table" && setCurrentRecView(_currentTonality.value!!)) {
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
@@ -152,6 +155,9 @@ class TestFragmentViewModel(
             Signs._signsInStave.value = mutableListOf()
 //            _recViewBool.value = true
             _interfaceType.value = setInterfaceType()
+            _staticSignInStave.value?.forEach {
+                Log.i("xxx"," ${it.first}   ${it.second}    ${it.third}" )
+            }
 
         } else if (_correctAnswer.value == _btnText.value?.get(num)) {
             _navigateToResult.value = null
@@ -164,6 +170,7 @@ class TestFragmentViewModel(
 //            _recViewBool.value = null
             Signs._signsInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
+//            _staticSignInStave.value = mutableListOf()
         } else if (_correctAnswer.value == _currentAnswer.value) {
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
@@ -175,6 +182,7 @@ class TestFragmentViewModel(
 //            _recViewBool.value = null
             Signs._signsInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
+//            _staticSignInStave.value = mutableListOf()
         } else {
             _correctAnswer.value?.let {
                 _listErrors.value?.add("Твой ответ неверный: ")
@@ -199,7 +207,7 @@ class TestFragmentViewModel(
     }
 
 
-    fun printErrors() {
+    private fun printErrors() {
         _question.value = _listErrors.value?.get(0) + "\n" + _currentTest.value?.getQuestion()
     }
 
@@ -224,6 +232,22 @@ class TestFragmentViewModel(
             }
             "tonicTriad" -> return Signs.triadTest(tonality)
             "twoTonicThird" -> return Signs.twoTonicThird(tonality)
+            "twoTonicThirdInStatic" -> {
+                if(Signs.twoTonicThird(tonality)){
+                    Signs._signsInStave.value?.forEach {
+                        _staticSignInStave.value?.add(it)
+                    }
+                }
+                return Signs.twoTonicThird(tonality)
+            }
+            "twoReducedFifthInStatic" -> {
+                if(Signs.twoReducedFifth(tonality)){
+                    Signs.signsInStave?.value?.forEach{
+                        _staticSignInStave.value?.add(it)
+                    }
+                }
+                return Signs.twoReducedFifth(tonality)
+            }
 
         }
         return false

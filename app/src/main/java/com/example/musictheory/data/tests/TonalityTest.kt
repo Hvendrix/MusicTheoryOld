@@ -151,7 +151,7 @@ object TonalityTest : TestInterface {
             val tmp2 = ton.rusName.let {
                 findNote(
                     it,
-                    tmp1!!
+                    tmp1
                 )
             }
             Log.i("ttt", " up bool = false and note In Find = $tmp2 + $tmp1")
