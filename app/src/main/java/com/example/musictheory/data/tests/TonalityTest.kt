@@ -256,7 +256,17 @@ object TonalityTest : TestInterface {
     }
 
     override fun getCurrentSignType(): MutableList<String> {
-        return mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
+        return when(_currentAnswer.value){
+            "tonicTriad" -> mutableListOf("целаятрезвучие")
+            "twoTonicThirdInStatic", "twoReducedFifthInStatic" -> mutableListOf("дветерции")
+            "signsInTonality" -> {
+                return when(_currentTonality.value?.signType!!.toLowerCase()){
+                    "бемоли" -> mutableListOf("бемолиприключе")
+                    "диезы" -> mutableListOf("диезыприключе")
+                    else -> mutableListOf("error")
+                }
+            } else -> mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
+        }
     }
 
     override fun getTonality(): Tonality? {
