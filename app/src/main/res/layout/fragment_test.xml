@@ -139,8 +139,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="1dp"
+            android:background="@drawable/bg_btn_answer"
+            android:fontFamily="sans-serif"
             android:onClick="@{() -> testFragmentViewModel.onClickAnswer(testFragmentViewModel.currentNumPick)}"
-            android:text="Ответить"
+            android:text="@string/Reply"
+            android:textAppearance="@style/btnTextStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtNumPick" />
 
@@ -179,19 +182,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupStave"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="imgStave, imgTrebleClef"
+            android:layout_height="wrap_content"/>
+
         <ImageView
             android:id="@+id/imgStave"
             android:layout_width="match_parent"
             android:layout_height="123dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtNumPick"
             app:layout_constraintVertical_bias="0.911"
-            app:srcCompat="@drawable/stave" />
+            app:srcCompat="@drawable/stave1" />
+
+        <ImageView
+            android:id="@+id/imgTrebleClef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/imgStave"
+            app:layout_constraintEnd_toEndOf="@+id/imgStave"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/imgStave"
+            app:layout_constraintTop_toTopOf="@+id/imgStave"
+            app:layout_constraintVertical_bias="0.593"
+            app:srcCompat="@drawable/treble_clef" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

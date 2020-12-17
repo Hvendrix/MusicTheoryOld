@@ -7,4 +7,23 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="btnTextStyle">
+
+        Font family: Roboto
+        Line height: 25sp
+        <item name="android:textSize">
+            13sp
+        </item>
+
+        <item name="android:letterSpacing">
+            0.01
+        </item>
+
+        <item name="android:textColor">
+            #FFFFFF
+        </item>
+
+    </style>
+
 </resources>

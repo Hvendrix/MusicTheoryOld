@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.constraintlayout.widget.Group
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -148,7 +149,7 @@ class TestFragment : Fragment() {
                         binding.txtNumPick.visibility = View.VISIBLE
                         binding.btnAnswer.visibility = View.VISIBLE
                         binding.numberPicker2.visibility = View.VISIBLE
-                        binding.imgStave.visibility = View.VISIBLE
+                        binding.groupStave.visibility = View.VISIBLE
 
                         Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
 
@@ -431,7 +432,7 @@ class TestFragment : Fragment() {
                         binding.txtNumPick.visibility = View.VISIBLE
                         binding.signList.visibility = View.VISIBLE
                         binding.btnClear.visibility = View.VISIBLE
-                        binding.imgStave.visibility = View.VISIBLE
+                        binding.groupStave.visibility = View.VISIBLE
                         binding.txtNumPick.text = "Твой ответ будет:"
                         testFragmentViewModel.setCurrentNumPick(0)
                     }
@@ -468,6 +469,9 @@ class TestFragment : Fragment() {
                 .navigate(TestFragmentDirections.actionTestFragmentToResultFragment())
         }
 
+
+
+
         return binding.root
     }
 
@@ -482,7 +486,7 @@ class TestFragment : Fragment() {
         binding.signList.visibility = View.GONE
         binding.btnClear.visibility = View.GONE
         binding.btnClear.visibility = View.GONE
-        binding.imgStave.visibility = View.GONE
+        binding.groupStave.visibility = View.GONE
     }
 
 
