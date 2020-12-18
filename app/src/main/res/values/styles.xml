@@ -8,21 +8,29 @@
     </style>
 
 
+    <style name="NumPickTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@android:color/holo_orange_dark</item>
+        <item name="colorControlNormal">@color/mainBgColor</item>
+        <item name="android:textColorPrimary">@color/btnAnswerColor</item>
+        <item name="android:background">@color/btnsColor</item>
+        <item name="android:textSize">25sp</item>
+
+    </style>
+
+
+    <style name="btnsMainStyle">
+        <item name="android:colorBackground">#E9E8F1</item>
+    </style>
+
     <style name="btnTextStyle">
 
         Font family: Roboto
         Line height: 25sp
-        <item name="android:textSize">
-            13sp
-        </item>
+        <item name="android:textSize">13sp</item>
 
-        <item name="android:letterSpacing">
-            0.01
-        </item>
+        <item name="android:letterSpacing">0.01</item>
 
-        <item name="android:textColor">
-            #FFFFFF
-        </item>
+        <item name="android:textColor">#FFFFFF</item>
 
     </style>
 

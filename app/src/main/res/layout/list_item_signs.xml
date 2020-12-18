@@ -20,6 +20,7 @@
             android:layout_width="94dp"
             android:layout_height="50dp"
             android:text="Button"
+            android:background="@drawable/bg_btn_answer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

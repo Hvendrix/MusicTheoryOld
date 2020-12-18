@@ -3,4 +3,11 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="btnsColor">#E9E8F1</color>
+    <color name="btnsColorPressed">#C4C4C4</color>
+    <color name="btnAnswerColor">#1B1464</color>
+    <color name="mainBgColor">#FFFFFF</color>
+    <color name="secondColor">#FF8F5E</color>
+
 </resources>

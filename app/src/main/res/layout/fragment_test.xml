@@ -23,10 +23,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="@{testFragmentViewModel.testString.stroka}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="stroka" />
@@ -38,76 +39,73 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="@{testFragmentViewModel.question}"
+            app:layout_constraintBottom_toTopOf="@+id/guideline3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             tools:text="question" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sign_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="40dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/txtNumPick"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
         <Button
             android:id="@+id/btnAns0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="40dp"
             android:onClick="@{() -> testFragmentViewModel.onClickAnswer(0)}"
             android:text="@{testFragmentViewModel.btnText[0]}"
-            app:layout_constraintBottom_toTopOf="@+id/btnAns1"
+            app:layout_constraintBottom_toBottomOf="@+id/btnAns1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.06999999"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintTop_toTopOf="@+id/btnAns1" />
 
         <Button
             android:id="@+id/btnAns2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
             android:onClick="@{() -> testFragmentViewModel.onClickAnswer(2)}"
             android:text="@{testFragmentViewModel.btnText[2]}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnAns1" />
+            app:layout_constraintBottom_toTopOf="@+id/guideline5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnAns1"
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
         <Button
             android:id="@+id/btnAns1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="44dp"
             android:onClick="@{() -> testFragmentViewModel.onClickAnswer(1)}"
             android:text="@{testFragmentViewModel.btnText[1]}"
-            app:layout_constraintBottom_toTopOf="@+id/btnAns2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnAns0" />
-
+            app:layout_constraintBottom_toBottomOf="@+id/btnAns2"
+            app:layout_constraintStart_toEndOf="@+id/btnAns0"
+            app:layout_constraintTop_toTopOf="@+id/btnAns2"
+            app:layout_constraintVertical_bias="0.0" />
 
         <NumberPicker
             android:id="@+id/numberPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:width="100dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/txtNumPick"
+            android:selectionDividerHeight="3dp"
+            android:theme="@style/NumPickTheme"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
             app:layout_constraintEnd_toStartOf="@+id/numberPicker2"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
         <NumberPicker
             android:id="@+id/numberPicker2"
@@ -115,7 +113,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:width="100dp"
+            android:selectionDividerHeight="3dp"
             android:orientation="vertical"
+            android:theme="@style/NumPickTheme"
             app:layout_constraintBottom_toBottomOf="@+id/numberPicker"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/numberPicker"
@@ -126,36 +126,37 @@
             android:id="@+id/txtNumPick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="176dp"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="72dp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.728"
+            app:layout_constraintStart_toEndOf="@+id/txtYourAns"
+            app:layout_constraintTop_toTopOf="@+id/guideline5"
             tools:text="numPickTxt" />
 
         <Button
             android:id="@+id/btnAnswer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginStart="184dp"
             android:background="@drawable/bg_btn_answer"
             android:fontFamily="sans-serif"
             android:onClick="@{() -> testFragmentViewModel.onClickAnswer(testFragmentViewModel.currentNumPick)}"
             android:text="@string/Reply"
             android:textAppearance="@style/btnTextStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtNumPick" />
-
+            app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
         <Button
             android:id="@+id/btnClear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="24dp"
             android:text="Сбросить"
             app:layout_constraintBottom_toBottomOf="@+id/btnAnswer"
-            app:layout_constraintStart_toEndOf="@+id/btnAnswer" />
+            app:layout_constraintEnd_toStartOf="@+id/btnAnswer" />
 
         <Button
             android:id="@+id/button"
@@ -185,23 +186,22 @@
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupStave"
             android:layout_width="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="imgStave, imgTrebleClef"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="imgStave, imgTrebleClef" />
+
 
         <ImageView
             android:id="@+id/imgStave"
             android:layout_width="match_parent"
             android:layout_height="123dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/guideline5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtNumPick"
-            app:layout_constraintVertical_bias="0.911"
+            app:layout_constraintTop_toTopOf="@+id/guideline8"
             app:srcCompat="@drawable/stave1" />
 
         <ImageView
@@ -215,6 +215,44 @@
             app:layout_constraintTop_toTopOf="@+id/imgStave"
             app:layout_constraintVertical_bias="0.593"
             app:srcCompat="@drawable/treble_clef" />
+
+        <TextView
+            android:id="@+id/txtYourAns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Твой ответ:"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtNumPick"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.8" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.59" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

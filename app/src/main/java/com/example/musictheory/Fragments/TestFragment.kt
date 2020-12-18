@@ -84,7 +84,8 @@ class TestFragment : Fragment() {
 //        })
 
         Signs.TestString.observe(viewLifecycleOwner, Observer {
-            binding.txtNumPick.text = "Твой ответ будет: ${it}"
+            binding.txtNumPick.text = "${it}"
+//            binding.txtNumPick.text = "Твой ответ будет: ${it}"
         })
 
         binding.btnClear.setOnClickListener {
@@ -114,7 +115,8 @@ class TestFragment : Fragment() {
                         binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
                         binding.numberPicker.maxValue =
                             testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
-                        binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(0)}"
+                        binding.txtNumPick.text = "${testFragmentViewModel.btnText.value?.get(0)}"
+//                        binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(0)}"
                         observeForNumPick(binding, testFragmentViewModel, 1)
                         testFragmentViewModel.setCurrentNumPick(0)
                         hideAll(binding)
@@ -141,7 +143,8 @@ class TestFragment : Fragment() {
                         //ужас
                         testFragmentViewModel.setCurrentNumPick(0)
                         val text = "${testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0).toString()}-${testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(0).toString()}"
-                        binding.txtNumPick.text = "Твой ответ будет: ${text}"
+                        binding.txtNumPick.text = "${text}"
+//                        binding.txtNumPick.text = "Твой ответ будет: ${text}"
                         testFragmentViewModel.setCurrentAnswer(text)
 
                         //далее тоже ужас, но не настолько
@@ -433,7 +436,8 @@ class TestFragment : Fragment() {
                         binding.signList.visibility = View.VISIBLE
                         binding.btnClear.visibility = View.VISIBLE
                         binding.groupStave.visibility = View.VISIBLE
-                        binding.txtNumPick.text = "Твой ответ будет:"
+                        binding.txtNumPick.text = ""
+//                        binding.txtNumPick.text = "Твой ответ будет:"
                         testFragmentViewModel.setCurrentNumPick(0)
                     }
                     "buttons" -> {
@@ -506,7 +510,9 @@ class TestFragment : Fragment() {
                         }
                     } else text = ""
                     binding.txtNumPick.text =
-                        "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
+                        "${testFragmentViewModel.btnText.value?.get(newVal)} $text"
+//                    binding.txtNumPick.text =
+//                        "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
                     testFragmentViewModel.setCurrentNumPick(newVal)
                 }
             }
@@ -520,7 +526,9 @@ class TestFragment : Fragment() {
                     text1 = testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(newVal).toString()
                     text = "$text1-$text2"
                     binding.txtNumPick.text =
-                        "Твой ответ будет: $text"
+                        "$text"
+//                    binding.txtNumPick.text =
+//                        "Твой ответ будет: $text"
                     testFragmentViewModel.setCurrentAnswer(text)
 //                    updateSignsInLineList(text1, text2)
                 }
@@ -528,7 +536,9 @@ class TestFragment : Fragment() {
                     text2 = testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(newVal).toString()
                     text = "$text1-$text2"
                     binding.txtNumPick.text =
-                        "Твой ответ будет: $text"
+                        "$text"
+//                    binding.txtNumPick.text =
+//                        "Твой ответ будет: $text"
                     testFragmentViewModel.setCurrentAnswer(text)
 //                    updateSignsInLineList(text1, text2)
                 }

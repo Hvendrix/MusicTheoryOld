@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.view.marginStart
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -56,9 +58,9 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
         fun bind(item: String, position: Int, item2: Int) {
             Log.i("ttt", "bind")
             btnName.text = item
+            btnName.setBackgroundResource(R.drawable.bg_btn_answer)
+            btnName.setBackgroundColor(binding.root.resources.getColor(R.color.btnsColor));
             btnName.setOnClickListener {
-//                btnName.text = "qe"
-
                 Signs.addInList(item, position)
 
                 val signType = Signs.currentSignTypeInSigns[0].toLowerCase()
@@ -84,7 +86,9 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
             when (item2) {
                 1 -> {
                     btnName.isEnabled = true
-                    btnName.setBackgroundColor(Color.GRAY)
+//                    btnName.setBackgroundColor(Color.GRAY)
+//                    btnName.setBackgroundColor()
+//                    btnName.setBackgroundColor(binding.root.resources.getColor(R.color.btnsColorPressed));
                 }
                 0 -> {
                     btnName.isEnabled = false
