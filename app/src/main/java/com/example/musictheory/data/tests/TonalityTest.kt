@@ -64,7 +64,7 @@ object TonalityTest : TestInterface {
         _currentTonality.value = allTonality[0]
         _parallelTonality.value = ""
         // Дебагинг
-//        _currentTonality.value = Tonality.G
+        _currentTonality.value = Tonality.G
     }
 
 
@@ -195,13 +195,20 @@ object TonalityTest : TestInterface {
 
 
     override fun getQuestion(): String? {
-        _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n(${_currentTonality.value?.rusName})"+ "\n"+
-                "${_parallelTonality.value}" +
+//        _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n(${_currentTonality.value?.rusName})"+ "\n"+
+//                "${_parallelTonality.value}" +
+//                _currentQuestNum.value?.let {
+//            _allInterQuestions.value?.get(
+//                it
+//            )
+//        }
+
+        _currentQuestion.value =
                 _currentQuestNum.value?.let {
-            _allInterQuestions.value?.get(
-                it
-            )
-        }
+                    _allInterQuestions.value?.get(
+                        it
+                    )
+                }
         return _currentQuestion.value
     }
 
@@ -217,6 +224,7 @@ object TonalityTest : TestInterface {
         if(_currentQuestNum.value == 2 && upperTest() =="Да"){
             _upperTestBool.value = false
             _parallelTonality.value = "Параллельный мажор: ${_currentTonality.value?.parallTon.toString()} - dur"
+            _currentTonality.value = _currentTonality.value?.parallTonRef
         } else if(_upperTestBool.value!! && upperTest() =="Нет"){
             _upperTestBool.value = false
             _currentQuestNum.value = _currentQuestNum.value?.plus(2)

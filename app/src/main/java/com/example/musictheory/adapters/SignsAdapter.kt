@@ -18,6 +18,7 @@ import com.example.musictheory.R
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.databinding.ListItemSignsBinding
+import com.example.musictheory.models.TestFragmentViewModel
 import kotlin.math.sign
 
 class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
@@ -35,6 +36,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
             notifyDataSetChanged()
             Log.i("ttt", "notifydata2")
         }
+
 
 
     override fun getItemCount(): Int = data.size
@@ -57,6 +59,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
         fun bind(item: String, position: Int, item2: Int) {
             Log.i("ttt", "bind")
+
             btnName.text = item
             btnName.setBackgroundResource(R.drawable.bg_btn_basic)
             btnName.setOnClickListener {

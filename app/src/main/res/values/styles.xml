@@ -2,9 +2,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/thirdColor</item>
+        <item name="colorPrimaryDark">@color/secondColor</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">13sp</item>
+
     </style>
 
 
@@ -13,9 +15,13 @@
         <item name="colorControlNormal">@color/mainBgColor</item>
         <item name="android:textColorPrimary">@color/btnAnswerColor</item>
         <item name="android:background">@color/btnsColor</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:layout_width">45dp</item>
+        <item name="android:height">105dp</item>
+        <item name="android:textSize">13sp</item>
 
     </style>
+
+
 
 
     <style name="btnsMainStyle">

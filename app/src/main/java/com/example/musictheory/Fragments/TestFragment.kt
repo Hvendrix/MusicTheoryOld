@@ -8,14 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.constraintlayout.widget.Group
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musictheory.R
-import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.data.tests.TonalityTest
@@ -96,6 +94,14 @@ class TestFragment : Fragment() {
 
 
         testFragmentViewModel.onClearRecView(adapter)
+
+
+
+        binding.btnTxtTonFirst.setOnClickListener {
+            Signs.getOne() ?: Log.i("xxx", "something wrong xx = ${Signs.x1.value}   ${Signs.x2}")
+            Signs.x2++
+            Log.i("xxx", "values xx = ${Signs.x1.value}   ${Signs.x2}")
+        }
 
 
         hideAll(binding)
@@ -399,7 +405,7 @@ class TestFragment : Fragment() {
                                     var choiceImg = 0
                                     var vertChang = 0f
                                     when (i.third) {
-                                        "диезы", "диез" -> choiceImg = R.drawable.sharp
+                                        "диезы", "диез" -> choiceImg = R.drawable.sharp2
                                         "бекар" -> choiceImg = R.drawable.bekar
                                         "бемоли", "бемоль" -> {
                                             choiceImg = R.drawable.bemol

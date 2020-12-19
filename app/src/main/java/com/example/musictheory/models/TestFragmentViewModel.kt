@@ -2,6 +2,7 @@ package com.example.musictheory.models
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -196,12 +197,12 @@ class TestFragmentViewModel(
                 _listErrors.value?.add("Твой ответ неверный: s")
             }
 //            _recViewBool.value = null
-//            printErrors()
+            printErrors()
             Signs.clearEnabled()
         }
         _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
         _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
-        _parallelTonality.value = _currentTonality.value.parallTon.toString()
+        _parallelTonality.value = _currentTonality.value?.parallTonRef
 
     }
 
@@ -218,7 +219,8 @@ class TestFragmentViewModel(
 
 
     private fun printErrors() {
-        _question.value = _listErrors.value?.get(0) + "\n" + _currentTest.value?.getQuestion()
+        Toast.makeText(getApplication(), "Неправильный ответ(", Toast.LENGTH_SHORT).show()
+//        _question.value = _listErrors.value?.get(0) + "\n" + _currentTest.value?.getQuestion()
     }
 
 
