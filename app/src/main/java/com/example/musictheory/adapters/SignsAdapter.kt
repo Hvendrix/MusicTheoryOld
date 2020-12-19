@@ -58,8 +58,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
         fun bind(item: String, position: Int, item2: Int) {
             Log.i("ttt", "bind")
             btnName.text = item
-            btnName.setBackgroundResource(R.drawable.bg_btn_answer)
-            btnName.setBackgroundColor(binding.root.resources.getColor(R.color.btnsColor));
+            btnName.setBackgroundResource(R.drawable.bg_btn_basic)
             btnName.setOnClickListener {
                 Signs.addInList(item, position)
 

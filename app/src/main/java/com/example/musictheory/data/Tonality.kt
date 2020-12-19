@@ -1,6 +1,6 @@
 package com.example.musictheory.data
 
-enum class Tonality(val signCount: Int, val signType: String, val mollDur: String, val parallTon: String, val rusName: String, val harmNote:String) {
+enum class Tonality(val signCount: Int, val signType: String, val mollDur: String, val parallTon: Tonality, val rusName: String, val harmNote:String) {
 //    C(0, "Пусто", "a", "До Мажор"),
 //    a(0, "Пусто", "C", "Ля Минор"),
     G(1, "Диезы",  "dur","e", "соль мажор", "ми-бемоль"),

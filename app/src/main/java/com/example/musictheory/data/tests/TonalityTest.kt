@@ -196,7 +196,7 @@ object TonalityTest : TestInterface {
 
     override fun getQuestion(): String? {
         _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n(${_currentTonality.value?.rusName})"+ "\n"+
-                "${_parallelTonality.value}" + "\n\n" +
+                "${_parallelTonality.value}" +
                 _currentQuestNum.value?.let {
             _allInterQuestions.value?.get(
                 it

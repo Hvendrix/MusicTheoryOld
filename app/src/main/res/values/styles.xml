@@ -22,10 +22,20 @@
         <item name="android:colorBackground">#E9E8F1</item>
     </style>
 
-    <style name="btnTextStyle">
 
-        Font family: Roboto
-        Line height: 25sp
+    <style name="btnTextSecond">
+        <item name="fontFamily">Roboto</item>
+
+        <item name="android:textSize">13sp</item>
+
+        <item name="android:letterSpacing">0.01</item>
+
+        <item name="android:textColor">@color/btnAnswerColor</item>
+    </style>
+
+    <style name="btnTextStyle">
+        <item name="fontFamily">Roboto</item>
+
         <item name="android:textSize">13sp</item>
 
         <item name="android:letterSpacing">0.01</item>

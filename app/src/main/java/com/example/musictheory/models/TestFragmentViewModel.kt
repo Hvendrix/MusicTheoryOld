@@ -38,7 +38,7 @@ class TestFragmentViewModel(
     private var _recViewBool = MutableLiveData<Boolean>()
     var testString = MutableLiveData<Answer?>()
     private var _currentTonality = MutableLiveData<Tonality>()
-
+    private var _parallelTonality = MutableLiveData<Tonality>()
     val adapter = SignsAdapter()
 
 
@@ -73,6 +73,13 @@ class TestFragmentViewModel(
 
     val interfaceType: LiveData<String>
         get() = _interfaceType
+
+
+    val currentTonality: LiveData<Tonality>
+        get() = _currentTonality
+
+    val parallelTonality: LiveData<Tonality>
+        get() = _parallelTonality
 
 
     init {
@@ -186,14 +193,16 @@ class TestFragmentViewModel(
 //            _staticSignInStave.value = mutableListOf()
         } else {
             _correctAnswer.value?.let {
-                _listErrors.value?.add("Твой ответ неверный: ")
+                _listErrors.value?.add("Твой ответ неверный: s")
             }
 //            _recViewBool.value = null
-            printErrors()
+//            printErrors()
             Signs.clearEnabled()
         }
         _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
         _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
+        _parallelTonality.value = _currentTonality.value.parallTon.toString()
+
     }
 
     fun onClickTonality(num: Int) {
