@@ -62,6 +62,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
             btnName.text = item
             btnName.setBackgroundResource(R.drawable.bg_btn_basic)
+
             btnName.setOnClickListener {
                 Signs.addInList(item, position)
 

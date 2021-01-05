@@ -12,8 +12,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.musictheory.R
+import com.example.musictheory.adapters.SignItemDecoration
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.data.tests.TonalityTest
@@ -60,6 +63,11 @@ class TestFragment : Fragment() {
         val adapter = testFragmentViewModel.adapter
 
         binding.signList.adapter = adapter
+
+//        binding.signList.addItemDecoration(DividerItemDecoration(context, 48))
+//        binding.signList.addItemDecoration(SignItemDecoration(489))
+//        binding.signList.addItemDecoration(DividerItemDecoration(context, GridLayoutManager.VERTICAL))
+
 
         Signs.signList.observe(viewLifecycleOwner, Observer {
             adapter.data = it

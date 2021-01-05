@@ -16,9 +16,10 @@
         >
 
         <Button
+            android:layout_margin="20dp"
             android:id="@+id/btnSign"
-            android:layout_width="94dp"
-            android:layout_height="50dp"
+            android:layout_width="63dp"
+            android:layout_height="38dp"
             android:text="Button"
             android:background="@drawable/bg_btn_answer"
             app:layout_constraintStart_toStartOf="parent"
