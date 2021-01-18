@@ -1,25 +1,15 @@
 package com.example.musictheory.adapters
 
 import android.graphics.Color
-import android.text.TextUtils.indexOf
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
-import androidx.core.view.marginStart
-import androidx.core.view.setPadding
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musictheory.Activities.MainActivity
 import com.example.musictheory.R
 import com.example.musictheory.data.Signs
-import com.example.musictheory.data.Tonality
 import com.example.musictheory.databinding.ListItemSignsBinding
 import com.example.musictheory.models.TestFragmentViewModel
-import kotlin.math.sign
 
 class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
@@ -37,14 +27,19 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
             Log.i("ttt", "notifydata2")
         }
 
+    lateinit var viewModel : TestFragmentViewModel
+
+
 
 
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val item = data[position]
         val item2 = data2[position]
-        holder.bind(item, position, item2)
+        val viewModel = viewModel
+        holder.bind(item, position, item2, viewModel)
 
     }
 
@@ -57,7 +52,12 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
         private val btnName: Button = itemView.findViewById(R.id.btnSign)
 
 
-        fun bind(item: String, position: Int, item2: Int) {
+        fun bind(
+            item: String,
+            position: Int,
+            item2: Int,
+            viewModel: TestFragmentViewModel
+        ) {
             Log.i("ttt", "bind")
 
             btnName.text = item
@@ -66,16 +66,27 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
             btnName.setOnClickListener {
                 Signs.addInList(item, position)
 
+
                 val signType = Signs.currentSignTypeInSigns[0].toLowerCase()
                 val numInRange = Signs.listInOrder.size.toFloat()
-                Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, signType) as Triple<Float, Float, String>)
-                Signs._signsInStave.value = Signs._signsInStave.value
-                for((x, i) in Signs._signsInStave.value!!.withIndex()){
+
+//                Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, signType) as Triple<Float, Float, String>)
+//                Signs._signsInStave.value = Signs._signsInStave.value
+
+                viewModel.signInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, signType) as Triple<Float, Float, String>)
+                viewModel.updateStave()
+//                viewModel.signInStave.value = viewModel.signInStave.value
+
+
+//                for((x, i) in Signs._signsInStave.value!!.withIndex()){
+//                    Log.i("ttt", "Triple in Adapter ${i.first} $x name is $item")
+//                }
+                for((x, i) in viewModel.signInStave.value!!.withIndex()){
                     Log.i("ttt", "Triple in Adapter ${i.first} $x name is $item")
                 }
-                Log.i("ttt", "${Signs._signsInStave.value?.get(0)?.third}")
+//                Log.i("ttt", "${Signs._signsInStave.value?.get(0)?.third}")
                 Signs.listEnabled[position] = 0
-                Log.i("xxx", "current sign type = $signType")
+//                Log.i("xxx", "current sign type = $signType")
                 if(signType!=("дветерции")){
                     Signs.listDataEnabled.value?.set(position, 0)
                     btnName.setBackgroundColor(Color.LTGRAY)

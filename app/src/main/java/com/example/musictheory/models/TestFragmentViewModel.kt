@@ -66,6 +66,10 @@ class TestFragmentViewModel(
         get() = _specificBtnText
 
 
+    val signInStave: LiveData<MutableList<Triple<Float, Float, String>>>
+    get() = _signInStave
+
+
     val staticSignInStave: LiveData<MutableList<Triple<Float, Float, String>>>
         get() = _staticSignInStave
 
@@ -96,6 +100,10 @@ class TestFragmentViewModel(
         _interfaceType.value = setInterfaceType()
 
 
+    }
+
+    fun updateStave(){
+        _signInStave.value = _signInStave.value
     }
 
 
@@ -161,12 +169,13 @@ class TestFragmentViewModel(
 //            numPickTest()
 //            recyclerViewTest()
             Signs.clearEnabled()
-            Signs._signsInStave.value = mutableListOf()
+//            Signs._signsInStave.value = mutableListOf()
+            _signInStave.value = mutableListOf()
 //            _recViewBool.value = true
             _interfaceType.value = setInterfaceType()
-            _staticSignInStave.value?.forEach {
-                Log.i("xxx"," ${it.first}   ${it.second}    ${it.third}" )
-            }
+//            _staticSignInStave.value?.forEach {
+//                Log.i("xxx"," ${it.first}   ${it.second}    ${it.third}" )
+//            }
 
         } else if (_correctAnswer.value == _btnText.value?.get(num)) {
             _navigateToResult.value = null
@@ -177,7 +186,8 @@ class TestFragmentViewModel(
 //            numPickTest()
 //            recyclerViewTest()
 //            _recViewBool.value = null
-            Signs._signsInStave.value = mutableListOf()
+//            Signs._signsInStave.value = mutableListOf()
+            _signInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
 //            _staticSignInStave.value = mutableListOf()
         } else if (_correctAnswer.value == _currentAnswer.value) {
@@ -189,7 +199,8 @@ class TestFragmentViewModel(
 //            numPickTest()
 //            recyclerViewTest()
 //            _recViewBool.value = null
-            Signs._signsInStave.value = mutableListOf()
+//            Signs._signsInStave.value = mutableListOf()
+            _signInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
 //            _staticSignInStave.value = mutableListOf()
         } else {
@@ -199,6 +210,7 @@ class TestFragmentViewModel(
 //            _recViewBool.value = null
             printErrors()
             Signs.clearEnabled()
+            _signInStave.value = mutableListOf()
         }
         _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
         _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
@@ -268,7 +280,8 @@ class TestFragmentViewModel(
     }
 
     fun onClickRecView() {
-        _signInStave.value = Signs._signsInStave.value
+//        _signInStave.value = Signs._signsInStave.value
+        _signInStave.value = _signInStave.value
     }
 
     fun onClearRecView(adapter: SignsAdapter) {

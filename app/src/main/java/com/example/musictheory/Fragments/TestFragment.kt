@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -70,6 +71,7 @@ class TestFragment : Fragment() {
 
 
         Signs.signList.observe(viewLifecycleOwner, Observer {
+            adapter.viewModel = testFragmentViewModel
             adapter.data = it
             adapter.notifyDataSetChanged()
         })
@@ -168,7 +170,9 @@ class TestFragment : Fragment() {
                         binding.numberPicker2.visibility = View.VISIBLE
                         binding.groupStave.visibility = View.VISIBLE
 
-                        Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
+                        Toast.makeText(context, "ttttttttttt", Toast.LENGTH_SHORT).show()
+                        testFragmentViewModel.signInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
+                            Toast.makeText(context, "asd", Toast.LENGTH_SHORT).show()
 
                             signTripleList?.let{
 
@@ -180,6 +184,7 @@ class TestFragment : Fragment() {
                                     }
                                 }
                                 for(i in signTripleList){
+                                    Toast.makeText(context, "tttttt   ${i.first}  ${i.second} ${i.third}", Toast.LENGTH_SHORT).show()
                                     Log.i("xxx", "yes observe it")
                                     var choiceImg = 0
                                     var vertChang = 0f
@@ -289,7 +294,7 @@ class TestFragment : Fragment() {
                     "table" -> {
                         hideAll(binding)
 
-                        Signs.signsInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
+                        testFragmentViewModel.signInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
                             signTripleList?.let{
                                 if(signTripleList.isEmpty()){
                                     for(i in notesViewInLineList){
@@ -413,7 +418,7 @@ class TestFragment : Fragment() {
                                     var choiceImg = 0
                                     var vertChang = 0f
                                     when (i.third) {
-                                        "диезы", "диез" -> choiceImg = R.drawable.sharp2
+                                        "диезы", "диез" -> choiceImg = R.drawable.sharp
                                         "бекар" -> choiceImg = R.drawable.bekar
                                         "бемоли", "бемоль" -> {
                                             choiceImg = R.drawable.bemol
@@ -566,6 +571,8 @@ class TestFragment : Fragment() {
 
     private fun updateSignsInLineList(text1: String, text2: String) {
         Signs._signsInStave.value = mutableListOf()
+
+
         Signs._signsInStave.value?.add(
             Triple(
                 Signs.noteInOrderInLines.get(text1),
