@@ -88,7 +88,7 @@ class TestFragmentViewModel(
 
 
     init {
-        _currentTest.value = TonalityTest
+        _currentTest.value = TritonTest
         _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
         _question.value = (_currentTest.value as TestInterface).getQuestion()
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()

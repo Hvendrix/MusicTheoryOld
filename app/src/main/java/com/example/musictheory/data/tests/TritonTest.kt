@@ -49,7 +49,7 @@ object TritonTest: TestInterface {
         allTonality.shuffle()
         _currentTonality.value = allTonality[0]
         // Дебагинг
-//        _currentTonality.value = Tonality.G
+        _currentTonality.value = Tonality.B
     }
 
 
@@ -99,7 +99,7 @@ object TritonTest: TestInterface {
 
 
     override fun getQuestion(): String? {
-        _currentQuestion.value = "Текущая тональность:" + "${_currentTonality.value?.name}" + "\n" +
+        _currentQuestion.value =
                 _currentQuestNum.value?.let {
                     _allInterQuestions.value?.get(
                         it

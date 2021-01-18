@@ -17,10 +17,13 @@ object Signs {
         1f to 0.785f,
         1.5f to 0.695f,
         2f to 0.625f,
-        2.5f to 0.525f,
-        3f to 0.415f,
-        3.5 to 0.335f,
-        4 to 0.235f
+        2.5f to 0.545f,
+        3f to 0.505f,
+        3.5f to 0.445f,
+        4f to 0.390f,
+        4.5f to 0.340f,
+        5f to 0.295f,
+        5.5f to 0.235f
     )
     var positionInStaveHorizont = mutableMapOf(
         1f to 0.255f,
@@ -41,17 +44,7 @@ object Signs {
         6f to 0.525f,
         7f to 0.600f
     )
-    var positionVertKeySignature = mutableMapOf(
-        -1f to 0.335f,
-        -0.5f to 0.235f,
-        1f to 0.785f,
-        1.5f to 0.695f,
-        2f to 0.625f,
-        2.5f to 0.525f,
-        3f to 0.415f,
-        3.5 to 0.335f,
-        4 to 0.235f
-    )
+
     var _signsInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
     var noteInOrderInLines = mapOf(
         "До" to -1f,
@@ -61,13 +54,25 @@ object Signs {
         "Соль" to 2f,
         "Ля" to 2.5f,
         "Си" to 3f,
+        "До2" to 3.5f,
+        "Ре2" to 4f,
+        "Ми2" to 4.5f,
+        "Фа2" to 5f,
+        "Соль2" to 5.5f,
         "до" to -1f,
         "ре" to -0.5f,
         "ми" to 1f,
         "фа" to 1.5f,
         "соль" to 2f,
         "ля" to 2.5f,
-        "си" to 3f
+        "си" to 3f,
+        "до2" to 3.5f,
+        "ре2" to 4f,
+        "ми2" to 4.5f,
+        "фа2" to 5f,
+        "соль2" to 5.5f,
+
+
     )
 
 

@@ -242,7 +242,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/imgStave"
             app:layout_constraintTop_toTopOf="@+id/imgStave"
-            app:layout_constraintVertical_bias="0.593"
+            app:layout_constraintVertical_bias="0.573"
             app:srcCompat="@drawable/treble_clef" />
 
         <TextView

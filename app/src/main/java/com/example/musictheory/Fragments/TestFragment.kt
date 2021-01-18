@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -170,213 +171,19 @@ class TestFragment : Fragment() {
                         binding.numberPicker2.visibility = View.VISIBLE
                         binding.groupStave.visibility = View.VISIBLE
 
-                        Toast.makeText(context, "ttttttttttt", Toast.LENGTH_SHORT).show()
-                        testFragmentViewModel.signInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
 
-                            signTripleList?.let{
-
-                                if(signTripleList.isEmpty()){
-                                    for(i in notesViewInLineList){
-//                        binding.constraintLayout.removeViewAt(i)
-                                        Log.i("ttt", "remove index $i")
-                                        binding.constraintLayout.removeView(i)
-                                    }
-                                }
-                                for(i in signTripleList){
-                                    Toast.makeText(context, "tttttt   ${i.first}  ${i.second} ${i.third}", Toast.LENGTH_SHORT).show()
-                                    Log.i("xxx", "yes observe it")
-                                    var choiceImg = 0
-                                    var vertChang = 0f
-                                    when (i.third) {
-                                        "диезы", "диез" -> choiceImg = R.drawable.sharp
-                                        "бекар" -> choiceImg = R.drawable.bekar
-                                        "бемоли", "бемоль" -> {
-                                            choiceImg = R.drawable.bemol
-                                            vertChang = -0.05f
-
-                                        }
-                                        "целая" -> choiceImg = R.drawable.int_note
-                                        "целаятрезвучие" -> {
-                                            Log.i("xxx", "start")
-                                            choiceImg = R.drawable.int_note
-                                            val noteView = ImageView(this.context)
-                                            noteView.id = View.generateViewId()
-                                            notesViewInLineList.add(noteView)
-                                            noteView.setImageResource(choiceImg)
-                                            binding.constraintLayout.addView(noteView)
-                                            noteView.layoutParams.height = 52
-                                            noteView.layoutParams.width = 52
-                                            val set = ConstraintSet()
-                                            set.clone(binding.constraintLayout)
-                                            set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
-                                            set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
-                                            set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
-                                            set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-                                            set.setHorizontalBias(noteView.id, 0.9f)
-                                            set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
-                                            set.applyTo(binding.constraintLayout)
-                                            Log.i("xxx", "stop")
-                                            continue
-                                        }
-                                        "дветерции" ->{
-                                            choiceImg = R.drawable.int_note
-                                        }
-                                        "диезыприключе" ->{
-                                            choiceImg = R.drawable.sharp
-                                        }
-                                        "бемолиприключе" ->{
-                                            choiceImg = R.drawable.bemol
-                                            vertChang = -0.05f
-                                        }
-                                    }
-                                    createSignView(binding, choiceImg, notesViewInLineList, i, vertBias = vertChang)
-
-//                                    Log.i("xxx", "next")
-//                                    val noteView = ImageView(this.context)
-//                                    noteView.id = View.generateViewId()
-//                                    notesViewInLineList.add(noteView)
-//                                    noteView.setImageResource(choiceImg)
-//                                    binding.constraintLayout.addView(noteView)
-//                                    noteView.layoutParams.height = 52
-//                                    noteView.layoutParams.width = 52
-//                                    val set = ConstraintSet()
-//                                    set.clone(binding.constraintLayout)
-//                                    set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
-//                                    set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
-//                                    set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
-//                                    set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-//                                    set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
-//                                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
-//                                    set.applyTo(binding.constraintLayout)
-                                }
-
-                            }
-                        })
+                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
 
 
                     }
                     "table" -> {
                         hideAll(binding)
 
-                        testFragmentViewModel.signInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
-                            signTripleList?.let{
-                                if(signTripleList.isEmpty()){
-                                    for(i in notesViewInLineList){
-//                        binding.constraintLayout.removeViewAt(i)
-                                        Log.i("ttt", "remove index $i")
-                                        binding.constraintLayout.removeView(i)
-                                    }
-                                }
-                                for(i in signTripleList){
-                                    var choiceImg = 0
-                                    var vertChang = 0f
-                                    when (i.third) {
-                                        "диезы", "диез" -> choiceImg = R.drawable.sharp
-                                        "бекар" -> choiceImg = R.drawable.bekar
-                                        "бемоли", "бемоль" -> {
-                                            choiceImg = R.drawable.bemol
-                                            vertChang = -0.05f
-                                        }
-                                        "целая" -> choiceImg = R.drawable.int_note
-                                        "целаятрезвучие" -> {
-                                            Log.i("xxx", "start")
-                                            choiceImg = R.drawable.int_note
-                                            val noteView = ImageView(this.context)
-                                            noteView.id = View.generateViewId()
-                                            notesViewInLineList.add(noteView)
-                                            noteView.setImageResource(choiceImg)
-                                            binding.constraintLayout.addView(noteView)
-                                            noteView.layoutParams.height = 52
-                                            noteView.layoutParams.width = 52
-                                            val set = ConstraintSet()
-                                            set.clone(binding.constraintLayout)
-                                            set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
-                                            set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
-                                            set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
-                                            set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-                                            set.setHorizontalBias(noteView.id, 0.9f)
-                                            set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
-                                            set.applyTo(binding.constraintLayout)
-                                            Log.i("xxx", "stop")
-                                            continue
-                                        }
-                                        "дветерции" ->{
-                                            choiceImg = R.drawable.int_note
-                                        }
-                                        "диезыприключе" ->{
-                                            choiceImg = R.drawable.sharp
-                                        }
-                                        "бемолиприключе" ->{
-                                            vertChang = -0.05f
-                                            choiceImg = R.drawable.bemol
-                                        }
-                                    }
+                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
 
-                                    createSignView(binding, choiceImg, notesViewInLineList, i, vertBias = vertChang)
-//                                    val noteView = ImageView(this.context)
-//                                    noteView.id = View.generateViewId()
-//                                    notesViewInLineList.add(noteView)
-//                                    noteView.setImageResource(choiceImg)
-//                                    binding.constraintLayout.addView(noteView)
-//                                    noteView.layoutParams.height = 52
-//                                    noteView.layoutParams.width = 52
-//                                    val set = ConstraintSet()
-//                                    set.clone(binding.constraintLayout)
-//                                    set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
-//                                    set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
-//                                    set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
-//                                    set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-//                                    set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
-//                                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
-//                                    set.applyTo(binding.constraintLayout)
-                                }
 
-                            }
-                        })
-                        
+                        observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
 
-                        testFragmentViewModel.staticSignInStave.observe(viewLifecycleOwner, Observer { signTripleList ->
-                            signTripleList?.let{
-                                if(signTripleList.isEmpty()){
-                                    for(i in staticNotesViewInLineList){
-                                        binding.constraintLayout.removeView(i)
-                                    }
-                                }
-                                for(i in signTripleList){
-                                    var choiceImg = 0
-                                    var vertChang = 0f
-                                    when (i.third) {
-                                        "диезы", "диез" -> choiceImg = R.drawable.sharp
-                                        "бекар" -> choiceImg = R.drawable.bekar
-                                        "бемоли", "бемоль" -> {
-                                            choiceImg = R.drawable.bemol
-                                            vertChang = -0.05f
-                                        }
-                                        "целая" -> choiceImg = R.drawable.int_note
-                                        "дветерции" ->{
-                                            choiceImg = R.drawable.int_note
-                                        }
-                                    }
-                                    val noteView = ImageView(this.context)
-                                    noteView.id = View.generateViewId()
-                                    staticNotesViewInLineList.add(noteView)
-                                    noteView.setImageResource(choiceImg)
-                                    binding.constraintLayout.addView(noteView)
-                                    noteView.layoutParams.height = 52
-                                    noteView.layoutParams.width = 52
-                                    val set = ConstraintSet()
-                                    set.clone(binding.constraintLayout)
-                                    set.connect(noteView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)
-                                    set.connect(noteView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
-                                    set.connect(noteView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
-                                    set.connect(noteView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-                                    set.setHorizontalBias(noteView.id, Signs.positionInStaveHorizont[i.second]!!)
-                                    set.setVerticalBias(noteView.id, Signs.positionInStaveVert[i.first]!! + vertChang)
-                                    set.applyTo(binding.constraintLayout)
-                                }
-
-                            }
-                        })
 
                         binding.btnAnswer.visibility = View.VISIBLE
                         binding.txtNumPick.visibility = View.VISIBLE
@@ -426,6 +233,8 @@ class TestFragment : Fragment() {
         return binding.root
     }
 
+
+
     private fun hideAll(binding: FragmentTestBinding) {
         binding.btnAns0.visibility = View.GONE
         binding.btnAns1.visibility = View.GONE
@@ -433,10 +242,9 @@ class TestFragment : Fragment() {
         binding.numberPicker.visibility = View.GONE
         binding.numberPicker2.visibility = View.GONE
         binding.txtNumPick.visibility = View.GONE
-        binding.btnAnswer.visibility = View.GONE
+        binding.btnAnswer.visibility = View.INVISIBLE
         binding.signList.visibility = View.GONE
-        binding.btnClear.visibility = View.GONE
-        binding.btnClear.visibility = View.GONE
+        binding.btnClear.visibility = View.INVISIBLE
         binding.groupStave.visibility = View.GONE
     }
 
@@ -500,12 +308,75 @@ class TestFragment : Fragment() {
         }
     }
 
+    private fun observeSignForView(
+        testFragmentViewModel: TestFragmentViewModel,
+        notesViewInLineList: MutableList<ImageView>,
+        binding: FragmentTestBinding,
+        signList: LiveData<MutableList<Triple<Float, Float, String>>>
+    ) {
+        signList.observe(viewLifecycleOwner, Observer { signTripleList ->
+
+            signTripleList?.let {
+
+                if (signTripleList.isEmpty()) {
+                    for (i in notesViewInLineList) {
+                        //                        binding.constraintLayout.removeViewAt(i)
+                        Log.i("ttt", "remove index $i")
+                        binding.constraintLayout.removeView(i)
+                    }
+                }
+                for (i in signTripleList) {
+                    Toast.makeText(
+                        context,
+                        "tttttt   ${i.first}  ${i.second} ${i.third}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.i("xxx", "yes observe it")
+                    var choiceImg = 0
+                    var vertChang = 0f
+                    var horPos = Signs.positionInStaveHorizont[i.second] ?: 0f
+                    var vertPos = Signs.positionInStaveVert[i.first] ?: 0f
+                    when (i.third) {
+                        "диезы", "диез" -> choiceImg = R.drawable.sharp
+                        "бекар" -> choiceImg = R.drawable.bekar
+                        "бемоли", "бемоль" -> {
+                            choiceImg = R.drawable.bemol
+                            vertChang = -0.06f
+
+                        }
+                        "целая" -> choiceImg = R.drawable.int_note
+                        "целаятрезвучие" -> {
+                            choiceImg = R.drawable.int_note
+                            horPos = 0.9f
+                        }
+                        "дветерции" -> {
+                            choiceImg = R.drawable.int_note
+                        }
+                        "диезыприключе" -> {
+                            choiceImg = R.drawable.sharp
+                            horPos = Signs.positionHorizontalKeySignature[i.second] ?: 0f
+                        }
+                        "бемолиприключе" -> {
+                            choiceImg = R.drawable.bemol
+                            horPos = Signs.positionHorizontalKeySignature[i.second] ?: 0f
+                            vertChang = -0.06f
+                        }
+                    }
+                    createSignView(binding, choiceImg, notesViewInLineList, i, horPos, vertPos, vertBias = vertChang)
+
+                }
+
+            }
+        })
+    }
 
     private fun createSignView(binding: FragmentTestBinding,
                                choicedImg: Int,
                                noteList: MutableList<ImageView>,
                                signTriple: Triple<Float, Float, String>,
-                               vertBias: Float = 0f){
+                               horPos: Float,
+                               vertPos: Float,
+                               vertBias: Float){
         val signView = ImageView(this.context)
         signView.id = View.generateViewId()
         noteList.add(signView)
@@ -519,8 +390,8 @@ class TestFragment : Fragment() {
         set.connect(signView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
         set.connect(signView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
         set.connect(signView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-        set.setHorizontalBias(signView.id, Signs.positionHorizontalKeySignature[signTriple.second]!!)
-        set.setVerticalBias(signView.id, Signs.positionInStaveVert[signTriple.first]!! + vertBias)
+        set.setHorizontalBias(signView.id, horPos)
+        set.setVerticalBias(signView.id, vertPos + vertBias)
         set.applyTo(binding.constraintLayout)
     }
 
