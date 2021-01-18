@@ -64,7 +64,7 @@ object TonalityTest : TestInterface {
         _currentTonality.value = allTonality[0]
         _parallelTonality.value = ""
         // Дебагинг
-        _currentTonality.value = Tonality.G
+//        _currentTonality.value = Tonality.G
     }
 
 
