@@ -67,8 +67,8 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
                 Signs.addInList(item, position)
 
 
-//                val signType = Signs.currentSignTypeInSigns[0].toLowerCase()
-                var signType = "целая"
+                val signType = Signs.currentSignTypeInSigns[0].toLowerCase()
+//                var signType = "целая"
                 val numInRange = Signs.listInOrder.size.toFloat()
 
 //                Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, signType) as Triple<Float, Float, String>)

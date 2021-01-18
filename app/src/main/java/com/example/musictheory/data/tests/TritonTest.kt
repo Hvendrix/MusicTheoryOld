@@ -49,7 +49,7 @@ object TritonTest: TestInterface {
         allTonality.shuffle()
         _currentTonality.value = allTonality[0]
         // Дебагинг
-        _currentTonality.value = Tonality.B
+//        _currentTonality.value = Tonality.G
     }
 
 

@@ -14,11 +14,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.musictheory.R
-import com.example.musictheory.adapters.SignItemDecoration
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.data.tests.TonalityTest
@@ -334,6 +331,8 @@ class TestFragment : Fragment() {
                     Log.i("xxx", "yes observe it")
                     var choiceImg = 0
                     var vertChang = 0f
+                    var heightSize = 52
+                    var widthSize = 52
                     var horPos = Signs.positionInStaveHorizont[i.second] ?: 0f
                     var vertPos = Signs.positionInStaveVert[i.first] ?: 0f
                     when (i.third) {
@@ -344,7 +343,12 @@ class TestFragment : Fragment() {
                             vertChang = -0.06f
 
                         }
-                        "целая" -> choiceImg = R.drawable.int_note
+                        "целая" -> {
+                            choiceImg = R.drawable.int_note
+                            vertChang = -0.005f
+                            heightSize = 31
+                            widthSize = 31
+                        }
                         "целаятрезвучие" -> {
                             choiceImg = R.drawable.int_note
                             horPos = 0.9f
@@ -362,7 +366,7 @@ class TestFragment : Fragment() {
                             vertChang = -0.06f
                         }
                     }
-                    createSignView(binding, choiceImg, notesViewInLineList, i, horPos, vertPos, vertBias = vertChang)
+                    createSignView(binding, choiceImg, notesViewInLineList, i, heightSize,  widthSize, horPos, vertPos, vertChang)
 
                 }
 
@@ -374,6 +378,8 @@ class TestFragment : Fragment() {
                                choicedImg: Int,
                                noteList: MutableList<ImageView>,
                                signTriple: Triple<Float, Float, String>,
+                               heightSize: Int,
+                               widthSize: Int,
                                horPos: Float,
                                vertPos: Float,
                                vertBias: Float){
@@ -382,8 +388,8 @@ class TestFragment : Fragment() {
         noteList.add(signView)
         signView.setImageResource(choicedImg)
         binding.constraintLayout.addView(signView)
-        signView.layoutParams.height = 52
-        signView.layoutParams.width = 52
+        signView.layoutParams.height = heightSize
+        signView.layoutParams.width = widthSize
         var set = ConstraintSet()
         set.clone(binding.constraintLayout)
         set.connect(signView.id, ConstraintSet.LEFT, binding.imgStave.id, ConstraintSet.LEFT)

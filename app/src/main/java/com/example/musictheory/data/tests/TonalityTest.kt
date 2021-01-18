@@ -11,6 +11,7 @@ import com.example.musictheory.data.Tonality
 object TonalityTest : TestInterface {
 
 
+
     // Общие переменные для всех тестов
     private var _allInterQuestions = MutableLiveData<MutableList<String>>()
     private var _currentQuestion = MutableLiveData<String>()
@@ -64,8 +65,9 @@ object TonalityTest : TestInterface {
         _currentTonality.value = allTonality[0]
         _parallelTonality.value = ""
         // Дебагинг
-//        _currentTonality.value = Tonality.G
+        _currentTonality.value = Tonality.G
     }
+
 
 
     private fun allQuestionsInit(){
