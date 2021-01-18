@@ -286,7 +286,26 @@ class TestFragmentViewModel(
 
     fun onClearRecView(adapter: SignsAdapter) {
         Signs.clearEnabled()
+        _signInStave.value = mutableListOf()
         adapter.notifyDataSetChanged()
+    }
+
+
+    fun addInSignInStave(text1: String, text2:String ){
+        _signInStave.value = mutableListOf()
+
+        _signInStave.value?.add(Triple(
+            Signs.noteInOrderInLines.get(text1)?: 0f,
+            2f,
+            "целая"
+        ))
+
+        _signInStave.value?.add(Triple(
+            Signs.noteInOrderInLines.get(text1)?: 0f,
+            1f,
+            text2
+        ))
+        _signInStave.value = _signInStave.value
     }
 
 

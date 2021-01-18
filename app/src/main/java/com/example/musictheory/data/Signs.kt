@@ -11,14 +11,64 @@ object Signs {
     var listInOrder = mutableListOf<String>()
     var rightSharpOrder = listOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
     var rightFlatOrder = listOf("Си", "Ми", "Ля", "Ре", "Соль", "До", "Фа")
-    var positionInStaveVert = mutableMapOf(-1f to 0.335f, -0.5f to 0.235f, 1f to 0.785f, 1.5f to 0.695f, 2f to 0.625f, 2.5f to 0.525f, 3f to 0.415f, 3.5 to 0.335f, 4 to 0.235f)
-    var positionInStaveHorizont = mutableMapOf(1f to 0.255f, 2f to 0.405f, 3f to 0.555f, 4f to 0.705f, 5f to 0.855f, 6f to 0.999f, 7f to 0.415f )
+    var positionInStaveVert = mutableMapOf(
+        -1f to 0.335f,
+        -0.5f to 0.235f,
+        1f to 0.785f,
+        1.5f to 0.695f,
+        2f to 0.625f,
+        2.5f to 0.525f,
+        3f to 0.415f,
+        3.5 to 0.335f,
+        4 to 0.235f
+    )
+    var positionInStaveHorizont = mutableMapOf(
+        1f to 0.255f,
+        2f to 0.405f,
+        3f to 0.555f,
+        4f to 0.705f,
+        5f to 0.855f,
+        6f to 0.999f,
+        7f to 0.415f
+    )
 
-    var positionHorizontalKeySignature = mutableMapOf(1f to 0.150f, 2f to 0.225f, 3f to 0.300f, 4f to 0.375f, 5f to 0.450f, 6f to 0.525f, 7f to 0.600f)
-    var positionVertKeySignature = mutableMapOf(-1f to 0.335f, -0.5f to 0.235f, 1f to 0.785f, 1.5f to 0.695f, 2f to 0.625f, 2.5f to 0.525f, 3f to 0.415f, 3.5 to 0.335f, 4 to 0.235f)
+    var positionHorizontalKeySignature = mutableMapOf(
+        1f to 0.150f,
+        2f to 0.225f,
+        3f to 0.300f,
+        4f to 0.375f,
+        5f to 0.450f,
+        6f to 0.525f,
+        7f to 0.600f
+    )
+    var positionVertKeySignature = mutableMapOf(
+        -1f to 0.335f,
+        -0.5f to 0.235f,
+        1f to 0.785f,
+        1.5f to 0.695f,
+        2f to 0.625f,
+        2.5f to 0.525f,
+        3f to 0.415f,
+        3.5 to 0.335f,
+        4 to 0.235f
+    )
     var _signsInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
-    var noteInOrderInLines = mapOf("До" to -1f, "Ре" to -0.5f, "Ми" to 1f, "Фа" to 1.5f, "Соль" to 2f, "Ля" to 2.5f, "Си" to 3f,
-        "до" to -1f, "ре" to -0.5f, "ми" to 1f, "фа" to 1.5f, "соль" to 2f, "ля" to 2.5f, "си" to 3f)
+    var noteInOrderInLines = mapOf(
+        "До" to -1f,
+        "Ре" to -0.5f,
+        "Ми" to 1f,
+        "Фа" to 1.5f,
+        "Соль" to 2f,
+        "Ля" to 2.5f,
+        "Си" to 3f,
+        "до" to -1f,
+        "ре" to -0.5f,
+        "ми" to 1f,
+        "фа" to 1.5f,
+        "соль" to 2f,
+        "ля" to 2.5f,
+        "си" to 3f
+    )
 
 
     var x1 = MutableLiveData<Int>()
@@ -30,23 +80,22 @@ object Signs {
     private var _TestString = MutableLiveData<String>()
 
 
-    val TestString : LiveData<String>
-    get() = _TestString
+    val TestString: LiveData<String>
+        get() = _TestString
 
-    val signList : LiveData<MutableList<String>>
-    get() = _signList
+    val signList: LiveData<MutableList<String>>
+        get() = _signList
 
-    val listDataEnabled : LiveData<MutableList<Int>>
-    get() = _listDataEnabled
-
-
-    val signsInStave : LiveData<MutableList<Triple<Float, Float, String>>>
-    get() = _signsInStave
+    val listDataEnabled: LiveData<MutableList<Int>>
+        get() = _listDataEnabled
 
 
+    val signsInStave: LiveData<MutableList<Triple<Float, Float, String>>>
+        get() = _signsInStave
 
-    init{
-        _signList.value =  mutableListOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
+
+    init {
+        _signList.value = mutableListOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
         _listDataEnabled.value = mutableListOf(1, 1, 1, 1, 1, 1, 1)
         _TestString.value = ""
         _signsInStave.value = mutableListOf()
@@ -54,13 +103,14 @@ object Signs {
     }
 
 
-    fun getOne(){
+    fun getOne() {
         x1.value = x1.value?.plus(1)
     }
-    fun addInList(strVal: String, pos: Int){
+
+    fun addInList(strVal: String, pos: Int) {
         listInOrder.add(strVal)
         _TestString.value = ""
-        for(i in listInOrder)_TestString.value += " $i"
+        for (i in listInOrder) _TestString.value += " $i"
     }
 
 
@@ -87,65 +137,65 @@ object Signs {
         return false
     }
 
-    fun triadTest(tonality: Tonality): Boolean{
+    fun triadTest(tonality: Tonality): Boolean {
         val num = 3
-        if(num != listInOrder.size) return false
+        if (num != listInOrder.size) return false
         val listNeeded = mutableListOf<String>()
 
         listNeeded.add(tonality.rusName.substringBefore(" ").toLowerCase())
-        if(listNeeded[0].indexOf("-")!=-1) listNeeded[0] = listNeeded[0].substringBefore("-")
+        if (listNeeded[0].indexOf("-") != -1) listNeeded[0] = listNeeded[0].substringBefore("-")
         val numOfTon = Notes.notesTwoOctaves.indexOf(listNeeded[0])
-        listNeeded.add(Notes.notesTwoOctaves[numOfTon+2])
-        listNeeded.add(Notes.notesTwoOctaves[numOfTon+4])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon + 2])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon + 4])
 
         listInOrder.forEachIndexed { i, el ->
             Log.i("ttt", "triad compare \'$el\', \'${listNeeded[i]}\'")
-            if(el.toLowerCase() != listNeeded[i]) return false
+            if (el.toLowerCase() != listNeeded[i]) return false
         }
         return true
     }
 
     fun twoTonicThird(tonality: Tonality): Boolean {
         val num = 4
-        if(num != listInOrder.size) return false
+        if (num != listInOrder.size) return false
         val listNeeded = mutableListOf<String>()
 
         listNeeded.add(tonality.rusName.substringBefore(" ").toLowerCase())
-        if(listNeeded[0].indexOf("-")!=-1) listNeeded[0] = listNeeded[0].substringBefore("-")
+        if (listNeeded[0].indexOf("-") != -1) listNeeded[0] = listNeeded[0].substringBefore("-")
         val numOfTon = Notes.notesTwoOctaves.indexOf(listNeeded[0])
-        listNeeded.add(Notes.notesTwoOctaves[numOfTon+2])
-        listNeeded.add(Notes.notesTwoOctaves[numOfTon+2])
-        listNeeded.add(Notes.notesTwoOctaves[numOfTon+4])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon + 2])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon + 2])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon + 4])
         listInOrder.forEachIndexed { i, el ->
             Log.i("ttt", "triad compare \'$el\', \'${listNeeded[i]}\'")
-            if(el.toLowerCase() != listNeeded[i]) return false
+            if (el.toLowerCase() != listNeeded[i]) return false
         }
         return true
     }
 
     fun twoReducedFifth(tonality: Tonality): Boolean {
         val num = 4
-        if(num != listInOrder.size) return false
+        if (num != listInOrder.size) return false
         val listNeeded = mutableListOf<String>()
 
         listNeeded.add(tonality.rusName.substringBefore(" ").toLowerCase())
-        if(listNeeded[0].indexOf("-")!=-1) listNeeded[0] = listNeeded[0].substringBefore("-")
+        if (listNeeded[0].indexOf("-") != -1) listNeeded[0] = listNeeded[0].substringBefore("-")
         val numOfTon = Notes.notesTwoOctaves.indexOf(listNeeded[0])
-        listNeeded.add(Notes.notesTwoOctaves[numOfTon+6])
-        listNeeded.add(Notes.notesTwoOctaves[numOfTon+3])
-        listNeeded.add(Notes.notesTwoOctaves[numOfTon+1])
-        listNeeded.add(Notes.notesTwoOctaves[numOfTon+5])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon + 6])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon + 3])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon + 1])
+        listNeeded.add(Notes.notesTwoOctaves[numOfTon + 5])
         listNeeded.removeAt(0)
         listInOrder.forEachIndexed { i, el ->
             Log.i("ttt", "triad compare \'$el\', \'${listNeeded[i]}\'")
-            if(el.toLowerCase() != listNeeded[i]) return false
+            if (el.toLowerCase() != listNeeded[i]) return false
         }
         return true
     }
 
 
-    fun clearEnabled(){
-        for (i in 0 until listDataEnabled.value?.size!!){
+    fun clearEnabledOld() {
+        for (i in 0 until listDataEnabled.value?.size!!) {
             listDataEnabled.value!![i] = 1
             Log.i("ttt", "list bind updated = $i ${_listDataEnabled.value!![i]}")
         }
@@ -156,7 +206,18 @@ object Signs {
         _signsInStave.value = mutableListOf()
     }
 
+    fun clearEnabled() {
+        for (i in 0 until listDataEnabled.value?.size!!) {
+            listDataEnabled.value!![i] = 1
+            Log.i("ttt", "list bind updated = $i ${_listDataEnabled.value!![i]}")
+        }
+        listInOrder.clear()
+
+        _TestString.value = ""
+        signList.value!!.shuffle()
+//        _signsInStave.value = mutableListOf()
 
 
+    }
 
 }
