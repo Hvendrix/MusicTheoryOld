@@ -25,9 +25,9 @@ class TestFragmentViewModel(
     private val _correctAnswer = MutableLiveData<String>()
     private val _currentTest = MutableLiveData<TestInterface>()
     private val _navigateToResult = MutableLiveData<Int>()
-    private var _btnOverFlow = MutableLiveData<Int>()
+//    private var _btnOverFlow = MutableLiveData<Int>()
     private var _currentNumPick = MutableLiveData<Int>()
-    private var _recyclerViewNeed = MutableLiveData<Boolean>()
+//    private var _recyclerViewNeed = MutableLiveData<Boolean>()
     private var _specificBtnText = MutableLiveData<Array<Array<String>>>()
     private var _currentAnswer = MutableLiveData<String>()
     private var _currentSignType = MutableLiveData<MutableList<String>>()
@@ -36,7 +36,7 @@ class TestFragmentViewModel(
     private var _signInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
     private var _staticSignInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
 
-    private var _recViewBool = MutableLiveData<Boolean>()
+//    private var _recViewBool = MutableLiveData<Boolean>()
     var testString = MutableLiveData<Answer?>()
     private var _currentTonality = MutableLiveData<Tonality>()
     private var _parallelTonality = MutableLiveData<Tonality>()
@@ -59,8 +59,8 @@ class TestFragmentViewModel(
         get() = _currentNumPick
 
 
-    val recViewBool: LiveData<Boolean>
-        get() = _recViewBool
+//    val recViewBool: LiveData<Boolean>
+//        get() = _recViewBool
 
     val specificBtnTxt: LiveData<Array<Array<String>>>
         get() = _specificBtnText
@@ -88,7 +88,7 @@ class TestFragmentViewModel(
 
 
     init {
-        _currentTest.value = TonalityTest
+        _currentTest.value = TritonTest
         _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
         _question.value = (_currentTest.value as TestInterface).getQuestion()
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
@@ -98,6 +98,7 @@ class TestFragmentViewModel(
 //        _recyclerViewNeed.value = null
 //        _recViewBool.value = null
         _interfaceType.value = setInterfaceType()
+        _staticSignInStave.value = mutableListOf()
 
 
     }
@@ -244,15 +245,23 @@ class TestFragmentViewModel(
         _currentAnswer.value = ans
     }
 
+
+    private fun updateStaticSignInStave(){
+        _staticSignInStave.value?.let { list1 -> _signInStave.value?.let(list1::addAll) }
+    }
+
+
     private fun setCurrentRecView(tonality: Tonality): Boolean {
-        _staticSignInStave.value = mutableListOf()
-        _staticSignInStave.value = Signs._signsInStave.value
+//        _staticSignInStave.value = mutableListOf()
+//        _staticSignInStave.value = Signs._signsInStave.value
+//        updateStaticSignInStave()
         when (_correctAnswer.value) {
             "signsInTonality" -> return Signs.compareByNum(tonality)
             "signsInTonalityStatic" -> {
                 if (Signs.compareByNum(tonality)) {
-                    _staticSignInStave.value = mutableListOf()
-                    _staticSignInStave.value = Signs._signsInStave.value
+//                    _staticSignInStave.value = mutableListOf()
+                    updateStaticSignInStave()
+//                    _staticSignInStave.value = Signs._signsInStave.value
                 }
                 return Signs.compareByNum(tonality)
             }
@@ -260,17 +269,19 @@ class TestFragmentViewModel(
             "twoTonicThird" -> return Signs.twoTonicThird(tonality)
             "twoTonicThirdInStatic" -> {
                 if(Signs.twoTonicThird(tonality)){
-                    Signs._signsInStave.value?.forEach {
-                        _staticSignInStave.value?.add(it)
-                    }
+                    updateStaticSignInStave()
+//                    Signs._signsInStave.value?.forEach {
+//                        _staticSignInStave.value?.add(it)
+//                    }
                 }
                 return Signs.twoTonicThird(tonality)
             }
             "twoReducedFifthInStatic" -> {
                 if(Signs.twoReducedFifth(tonality)){
-                    Signs.signsInStave?.value?.forEach{
-                        _staticSignInStave.value?.add(it)
-                    }
+                    updateStaticSignInStave()
+//                    Signs.signsInStave?.value?.forEach{
+//                        _staticSignInStave.value?.add(it)
+//                    }
                 }
                 return Signs.twoReducedFifth(tonality)
             }

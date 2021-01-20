@@ -352,9 +352,13 @@ class TestFragment : Fragment() {
                         "целаятрезвучие" -> {
                             choiceImg = R.drawable.int_note
                             horPos = 0.9f
+                            heightSize = 31
+                            widthSize = 31
                         }
                         "дветерции" -> {
                             choiceImg = R.drawable.int_note
+                            heightSize = 31
+                            widthSize = 31
                         }
                         "диезыприключе" -> {
                             choiceImg = R.drawable.sharp

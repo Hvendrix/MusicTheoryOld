@@ -8,20 +8,20 @@ import com.example.musictheory.data.TestInterface
 import com.example.musictheory.data.Tonality
 
 
-object TonalityTest : TestInterface {
+object TonalityTest : TestInterface() {
 
 
 
     // Общие переменные для всех тестов
-    private var _allInterQuestions = MutableLiveData<MutableList<String>>()
-    private var _currentQuestion = MutableLiveData<String>()
-    private var _questionNumTotal = MutableLiveData<Int>()
-    private var _currentQuestNum = MutableLiveData<Int>()
-    private var _currentAnswer = MutableLiveData<String>()
-    private var _currentBtnTxt = MutableLiveData<Array<String>>()
-    private var _allBtnText = MutableLiveData<MutableList<Array<String>>>()
-    private var _allAnswers = MutableLiveData<Array<String>>()
-    private var _specificBtnTxt = MutableLiveData<Array<Array<String>>>()
+//    private var _allInterQuestions = MutableLiveData<MutableList<String>>()
+//    private var _currentQuestion = MutableLiveData<String>()
+//    private var _questionNumTotal = MutableLiveData<Int>()
+//    private var _currentQuestNum = MutableLiveData<Int>()
+//    private var _currentAnswer = MutableLiveData<String>()
+//    private var _currentBtnTxt = MutableLiveData<Array<String>>()
+//    private var _allBtnText = MutableLiveData<MutableList<Array<String>>>()
+//    private var _allAnswers = MutableLiveData<Array<String>>()
+//    private var _specificBtnTxt = MutableLiveData<Array<Array<String>>>()
 
     // Переменные для данного теста
     private var _currentTonality = MutableLiveData<Tonality>()
@@ -49,6 +49,7 @@ object TonalityTest : TestInterface {
         allQuestionsInit()
         allBtnInit()
         allAnswersInit()
+
 //        _specificBtnTxt.value = arrayOf(arrayOf("ok"), arrayOf("okk"))
     }
 
@@ -70,7 +71,7 @@ object TonalityTest : TestInterface {
 
 
 
-    private fun allQuestionsInit(){
+    override fun allQuestionsInit(){
         upperTest()
         _allInterQuestions.value = mutableListOf(
             "Нужно ли искать параллельную тональность?",
@@ -84,7 +85,7 @@ object TonalityTest : TestInterface {
         _currentQuestNum.value = 0
     }
 
-    private fun allBtnInit(){
+     override fun allBtnInit(){
         _allBtnText.value = mutableListOf(
             arrayOf("Да", "Нет", "Не знаю"),
             arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
@@ -97,7 +98,8 @@ object TonalityTest : TestInterface {
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
     }
 
-    private fun allAnswersInit(){
+
+    override fun allAnswersInit(){
        _allAnswers.value = arrayOf(
            upperTest(),
            "III",
@@ -196,29 +198,31 @@ object TonalityTest : TestInterface {
 
 
 
-    override fun getQuestion(): String? {
-//        _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n(${_currentTonality.value?.rusName})"+ "\n"+
-//                "${_parallelTonality.value}" +
+//    override fun getQuestion(): String? {
+////        _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n(${_currentTonality.value?.rusName})"+ "\n"+
+////                "${_parallelTonality.value}" +
+////                _currentQuestNum.value?.let {
+////            _allInterQuestions.value?.get(
+////                it
+////            )
+////        }
+//
+//        _currentQuestion.value =
 //                _currentQuestNum.value?.let {
-//            _allInterQuestions.value?.get(
-//                it
-//            )
-//        }
-
-        _currentQuestion.value =
-                _currentQuestNum.value?.let {
-                    _allInterQuestions.value?.get(
-                        it
-                    )
-                }
-        return _currentQuestion.value
-    }
+//                    _allInterQuestions.value?.get(
+//                        it
+//                    )
+//                }
+//        return _currentQuestion.value
+//    }
 
     override fun nextQuestion() {
         choiceTonality()
-        allQuestionsInit()
-        allBtnInit()
-        allAnswersInit()
+        super.nextQuestion()
+
+//        allQuestionsInit()
+//        allBtnInit()
+//        allAnswersInit()
     }
 
     override fun nextIntermediateQuestion() {
@@ -244,26 +248,26 @@ object TonalityTest : TestInterface {
         }
     }
 
-    override fun getAnswer(): String? {
-        _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
-        return _currentAnswer.value
-    }
+//    override fun getAnswer(): String? {
+//        _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
+//        return _currentAnswer.value
+//    }
 
-    override fun getBtnTxt(): Array<String>? {
-        _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
-        if(_currentBtnTxt.value?.get(0)== "twoNumPick"){
-            _specificBtnTxt.value = arrayOf(
-                Notes.notes,
-                Notes.signs
-            )
-        }
-        return _currentBtnTxt.value
+//    override fun getBtnTxt(): Array<String>? {
+//        _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
+//        if(_currentBtnTxt.value?.get(0)== "twoNumPick"){
+//            _specificBtnTxt.value = arrayOf(
+//                Notes.notes,
+//                Notes.signs
+//            )
+//        }
+//        return _currentBtnTxt.value
+//
+//    }
 
-    }
-
-    override fun getSpecificBtnTxt(): Array<Array<String>>? {
-        return _specificBtnTxt.value
-    }
+//    override fun getSpecificBtnTxt(): Array<Array<String>>? {
+//        return _specificBtnTxt.value
+//    }
 
     override fun getCurrentSignType(): MutableList<String> {
         return when(_currentAnswer.value){
