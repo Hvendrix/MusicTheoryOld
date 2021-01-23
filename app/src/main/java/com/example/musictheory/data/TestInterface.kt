@@ -1,7 +1,6 @@
 package com.example.musictheory.data
 
 import androidx.lifecycle.MutableLiveData
-import com.example.musictheory.data.tests.TonalityTest
 import com.example.musictheory.data.tests.TritonTest
 
 abstract class TestInterface {
@@ -73,5 +72,14 @@ abstract class TestInterface {
     abstract fun getCurrentSignType(): MutableList<String>
 
     abstract fun getTonality(): Tonality?
+
+
+    open fun updateStaticStaveSign(
+        staticSignInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>,
+        signInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>
+    ) {
+
+    }
+
 
 }

@@ -14,8 +14,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musictheory.R
+import com.example.musictheory.adapters.SignItemDecoration
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.data.tests.TonalityTest
@@ -63,6 +65,9 @@ class TestFragment : Fragment() {
 
         binding.signList.adapter = adapter
 
+
+
+
 //        binding.signList.addItemDecoration(DividerItemDecoration(context, 48))
 //        binding.signList.addItemDecoration(SignItemDecoration(489))
 //        binding.signList.addItemDecoration(DividerItemDecoration(context, GridLayoutManager.VERTICAL))
@@ -84,10 +89,7 @@ class TestFragment : Fragment() {
             adapter.data2 = it
             adapter.notifyDataSetChanged()
         })
-7
-//        testFragmentViewModel.recViewBool.observe(viewLifecycleOwner, Observer {
-//            adapter.notifyDataSetChanged()
-//        })
+
 
         Signs.TestString.observe(viewLifecycleOwner, Observer {
             binding.txtNumPick.text = "${it}"
@@ -405,6 +407,8 @@ class TestFragment : Fragment() {
         set.applyTo(binding.constraintLayout)
     }
 
+
+    //сейчас не используется
     private fun updateSignsInLineList(text1: String, text2: String) {
         Signs._signsInStave.value = mutableListOf()
 

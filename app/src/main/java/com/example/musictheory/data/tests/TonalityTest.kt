@@ -10,19 +10,6 @@ import com.example.musictheory.data.Tonality
 
 object TonalityTest : TestInterface() {
 
-
-
-    // Общие переменные для всех тестов
-//    private var _allInterQuestions = MutableLiveData<MutableList<String>>()
-//    private var _currentQuestion = MutableLiveData<String>()
-//    private var _questionNumTotal = MutableLiveData<Int>()
-//    private var _currentQuestNum = MutableLiveData<Int>()
-//    private var _currentAnswer = MutableLiveData<String>()
-//    private var _currentBtnTxt = MutableLiveData<Array<String>>()
-//    private var _allBtnText = MutableLiveData<MutableList<Array<String>>>()
-//    private var _allAnswers = MutableLiveData<Array<String>>()
-//    private var _specificBtnTxt = MutableLiveData<Array<Array<String>>>()
-
     // Переменные для данного теста
     private var _currentTonality = MutableLiveData<Tonality>()
     private var _upperTestBool = MutableLiveData<Boolean>()
@@ -197,32 +184,11 @@ object TonalityTest : TestInterface() {
 
 
 
-
-//    override fun getQuestion(): String? {
-////        _currentQuestion.value = "Текущая тональность: ${_currentTonality.value?.name}" + " - ${_mollDur.value}" + "\n(${_currentTonality.value?.rusName})"+ "\n"+
-////                "${_parallelTonality.value}" +
-////                _currentQuestNum.value?.let {
-////            _allInterQuestions.value?.get(
-////                it
-////            )
-////        }
-//
-//        _currentQuestion.value =
-//                _currentQuestNum.value?.let {
-//                    _allInterQuestions.value?.get(
-//                        it
-//                    )
-//                }
-//        return _currentQuestion.value
-//    }
-
     override fun nextQuestion() {
         choiceTonality()
         super.nextQuestion()
 
-//        allQuestionsInit()
-//        allBtnInit()
-//        allAnswersInit()
+
     }
 
     override fun nextIntermediateQuestion() {
@@ -239,35 +205,12 @@ object TonalityTest : TestInterface() {
         }
         _currentQuestNum.value = _currentQuestNum.value?.plus(1)
 
-
-
-
-
         if(_currentQuestNum.value == _questionNumTotal.value){
             nextQuestion()
         }
     }
 
-//    override fun getAnswer(): String? {
-//        _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
-//        return _currentAnswer.value
-//    }
 
-//    override fun getBtnTxt(): Array<String>? {
-//        _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
-//        if(_currentBtnTxt.value?.get(0)== "twoNumPick"){
-//            _specificBtnTxt.value = arrayOf(
-//                Notes.notes,
-//                Notes.signs
-//            )
-//        }
-//        return _currentBtnTxt.value
-//
-//    }
-
-//    override fun getSpecificBtnTxt(): Array<Array<String>>? {
-//        return _specificBtnTxt.value
-//    }
 
     override fun getCurrentSignType(): MutableList<String> {
         return when(_currentAnswer.value){

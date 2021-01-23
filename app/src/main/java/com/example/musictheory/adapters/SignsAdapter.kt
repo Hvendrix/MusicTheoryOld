@@ -2,6 +2,7 @@ package com.example.musictheory.adapters
 
 import android.graphics.Color
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -100,7 +101,6 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
                     btnName.isEnabled = false
 
                 }
-
 
             }
             Log.i("ttt", "${Signs.listDataEnabled.value?.get(position)}")

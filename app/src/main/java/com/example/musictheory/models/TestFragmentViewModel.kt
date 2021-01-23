@@ -1,15 +1,12 @@
 package com.example.musictheory.models
 
 import android.app.Application
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.*
-import com.example.musictheory.data.tests.TonalityTest
-import com.example.musictheory.data.tests.TrebleClefTest
 import com.example.musictheory.data.tests.TritonTest
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
@@ -25,9 +22,7 @@ class TestFragmentViewModel(
     private val _correctAnswer = MutableLiveData<String>()
     private val _currentTest = MutableLiveData<TestInterface>()
     private val _navigateToResult = MutableLiveData<Int>()
-//    private var _btnOverFlow = MutableLiveData<Int>()
     private var _currentNumPick = MutableLiveData<Int>()
-//    private var _recyclerViewNeed = MutableLiveData<Boolean>()
     private var _specificBtnText = MutableLiveData<Array<Array<String>>>()
     private var _currentAnswer = MutableLiveData<String>()
     private var _currentSignType = MutableLiveData<MutableList<String>>()
@@ -36,7 +31,6 @@ class TestFragmentViewModel(
     private var _signInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
     private var _staticSignInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
 
-//    private var _recViewBool = MutableLiveData<Boolean>()
     var testString = MutableLiveData<Answer?>()
     private var _currentTonality = MutableLiveData<Tonality>()
     private var _parallelTonality = MutableLiveData<Tonality>()
@@ -58,9 +52,6 @@ class TestFragmentViewModel(
     val currentNumPick: LiveData<Int>
         get() = _currentNumPick
 
-
-//    val recViewBool: LiveData<Boolean>
-//        get() = _recViewBool
 
     val specificBtnTxt: LiveData<Array<Array<String>>>
         get() = _specificBtnText
@@ -94,9 +85,6 @@ class TestFragmentViewModel(
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()
         _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
         _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
-//        _btnOverFlow.value = null
-//        _recyclerViewNeed.value = null
-//        _recViewBool.value = null
         _interfaceType.value = setInterfaceType()
         _staticSignInStave.value = mutableListOf()
 
@@ -123,28 +111,6 @@ class TestFragmentViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
 
-//    fun numPickTest() {
-//        if (_btnText.value?.size!! > 3) {
-//            _btnOverFlow.value = 1
-//        } else if (_btnText.value?.get(0) == "twoNumPick") {
-//            _specificBtnText.value = _currentTest.value?.getSpecificBtnTxt()
-//            _btnOverFlow.value = 2
-//
-//        } else _btnOverFlow.value = null
-//    }
-//
-//
-//    fun recyclerViewTest() {
-//        if (_btnText.value?.get(0) == "table") {
-//            _recyclerViewNeed.value = true
-//        } else {
-//            //возможно в дальшнейшем следует убрать
-//            _staticSignInStave.value = mutableListOf()
-//            _recyclerViewNeed.value = null
-//        }
-//    }
-
-
     private fun setInterfaceType() : String{
         return when {
             _btnText.value?.size!! > 3 -> "numPick"
@@ -162,21 +128,16 @@ class TestFragmentViewModel(
     fun onClickAnswer(num: Int) {
         adapter.notifyDataSetChanged()
         if (_interfaceType.value == "table" && setCurrentRecView(_currentTonality.value!!)) {
+            _currentTest.value?.updateStaticStaveSign(_staticSignInStave, _signInStave)
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
-//            numPickTest()
-//            recyclerViewTest()
             Signs.clearEnabled()
 //            Signs._signsInStave.value = mutableListOf()
             _signInStave.value = mutableListOf()
-//            _recViewBool.value = true
             _interfaceType.value = setInterfaceType()
-//            _staticSignInStave.value?.forEach {
-//                Log.i("xxx"," ${it.first}   ${it.second}    ${it.third}" )
-//            }
 
         } else if (_correctAnswer.value == _btnText.value?.get(num)) {
             _navigateToResult.value = null
@@ -184,9 +145,6 @@ class TestFragmentViewModel(
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
-//            numPickTest()
-//            recyclerViewTest()
-//            _recViewBool.value = null
 //            Signs._signsInStave.value = mutableListOf()
             _signInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
@@ -197,9 +155,6 @@ class TestFragmentViewModel(
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
-//            numPickTest()
-//            recyclerViewTest()
-//            _recViewBool.value = null
 //            Signs._signsInStave.value = mutableListOf()
             _signInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
@@ -208,7 +163,6 @@ class TestFragmentViewModel(
             _correctAnswer.value?.let {
                 _listErrors.value?.add("Твой ответ неверный: s")
             }
-//            _recViewBool.value = null
             printErrors()
             Signs.clearEnabled()
             _signInStave.value = mutableListOf()
@@ -226,14 +180,11 @@ class TestFragmentViewModel(
         _btnText.value = _currentTest.value?.getBtnTxt()
         _correctAnswer.value = _currentTest.value?.getAnswer()
         _interfaceType.value = setInterfaceType()
-//        numPickTest()
-//        recyclerViewTest()
     }
 
 
     private fun printErrors() {
         Toast.makeText(getApplication(), "Неправильный ответ(", Toast.LENGTH_SHORT).show()
-//        _question.value = _listErrors.value?.get(0) + "\n" + _currentTest.value?.getQuestion()
     }
 
 
@@ -247,10 +198,12 @@ class TestFragmentViewModel(
 
 
     private fun updateStaticSignInStave(){
-        _staticSignInStave.value?.let { list1 -> _signInStave.value?.let(list1::addAll) }
+//        _staticSignInStave.value?.let { list1 -> _signInStave.value?.let(list1::addAll) }
     }
 
 
+
+    //отслеживает только правильность ответа, статические знаки добавляет в самом тесте
     private fun setCurrentRecView(tonality: Tonality): Boolean {
 //        _staticSignInStave.value = mutableListOf()
 //        _staticSignInStave.value = Signs._signsInStave.value

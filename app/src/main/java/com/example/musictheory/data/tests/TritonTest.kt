@@ -8,17 +8,6 @@ import com.example.musictheory.data.TestInterface
 import com.example.musictheory.data.Tonality
 
 object TritonTest: TestInterface() {
-    // Общие переменные для всех тестов
-//    private var _allInterQuestions = MutableLiveData<MutableList<String>>()
-//    private var _currentQuestion = MutableLiveData<String>()
-//    private var _questionNumTotal = MutableLiveData<Int>()
-//    private var _currentQuestNum = MutableLiveData<Int>()
-//    private var _currentAnswer = MutableLiveData<String>()
-//    private var _currentBtnTxt = MutableLiveData<Array<String>>()
-//    private var _allBtnText = MutableLiveData<MutableList<Array<String>>>()
-//    private var _allAnswers = MutableLiveData<Array<String>>()
-//    private var _specificBtnTxt = MutableLiveData<Array<Array<String>>>()
-
 
     private var _currentTonality = MutableLiveData<Tonality>()
 
@@ -98,53 +87,17 @@ object TritonTest: TestInterface() {
 
 
 
-//    override fun getQuestion(): String? {
-//        _currentQuestion.value =
-//                _currentQuestNum.value?.let {
-//                    _allInterQuestions.value?.get(
-//                        it
-//                    )
-//                }
-//        return _currentQuestion.value
-//    }
+
 
     override fun nextQuestion() {
-//        allQuestionsInit()
-//        allBtnInit()
-//        allAnswersInit()
         choiceTonality()
         super.nextQuestion()
-
     }
 
-//    override fun nextIntermediateQuestion() {
-//        _currentQuestNum.value = _currentQuestNum.value?.plus(1)
-//
-//        if(_currentQuestNum.value == _questionNumTotal.value){
-//            nextQuestion()
-//        }
-//    }
 
-//    override fun getAnswer(): String? {
-//        _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
-//        return _currentAnswer.value
-//    }
 
-//    override fun getBtnTxt(): Array<String>? {
-//        _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
-//        if(_currentBtnTxt.value?.get(0)== "twoNumPick"){
-//            _specificBtnTxt.value = arrayOf(
-//                Notes.notes,
-//                Notes.signs
-//            )
-//        }
-//        return _currentBtnTxt.value
-//    }
 
-//    override fun getSpecificBtnTxt(): Array<Array<String>>? {
-//        return _specificBtnTxt.value
-//    }
-
+    //сейчас является основным методом определения статических знаков
     override fun getCurrentSignType(): MutableList<String> {
         return when(_currentAnswer.value){
             "tonicTriad" -> mutableListOf("целаятрезвучие")
@@ -162,4 +115,16 @@ object TritonTest: TestInterface() {
     override fun getTonality(): Tonality? {
         return _currentTonality.value
     }
+
+    override fun updateStaticStaveSign(
+        staticSignInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>,
+        signInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>
+    ) {
+        when(_currentAnswer.value){
+            "signsInTonalityStatic", "twoTonicThirdInStatic" -> staticSignInStave.value?.let { list1 -> signInStave.value?.let(list1::addAll) }
+            "twoReducedFifthInStatic" -> staticSignInStave.value = mutableListOf()
+        }
+
+    }
+
 }
