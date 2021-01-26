@@ -13,7 +13,7 @@ enum class Tonality(val signCount: Int, val signType: String, val mollDur: Strin
     h(2, "Диезы", "moll","D", "h-moll","си минор", "ля-диез", null),
     fis(3, "Диезы", "moll","A", "fis-moll","фа-диез минор", "ми-диез", null),
     cis(4, "Диезы", "moll","E", "cis-moll","до-диез минор", "си-диез", null),
-    B(2, "Бемоли", "dur","g", "B-dur","си-бемоль мажор", "си-бемоль", null),
+    B(2, "Бемоли", "dur","g", "B-dur","си-бемоль мажор", "соль-бемоль", null),
     Es(3, "Бемоли", "dur","c", "Es-dur","ми-бемоль мажор", "до-бемоль", null),
     As(4, "Бемоли", "dur","f", "As-dur", "ля-бемоль мажор", "фа-бемоль", null),
     g(2, "Бемоли", "moll", "B", "g-moll","соль минор", "фа-диез", null),

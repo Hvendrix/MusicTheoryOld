@@ -81,6 +81,7 @@ object TritonTest: TestInterface() {
 
 
     private fun findHarm(): String {
+        Log.i("xxx", "harmNote is ${_currentTonality.value?.harmNote ?: "ошибка"}")
         return _currentTonality.value?.harmNote ?: "ошибка"
     }
 
@@ -98,9 +99,9 @@ object TritonTest: TestInterface() {
 
 
 
-//    override fun getTonality(): Tonality? {
-//        return _currentTonality.value
-//    }
+    override fun getTonality(): Tonality? {
+        return _currentTonality.value
+    }
 
     override fun updateStaticStaveSign(
         staticSignInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>,

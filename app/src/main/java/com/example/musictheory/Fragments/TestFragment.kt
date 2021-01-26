@@ -221,8 +221,9 @@ class TestFragment : Fragment() {
                             Log.i("xxx", "все $it.third")
                         }
 
-//                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
-//                        observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
+                        // обязательно нужно оптимизировать код повторяется дважды до выбора интерфейса
+                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
+                        observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
 
 
                         binding.btnAnswer.visibility = View.VISIBLE
@@ -328,9 +329,7 @@ class TestFragment : Fragment() {
 //                    binding.txtNumPick.text =
 //                        "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
                     testFragmentViewModel.setCurrentNumPick(newVal)
-                    testFragmentViewModel.signInStave.value?.forEach {
-                        Log.i("xxx", "все $it.third")
-                    }
+
 //                    testFragmentViewModel.setCurrentAnswer(testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)?: "null")
                 }
             }
@@ -350,9 +349,6 @@ class TestFragment : Fragment() {
 //                        "Твой ответ будет: $text"
                     testFragmentViewModel.setCurrentAnswer(text)
                     testFragmentViewModel.addInSignInStave(text1, text2)
-                    testFragmentViewModel.signInStave.value?.forEach {
-                        Log.i("xxx", "все $it.third")
-                    }
 //                    updateSignsInLineList(text1, text2)
                 }
                 binding.numberPicker2.setOnValueChangedListener { _, _, newVal ->
@@ -365,9 +361,6 @@ class TestFragment : Fragment() {
                     testFragmentViewModel.setCurrentAnswer(text)
                     testFragmentViewModel.addInSignInStave(text1, text2)
 //                    updateSignsInLineList(text1, text2)
-                    testFragmentViewModel.signInStave.value?.forEach {
-                        Log.i("xxx", "все $it.third")
-                    }
                 }
 
             }
@@ -442,6 +435,9 @@ class TestFragment : Fragment() {
                     createSignView(binding, choiceImg, notesViewInLineList, i, heightSize,  widthSize, horPos, vertPos, vertChang)
                     testFragmentViewModel.signInStave.value?.forEach {
                         Log.i("xxx", "все $it.third")
+                    }
+                    testFragmentViewModel.staticSignInStave.value?.forEach {
+                        Log.i("xxx", "статичный $it.third")
                     }
 
                 }

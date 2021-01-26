@@ -19,6 +19,9 @@ abstract class TestInterface {
     var _currentTonality = MutableLiveData<Tonality>()
     var allTonality: MutableList<Tonality> = mutableListOf()
 
+
+
+
     open fun initTonality(){
         for(i in Tonality.values()){
             allTonality.add(i)
@@ -95,8 +98,8 @@ abstract class TestInterface {
         }
     }
 
-    open fun getTonality() = TonalityTest.currentTonality.value
-
+//    open fun getTonality() = TonalityTest.currentTonality.value
+    abstract fun getTonality() : Tonality?
 
 
     open fun updateStaticStaveSign(

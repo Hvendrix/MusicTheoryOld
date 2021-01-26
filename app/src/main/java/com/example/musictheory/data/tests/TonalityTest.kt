@@ -226,7 +226,7 @@ object TonalityTest : TestInterface() {
 //        }
 //    }
 
-//    override fun getTonality(): Tonality? {
-//        return currentTonality.value
-//    }
+    override fun getTonality(): Tonality? {
+        return currentTonality.value
+    }
 }
