@@ -3,22 +3,19 @@ package com.example.musictheory.data.tests
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.musictheory.data.Notes
-import com.example.musictheory.data.TestInterface
-import com.example.musictheory.data.Tonality
+import com.example.musictheory.data.*
 
 
 object TonalityTest : TestInterface() {
 
     // Переменные для данного теста
-    private var _currentTonality = MutableLiveData<Tonality>()
     private var _upperTestBool = MutableLiveData<Boolean>()
     private var _mollDur = MutableLiveData<String>()
     private var _parallelTonality = MutableLiveData<String>()
 
 
 
-    var allTonality: MutableList<Tonality> = mutableListOf()
+//    var allTonality: MutableList<Tonality> = mutableListOf()
 
 
     val currentTonality : LiveData<Tonality>
@@ -41,19 +38,19 @@ object TonalityTest : TestInterface() {
     }
 
 
-    private fun initTonality(){
-        for(i in Tonality.values()){
-            allTonality.add(i)
-        }
-    }
+//    private fun initTonality(){
+//        for(i in Tonality.values()){
+//            allTonality.add(i)
+//        }
+//    }
 
 
-    private fun choiceTonality(){
+    override fun choiceTonality(){
         allTonality.shuffle()
         _currentTonality.value = allTonality[0]
         _parallelTonality.value = ""
         // Дебагинг
-        _currentTonality.value = Tonality.G
+//        _currentTonality.value = Tonality.G
     }
 
 
@@ -74,13 +71,16 @@ object TonalityTest : TestInterface() {
 
      override fun allBtnInit(){
         _allBtnText.value = mutableListOf(
-            arrayOf("Да", "Нет", "Не знаю"),
-            arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
-            btnTonalityTextShuff(),
-            arrayOf("Диезы", "Бемоли", "Не знаю"),
-            arrayOf("I", "II", "III", "IV", "V", "VI", "VII"),
-            arrayOf("twoNumPick"),
-            arrayOf("table")
+            BtnsTextList(mutableListOf("Да", "Нет")),
+            BtnsTextList(mutableListOf("I", "II", "III", "IV", "V", "VI", "VII")),
+            BtnsTextList(btnTonalityTextShuff(), interfaceType = InterfaceTypes.NumPickWithoutStave                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ),
+            BtnsTextList(mutableListOf("Диезы", "Бемоли")),
+            BtnsTextList(mutableListOf("I", "II", "III", "IV", "V", "VI", "VII"), interfaceType = InterfaceTypes.NumPickWithoutStave),
+            BtnsTextList(Notes.notes.toMutableList(),
+                interfaceType = InterfaceTypes.TwoNumPick,
+                btnTextList2 = Notes.signs.toMutableList()
+            ),
+            BtnsTextList((Signs.signList.value?: mutableListOf("ошибка")), interfaceType = InterfaceTypes.TableWithAnsBtn)
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
     }
@@ -100,8 +100,8 @@ object TonalityTest : TestInterface() {
     }
 
 
-    private fun btnTonalityTextShuff(): Array<String>{
-        val tmpArray = arrayOf(findParallTonality(), allTonality[1].name, allTonality[2].name, allTonality[3].name)
+    private fun btnTonalityTextShuff(): MutableList<String>{
+        val tmpArray = mutableListOf(findParallTonality(), allTonality[1].name, allTonality[2].name, allTonality[3].name)
         tmpArray.shuffle()
         return tmpArray
     }
@@ -192,7 +192,6 @@ object TonalityTest : TestInterface() {
     }
 
     override fun nextIntermediateQuestion() {
-
         if(_currentQuestNum.value == 2 && upperTest() =="Да"){
             _upperTestBool.value = false
             _parallelTonality.value = "Параллельный мажор: ${_currentTonality.value?.parallTon.toString()} - dur"
@@ -212,21 +211,22 @@ object TonalityTest : TestInterface() {
 
 
 
-    override fun getCurrentSignType(): MutableList<String> {
-        return when(_currentAnswer.value){
-            "tonicTriad" -> mutableListOf("целаятрезвучие")
-            "twoTonicThirdInStatic", "twoReducedFifthInStatic" -> mutableListOf("дветерции")
-            "signsInTonality" -> {
-                return when(_currentTonality.value?.signType!!.toLowerCase()){
-                    "бемоли" -> mutableListOf("бемолиприключе")
-                    "диезы" -> mutableListOf("диезыприключе")
-                    else -> mutableListOf("error")
-                }
-            } else -> mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
-        }
-    }
+//    override fun getCurrentSignType(): MutableList<String> {
+//        return when(_currentAnswer.value){
+//            "tonicTriad" -> mutableListOf("целаятрезвучие")
+//            "twoTonicThirdInStatic", "twoReducedFifthInStatic" -> mutableListOf("дветерции")
+//            "signsInTonality" -> {
+//                Log.i("xxx", "определение в тесте")
+//                return when(_currentTonality.value?.signType!!.toLowerCase()){
+//                    "бемоли" -> mutableListOf("бемолиприключе")
+//                    "диезы" -> mutableListOf("диезыприключе")
+//                    else -> mutableListOf("error")
+//                }
+//            } else -> mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
+//        }
+//    }
 
-    override fun getTonality(): Tonality? {
-        return currentTonality.value
-    }
+//    override fun getTonality(): Tonality? {
+//        return currentTonality.value
+//    }
 }

@@ -3,15 +3,11 @@ package com.example.musictheory.data.tests
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.musictheory.data.Notes
-import com.example.musictheory.data.TestInterface
-import com.example.musictheory.data.Tonality
+import com.example.musictheory.data.*
 
 object TritonTest: TestInterface() {
 
-    private var _currentTonality = MutableLiveData<Tonality>()
-
-    var allTonality: MutableList<Tonality> = mutableListOf()
+//    var allTonality: MutableList<Tonality> = mutableListOf()
 
 
     val currentTonality : LiveData<Tonality>
@@ -27,19 +23,19 @@ object TritonTest: TestInterface() {
 
     }
 
-    private fun initTonality(){
-        for(i in Tonality.values()){
-           allTonality.add(i)
-        }
-    }
-
-
-    private fun choiceTonality(){
-        allTonality.shuffle()
-        _currentTonality.value = allTonality[0]
-        // Дебагинг
-//        _currentTonality.value = Tonality.G
-    }
+//    private fun initTonality(){
+//        for(i in Tonality.values()){
+//           allTonality.add(i)
+//        }
+//    }
+//
+//
+//    private fun choiceTonality(){
+//        allTonality.shuffle()
+//        _currentTonality.value = allTonality[0]
+//        // Дебагинг
+////        _currentTonality.value = Tonality.G
+//    }
 
 
     override fun allQuestionsInit(){
@@ -57,12 +53,15 @@ object TritonTest: TestInterface() {
 
     override fun allBtnInit(){
         _allBtnText.value = mutableListOf(
-            arrayOf("Да", "Нет", "Не знаю"),
-            arrayOf("table"),
-            arrayOf("table"),
-            arrayOf("twoNumPick"),
-            arrayOf("table"),
-            arrayOf("table")
+            BtnsTextList(mutableListOf("Да", "Нет")),
+            BtnsTextList((Signs.signList.value!!), interfaceType = InterfaceTypes.TableWithAnsBtn),
+            BtnsTextList((Signs.signList.value!!), interfaceType = InterfaceTypes.TableWithAnsBtn),
+            BtnsTextList(Notes.notes.toMutableList(),
+                interfaceType = InterfaceTypes.TwoNumPick,
+                btnTextList2 = Notes.signs.toMutableList()
+            ),
+            BtnsTextList((Signs.signList.value!!), interfaceType = InterfaceTypes.TableWithAnsBtn),
+            BtnsTextList((Signs.signList.value!!), interfaceType = InterfaceTypes.TableWithAnsBtn)
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
     }
@@ -97,24 +96,11 @@ object TritonTest: TestInterface() {
 
 
 
-    //сейчас является основным методом определения статических знаков
-    override fun getCurrentSignType(): MutableList<String> {
-        return when(_currentAnswer.value){
-            "tonicTriad" -> mutableListOf("целаятрезвучие")
-            "twoTonicThirdInStatic", "twoReducedFifthInStatic" -> mutableListOf("дветерции")
-            "signsInTonality", "signsInTonalityStatic" -> {
-                return when(_currentTonality.value?.signType!!.toLowerCase()){
-                    "бемоли" -> mutableListOf("бемолиприключе")
-                    "диезы" -> mutableListOf("диезыприключе")
-                    else -> mutableListOf("error")
-                }
-            } else -> mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
-        }
-    }
 
-    override fun getTonality(): Tonality? {
-        return _currentTonality.value
-    }
+
+//    override fun getTonality(): Tonality? {
+//        return _currentTonality.value
+//    }
 
     override fun updateStaticStaveSign(
         staticSignInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>,

@@ -1,12 +1,14 @@
 package com.example.musictheory.models
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.*
+import com.example.musictheory.data.tests.TonalityTest
 import com.example.musictheory.data.tests.TritonTest
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
@@ -16,17 +18,16 @@ class TestFragmentViewModel(
     val database: AnswerDatabaseDao, application: Application
 ) : AndroidViewModel(application) {
 
-    private var _btnText = MutableLiveData<Array<String>>()
+    private var _btnText = MutableLiveData<BtnsTextList>()
     private val _question = MutableLiveData<String>()
     private val _listErrors = MutableLiveData<MutableList<String>>(mutableListOf())
     private val _correctAnswer = MutableLiveData<String>()
     private val _currentTest = MutableLiveData<TestInterface>()
     private val _navigateToResult = MutableLiveData<Int>()
     private var _currentNumPick = MutableLiveData<Int>()
-    private var _specificBtnText = MutableLiveData<Array<Array<String>>>()
     private var _currentAnswer = MutableLiveData<String>()
     private var _currentSignType = MutableLiveData<MutableList<String>>()
-    private var _interfaceType = MutableLiveData<String>()
+    private var _interfaceType = MutableLiveData<InterfaceTypes>()
 
     private var _signInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
     private var _staticSignInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()
@@ -41,7 +42,7 @@ class TestFragmentViewModel(
         get() = _question
 
 
-    val btnText: LiveData<Array<String>>
+    val btnText: LiveData<BtnsTextList>
         get() = _btnText
 
 
@@ -51,10 +52,6 @@ class TestFragmentViewModel(
 
     val currentNumPick: LiveData<Int>
         get() = _currentNumPick
-
-
-    val specificBtnTxt: LiveData<Array<Array<String>>>
-        get() = _specificBtnText
 
 
     val signInStave: LiveData<MutableList<Triple<Float, Float, String>>>
@@ -67,7 +64,7 @@ class TestFragmentViewModel(
     val currentSignType: LiveData<MutableList<String>>
         get() = _currentSignType
 
-    val interfaceType: LiveData<String>
+    val interfaceType: LiveData<InterfaceTypes>
         get() = _interfaceType
 
 
@@ -111,23 +108,54 @@ class TestFragmentViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
 
-    private fun setInterfaceType() : String{
-        return when {
-            _btnText.value?.size!! > 3 -> "numPick"
-            _btnText.value?.get(0) == "twoNumPick" -> {
-                _specificBtnText.value = _currentTest.value?.getSpecificBtnTxt()
-                "twoNumPick"
+    private fun setInterfaceType() : InterfaceTypes{
+        return _btnText.value?.interfaceType ?: InterfaceTypes.Buttons
+    }
+
+    fun onClickAnswer(num: Int) {
+        Log.i("xxx", "${_correctAnswer.value} current ${_currentAnswer.value}")
+        //нужно исправить здесь
+        adapter.notifyDataSetChanged()
+        if (_interfaceType.value == InterfaceTypes.TableWithAnsBtn && setCurrentRecView(_currentTonality.value!!)) {
+            _currentTest.value?.updateStaticStaveSign(_staticSignInStave, _signInStave)
+            standardTransit()
+        } else if(_btnText.value?.btnTextList?.get(num) == _correctAnswer.value){
+            standardTransit()
+        } else if (_correctAnswer.value == _currentAnswer.value) {
+            standardTransit()
+        } else {
+            _correctAnswer.value?.let {
+                _listErrors.value?.add("Твой ответ неверный: s")
             }
-            _btnText.value?.get(0) == "table" -> "table"
-            _btnText.value?.size!! <= 3 -> "buttons"
-            else -> "ошибка"
+            printErrors()
+            Signs.clearEnabled()
+            _signInStave.value = mutableListOf()
         }
+        _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
+        _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
+        _parallelTonality.value = _currentTonality.value?.parallTonRef
+
+    }
+
+    fun standardTransit(){
+        _navigateToResult.value = null
+        _currentTest.value?.nextIntermediateQuestion()
+        _question.value = _currentTest.value?.getQuestion()
+        _btnText.value = _currentTest.value?.getBtnTxt()
+        _correctAnswer.value = _currentTest.value?.getAnswer()
+        Signs.clearEnabled()
+        _signInStave.value = mutableListOf()
+
+        _interfaceType.value = setInterfaceType()
     }
 
 
-    fun onClickAnswer(num: Int) {
+
+
+    fun onClickAnswerOld(num: Int) {
+        //нужно исправить здесь
         adapter.notifyDataSetChanged()
-        if (_interfaceType.value == "table" && setCurrentRecView(_currentTonality.value!!)) {
+        if (_interfaceType.value == InterfaceTypes.Table && setCurrentRecView(_currentTonality.value!!)) {
             _currentTest.value?.updateStaticStaveSign(_staticSignInStave, _signInStave)
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
@@ -135,30 +163,37 @@ class TestFragmentViewModel(
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
             Signs.clearEnabled()
-//            Signs._signsInStave.value = mutableListOf()
             _signInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
 
-        } else if (_correctAnswer.value == _btnText.value?.get(num)) {
+        } else if(_interfaceType.value == InterfaceTypes.NumPickWithoutStave){
+            //нужно исправить здесь
+            Signs.clearEnabled()
+//            Signs.testDeleteThis()
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
-//            Signs._signsInStave.value = mutableListOf()
+
             _signInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
-//            _staticSignInStave.value = mutableListOf()
+        } else if (_correctAnswer.value == _btnText.value?.btnTextList?.get(num)) {
+            _navigateToResult.value = null
+            _currentTest.value?.nextIntermediateQuestion()
+            _question.value = _currentTest.value?.getQuestion()
+            _btnText.value = _currentTest.value?.getBtnTxt()
+            _correctAnswer.value = _currentTest.value?.getAnswer()
+            _signInStave.value = mutableListOf()
+            _interfaceType.value = setInterfaceType()
         } else if (_correctAnswer.value == _currentAnswer.value) {
             _navigateToResult.value = null
             _currentTest.value?.nextIntermediateQuestion()
             _question.value = _currentTest.value?.getQuestion()
             _btnText.value = _currentTest.value?.getBtnTxt()
             _correctAnswer.value = _currentTest.value?.getAnswer()
-//            Signs._signsInStave.value = mutableListOf()
             _signInStave.value = mutableListOf()
             _interfaceType.value = setInterfaceType()
-//            _staticSignInStave.value = mutableListOf()
         } else {
             _correctAnswer.value?.let {
                 _listErrors.value?.add("Твой ответ неверный: s")

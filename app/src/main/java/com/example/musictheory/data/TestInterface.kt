@@ -1,6 +1,7 @@
 package com.example.musictheory.data
 
 import androidx.lifecycle.MutableLiveData
+import com.example.musictheory.data.tests.TonalityTest
 import com.example.musictheory.data.tests.TritonTest
 
 abstract class TestInterface {
@@ -12,10 +13,25 @@ abstract class TestInterface {
     var _questionNumTotal = MutableLiveData<Int>()
     var _currentQuestNum = MutableLiveData<Int>()
     var _currentAnswer = MutableLiveData<String>()
-    var _currentBtnTxt = MutableLiveData<Array<String>>()
-    var _allBtnText = MutableLiveData<MutableList<Array<String>>>()
+    var _currentBtnTxt = MutableLiveData<BtnsTextList>()
+    var _allBtnText = MutableLiveData<MutableList<BtnsTextList>>()
     var _allAnswers = MutableLiveData<Array<String>>()
-    var _specificBtnTxt = MutableLiveData<Array<Array<String>>>()
+    var _currentTonality = MutableLiveData<Tonality>()
+    var allTonality: MutableList<Tonality> = mutableListOf()
+
+    open fun initTonality(){
+        for(i in Tonality.values()){
+            allTonality.add(i)
+        }
+    }
+
+
+    open fun choiceTonality(){
+        allTonality.shuffle()
+        _currentTonality.value = allTonality[0]
+        // Дебагинг
+//        _currentTonality.value = Tonality.G
+    }
 
 
     abstract fun allQuestionsInit()
@@ -42,7 +58,6 @@ abstract class TestInterface {
 
     open fun nextIntermediateQuestion(){
         _currentQuestNum.value = _currentQuestNum.value?.plus(1)
-
         if(_currentQuestNum.value == _questionNumTotal.value){
             nextQuestion()
         }
@@ -53,25 +68,35 @@ abstract class TestInterface {
         return _currentAnswer.value
     }
 
-    open fun getBtnTxt(): Array<String>?{
+    open fun getBtnTxt(): BtnsTextList?{
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value?.get(it) }
-        if(_currentBtnTxt.value?.get(0)== "twoNumPick"){
-            _specificBtnTxt.value = arrayOf(
-                Notes.notes,
-                Notes.signs
-            )
-        }
+//        if(_currentBtnTxt.value?.get(0)== "twoNumPick"){
+//            _specificBtnTxt.value = arrayOf(
+//                Notes.notes,
+//                Notes.signs
+//            )
+//        }
         return _currentBtnTxt.value
 
     }
 
-    open fun getSpecificBtnTxt(): Array<Array<String>>?{
-        return _specificBtnTxt.value
+    //сейчас является основным методом определения статических знаков
+    open fun getCurrentSignType(): MutableList<String>{
+        return when(_currentAnswer.value){
+            "tonicTriad" -> mutableListOf("целаятрезвучие")
+            "twoTonicThirdInStatic", "twoReducedFifthInStatic" -> mutableListOf("дветерции")
+            "signsInTonality", "signsInTonalityStatic" -> {
+                return when(_currentTonality.value?.signType!!.toLowerCase()){
+                    "бемоли" -> mutableListOf("бемолиприключе")
+                    "диезы" -> mutableListOf("диезыприключе")
+                    else -> mutableListOf("error")
+                }
+            } else -> mutableListOf(_currentTonality.value?.signType!!.toLowerCase())
+        }
     }
 
-    abstract fun getCurrentSignType(): MutableList<String>
+    open fun getTonality() = TonalityTest.currentTonality.value
 
-    abstract fun getTonality(): Tonality?
 
 
     open fun updateStaticStaveSign(

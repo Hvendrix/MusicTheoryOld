@@ -107,6 +107,10 @@ object Signs {
         x1.value = 0
     }
 
+//    fun testDeleteThis(){
+//        _signList.value = mutableListOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
+//    }
+
 
     fun getOne() {
         x1.value = x1.value?.plus(1)
@@ -214,7 +218,6 @@ object Signs {
     fun clearEnabled() {
         for (i in 0 until listDataEnabled.value?.size!!) {
             listDataEnabled.value!![i] = 1
-            Log.i("ttt", "list bind updated = $i ${_listDataEnabled.value!![i]}")
         }
         listInOrder.clear()
 

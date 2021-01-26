@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musictheory.R
 import com.example.musictheory.adapters.SignItemDecoration
+import com.example.musictheory.data.InterfaceTypes
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.data.tests.TonalityTest
@@ -65,6 +66,7 @@ class TestFragment : Fragment() {
 
         binding.signList.adapter = adapter
 
+        adapter.viewModel = testFragmentViewModel
 
 
 
@@ -73,17 +75,23 @@ class TestFragment : Fragment() {
 //        binding.signList.addItemDecoration(DividerItemDecoration(context, GridLayoutManager.VERTICAL))
 
 
-        Signs.signList.observe(viewLifecycleOwner, Observer {
-            adapter.viewModel = testFragmentViewModel
-            adapter.data = it
-            adapter.notifyDataSetChanged()
-        })
-
-        testFragmentViewModel.currentSignType.observe(viewLifecycleOwner, Observer {
-            Log.i("xxx", "observ done")
-            Signs.currentSignTypeInSigns = it
-            Log.i("xxx", "${Signs.currentSignTypeInSigns[0]}")
-        })
+//        Signs.signList.observe(viewLifecycleOwner, Observer {
+//            adapter.viewModel = testFragmentViewModel
+//            adapter.data = it
+//            adapter.notifyDataSetChanged()
+//        })
+//
+//
+//        testFragmentViewModel.btnText.observe(viewLifecycleOwner, Observer {
+//            adapter.data = it.toMutableList()
+//            adapter.notifyDataSetChanged()
+//        })
+//
+//        testFragmentViewModel.currentSignType.observe(viewLifecycleOwner, Observer {
+//            Log.i("xxx", "observ done")
+//            Signs.currentSignTypeInSigns = it
+//            Log.i("xxx", "${Signs.currentSignTypeInSigns[0]}")
+//        })
 
         Signs.listDataEnabled.observe(viewLifecycleOwner, Observer {
             adapter.data2 = it
@@ -115,23 +123,27 @@ class TestFragment : Fragment() {
 
 
         hideAll(binding)
-        binding.numberPicker.minValue = 0
-        binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
-        binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
+//        binding.numberPicker.minValue = 0
+//        binding.numberPicker.maxValue = testFragmentViewModel.btnText.value?.size?.minus(1) ?: 0
+//        binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
 
         val notesViewInLineList : MutableList<ImageView> = mutableListOf()
         val staticNotesViewInLineList : MutableList<ImageView> = mutableListOf()
+
+
+        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
+        observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
 
         testFragmentViewModel.interfaceType.observe(viewLifecycleOwner, Observer{ type ->
             type?.let {
                 adapter.notifyDataSetChanged()
                 when (type) {
-                    "numPick" -> {
+                    InterfaceTypes.NumPick -> {
                         binding.numberPicker.maxValue = 0
-                        binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value
+                        binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value?.btnTextList?.toTypedArray()
                         binding.numberPicker.maxValue =
-                            testFragmentViewModel.btnText.value?.size?.minus(1) ?: 1
-                        binding.txtNumPick.text = "${testFragmentViewModel.btnText.value?.get(0)}"
+                            testFragmentViewModel.btnText.value?.btnTextList?.size?.minus(1) ?: 1
+                        binding.txtNumPick.text = "${testFragmentViewModel.btnText.value?.btnTextList?.get(0)}"
 //                        binding.txtNumPick.text = "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(0)}"
                         observeForNumPick(binding, testFragmentViewModel, 1)
                         testFragmentViewModel.setCurrentNumPick(0)
@@ -140,25 +152,30 @@ class TestFragment : Fragment() {
                         binding.txtNumPick.visibility = View.VISIBLE
                         binding.btnAnswer.visibility = View.VISIBLE
 
+
+
+                        testFragmentViewModel.signInStave.value?.forEach {
+                            Log.i("xxx", "все ${it.third}")
+                        }
                     }
-                    "twoNumPick" -> {
+                    InterfaceTypes.TwoNumPick-> {
 
                         hideAll(binding)
                         observeForNumPick(binding, testFragmentViewModel, 2)
                         binding.numberPicker.maxValue = 0
                         binding.numberPicker.displayedValues =
-                            testFragmentViewModel.specificBtnTxt.value?.get(0)
+                            testFragmentViewModel.btnText.value?.btnTextList?.toTypedArray()
                         binding.numberPicker.maxValue =
-                            testFragmentViewModel.specificBtnTxt.value?.get(0)?.size?.minus(1) ?: 0
+                            testFragmentViewModel.btnText.value?.btnTextList?.size?.minus(1) ?: 0
                         binding.numberPicker2.maxValue = 0
                         binding.numberPicker2.displayedValues =
-                            testFragmentViewModel.specificBtnTxt.value?.get(1)
+                            testFragmentViewModel.btnText.value?.btnTextList2?.toTypedArray()
                         binding.numberPicker2.maxValue =
-                            testFragmentViewModel.specificBtnTxt.value?.get(1)?.size?.minus(1) ?: 0
+                            testFragmentViewModel.btnText.value?.btnTextList2?.size?.minus(1) ?: 0
 
                         //ужас
                         testFragmentViewModel.setCurrentNumPick(0)
-                        val text = "${testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0).toString()}-${testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(0).toString()}"
+                        val text = "${testFragmentViewModel.btnText.value?.btnTextList?.get(0).toString()}-${testFragmentViewModel.btnText.value?.btnTextList2?.get(0).toString()}"
                         binding.txtNumPick.text = "${text}"
 //                        binding.txtNumPick.text = "Твой ответ будет: ${text}"
                         testFragmentViewModel.setCurrentAnswer(text)
@@ -171,17 +188,41 @@ class TestFragment : Fragment() {
                         binding.groupStave.visibility = View.VISIBLE
 
 
-                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
+//                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
 
 
                     }
-                    "table" -> {
+                    InterfaceTypes.Table-> {
+
+                        adapter.data = testFragmentViewModel.btnText.value?.btnTextList?: mutableListOf()
+                        adapter.notifyDataSetChanged()
                         hideAll(binding)
 
-                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
+//                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
+//                        observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
 
 
-                        observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
+//                        binding.btnAnswer.visibility = View.VISIBLE
+//                        binding.txtNumPick.visibility = View.VISIBLE
+                        binding.signList.visibility = View.VISIBLE
+//                        binding.btnClear.visibility = View.VISIBLE
+//                        binding.groupStave.visibility = View.VISIBLE
+//                        binding.txtNumPick.text = ""
+//                        binding.txtNumPick.text = "Твой ответ будет:"
+                        testFragmentViewModel.setCurrentNumPick(0)
+                    }
+                    InterfaceTypes.TableWithAnsBtn ->{
+                        adapter.data = testFragmentViewModel.btnText.value?.btnTextList?: mutableListOf()
+                        adapter.notifyDataSetChanged()
+                        hideAll(binding)
+
+
+                        testFragmentViewModel.signInStave.value?.forEach {
+                            Log.i("xxx", "все $it.third")
+                        }
+
+//                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
+//                        observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
 
 
                         binding.btnAnswer.visibility = View.VISIBLE
@@ -193,12 +234,31 @@ class TestFragment : Fragment() {
 //                        binding.txtNumPick.text = "Твой ответ будет:"
                         testFragmentViewModel.setCurrentNumPick(0)
                     }
-                    "buttons" -> {
-                        observeForNumPick(binding, testFragmentViewModel, 0)
+                    InterfaceTypes.NumPickWithoutStave ->{
+                        binding.numberPicker.maxValue = 0
+                        binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value?.btnTextList?.toTypedArray()
+                        binding.numberPicker.maxValue =
+                            testFragmentViewModel.btnText.value?.btnTextList?.size?.minus(1) ?: 1
+                        binding.txtNumPick.text = "${testFragmentViewModel.btnText.value?.btnTextList?.get(0)}"
+                        observeForNumPick(binding, testFragmentViewModel, 1)
+                        testFragmentViewModel.setCurrentNumPick(0)
                         hideAll(binding)
-                        binding.btnAns0.visibility = View.VISIBLE
-                        binding.btnAns1.visibility = View.VISIBLE
-                        binding.btnAns2.visibility = View.VISIBLE
+                        binding.numberPicker.visibility = View.VISIBLE
+                        binding.txtNumPick.visibility = View.VISIBLE
+                        binding.btnAnswer.visibility = View.VISIBLE
+
+
+
+                        testFragmentViewModel.signInStave.value?.forEach {
+                            Log.i("xxx", "все ${it.third}")
+                        }
+                    }
+                    InterfaceTypes.Buttons ->{
+                        adapter.data = testFragmentViewModel.btnText.value?.btnTextList?: mutableListOf()
+                        adapter.notifyDataSetChanged()
+                        hideAll(binding)
+                        binding.signList.visibility = View.VISIBLE
+                        testFragmentViewModel.setCurrentNumPick(0)
                     }
                 }
             }
@@ -217,9 +277,9 @@ class TestFragment : Fragment() {
         })
 
 
-        binding.signList.setOnClickListener {
-            testFragmentViewModel.onClickRecView()
-        }
+//        binding.signList.setOnClickListener {
+//            testFragmentViewModel.onClickRecView()
+//        }
 
         binding.btn2.setOnClickListener {
             this.findNavController()
@@ -235,9 +295,9 @@ class TestFragment : Fragment() {
 
 
     private fun hideAll(binding: FragmentTestBinding) {
-        binding.btnAns0.visibility = View.GONE
-        binding.btnAns1.visibility = View.GONE
-        binding.btnAns2.visibility = View.GONE
+//        binding.btnAns0.visibility = View.GONE
+//        binding.btnAns1.visibility = View.GONE
+//        binding.btnAns2.visibility = View.GONE
         binding.numberPicker.visibility = View.GONE
         binding.numberPicker2.visibility = View.GONE
         binding.txtNumPick.visibility = View.GONE
@@ -259,26 +319,30 @@ class TestFragment : Fragment() {
                 binding.numberPicker.setOnValueChangedListener { _, _, newVal ->
                     var text = ""
                     if (TonalityTest.currentQuestionNum.value == 2) {
-                        testFragmentViewModel.btnText.value?.get(newVal)?.let {
+                        testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)?.let {
                             text = "\n (${Tonality.valueOf(it).rusName})"
                         }
                     } else text = ""
                     binding.txtNumPick.text =
-                        "${testFragmentViewModel.btnText.value?.get(newVal)} $text"
+                        "${testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)} $text"
 //                    binding.txtNumPick.text =
 //                        "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
                     testFragmentViewModel.setCurrentNumPick(newVal)
+                    testFragmentViewModel.signInStave.value?.forEach {
+                        Log.i("xxx", "все $it.third")
+                    }
+//                    testFragmentViewModel.setCurrentAnswer(testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)?: "null")
                 }
             }
             2 -> {
                 var text = ""
                 var text1 = ""
                 var text2 = ""
-                text1 = testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(0).toString()
-                text2 = testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(0).toString()
+                text1 = testFragmentViewModel.btnText.value?.btnTextList?.get(0).toString()
+                text2 = testFragmentViewModel.btnText.value?.btnTextList2?.get(0).toString()
                 testFragmentViewModel.addInSignInStave(text1, text2)
                 binding.numberPicker.setOnValueChangedListener { _, _, newVal ->
-                    text1 = testFragmentViewModel.specificBtnTxt.value?.get(0)?.get(newVal).toString()
+                    text1 = testFragmentViewModel.btnText.value?.btnTextList?.get(newVal).toString()
                     text = "$text1-$text2"
                     binding.txtNumPick.text =
                         "$text"
@@ -286,10 +350,13 @@ class TestFragment : Fragment() {
 //                        "Твой ответ будет: $text"
                     testFragmentViewModel.setCurrentAnswer(text)
                     testFragmentViewModel.addInSignInStave(text1, text2)
+                    testFragmentViewModel.signInStave.value?.forEach {
+                        Log.i("xxx", "все $it.third")
+                    }
 //                    updateSignsInLineList(text1, text2)
                 }
                 binding.numberPicker2.setOnValueChangedListener { _, _, newVal ->
-                    text2 = testFragmentViewModel.specificBtnTxt.value?.get(1)?.get(newVal).toString()
+                    text2 = testFragmentViewModel.btnText.value?.btnTextList2?.get(newVal).toString()
                     text = "$text1-$text2"
                     binding.txtNumPick.text =
                         "$text"
@@ -298,7 +365,11 @@ class TestFragment : Fragment() {
                     testFragmentViewModel.setCurrentAnswer(text)
                     testFragmentViewModel.addInSignInStave(text1, text2)
 //                    updateSignsInLineList(text1, text2)
+                    testFragmentViewModel.signInStave.value?.forEach {
+                        Log.i("xxx", "все $it.third")
+                    }
                 }
+
             }
             0 -> {
 
@@ -315,22 +386,18 @@ class TestFragment : Fragment() {
     ) {
         signList.observe(viewLifecycleOwner, Observer { signTripleList ->
 
+            Log.i("xxx", "вхождение в обсерв")
             signTripleList?.let {
 
                 if (signTripleList.isEmpty()) {
                     for (i in notesViewInLineList) {
                         //                        binding.constraintLayout.removeViewAt(i)
-                        Log.i("ttt", "remove index $i")
+//                        Log.i("ttt", "remove index $i")
                         binding.constraintLayout.removeView(i)
                     }
                 }
                 for (i in signTripleList) {
-                    Toast.makeText(
-                        context,
-                        "tttttt   ${i.first}  ${i.second} ${i.third}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.i("xxx", "yes observe it")
+//                    Log.i("xxx", "yes observe it")
                     var choiceImg = 0
                     var vertChang = 0f
                     var heightSize = 52
@@ -373,6 +440,9 @@ class TestFragment : Fragment() {
                         }
                     }
                     createSignView(binding, choiceImg, notesViewInLineList, i, heightSize,  widthSize, horPos, vertPos, vertChang)
+                    testFragmentViewModel.signInStave.value?.forEach {
+                        Log.i("xxx", "все $it.third")
+                    }
 
                 }
 
@@ -389,6 +459,8 @@ class TestFragment : Fragment() {
                                horPos: Float,
                                vertPos: Float,
                                vertBias: Float){
+        //почему то срабаоывает на одиночный numPock
+
         val signView = ImageView(this.context)
         signView.id = View.generateViewId()
         noteList.add(signView)
@@ -405,6 +477,7 @@ class TestFragment : Fragment() {
         set.setHorizontalBias(signView.id, horPos)
         set.setVerticalBias(signView.id, vertPos + vertBias)
         set.applyTo(binding.constraintLayout)
+        Log.i("xxx", "Параметры были ${horPos}, $vertPos, $choicedImg, ")
     }
 
 

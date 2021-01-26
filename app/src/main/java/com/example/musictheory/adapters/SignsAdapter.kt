@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musictheory.R
+import com.example.musictheory.data.InterfaceTypes
 import com.example.musictheory.data.Signs
 import com.example.musictheory.databinding.ListItemSignsBinding
 import com.example.musictheory.models.TestFragmentViewModel
@@ -28,10 +29,8 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
             Log.i("ttt", "notifydata2")
         }
 
+
     lateinit var viewModel : TestFragmentViewModel
-
-
-
 
     override fun getItemCount(): Int = data.size
 
@@ -59,16 +58,40 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
             item2: Int,
             viewModel: TestFragmentViewModel
         ) {
-            Log.i("ttt", "bind")
-
             btnName.text = item
             btnName.setBackgroundResource(R.drawable.bg_btn_basic)
 
             btnName.setOnClickListener {
+                Log.i("xxx", "go")
+                if(viewModel.interfaceType.value==InterfaceTypes.Buttons){
+                    viewModel.onClickAnswer(position)
+                    return@setOnClickListener
+                }
+                if(viewModel.interfaceType.value==InterfaceTypes.NumPickWithoutStave){
+                    Signs.listDataEnabled.value?.set(position, 0)
+                    when (item2) {
+                        1 -> {
+                            btnName.isEnabled = true
+//                    btnName.setBackgroundColor(Color.GRAY)
+//                    btnName.setBackgroundColor()
+//                    btnName.setBackgroundColor(binding.root.resources.getColor(R.color.btnsColorPressed));
+                        }
+                        0 -> {
+                            btnName.isEnabled = false
+                        }
+                        else -> {
+                            btnName.text = "Чnо то не так"
+                            btnName.setBackgroundColor(Color.LTGRAY)
+                        }
+                    }
+//                    viewModel.onClickAnswer(0)
+                    return@setOnClickListener
+                }
                 Signs.addInList(item, position)
 
 
-                val signType = Signs.currentSignTypeInSigns[0].toLowerCase()
+//                val signType = Signs.currentSignTypeInSigns[0].toLowerCase()
+                val signType = viewModel.currentSignType.value?.get(0).toString().toLowerCase()
 //                var signType = "целая"
                 val numInRange = Signs.listInOrder.size.toFloat()
 
@@ -83,15 +106,16 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 
                 viewModel.signInStave.value?.add(Triple(Signs.noteInOrderInLines.get(signNamePlusOct), numInRange, signType) as Triple<Float, Float, String>)
                 viewModel.updateStave()
+                Log.i("xxx", "${viewModel.signInStave.value?.get(0)}")
 //                viewModel.signInStave.value = viewModel.signInStave.value
 
 
 //                for((x, i) in Signs._signsInStave.value!!.withIndex()){
 //                    Log.i("ttt", "Triple in Adapter ${i.first} $x name is $item")
 //                }
-                for((x, i) in viewModel.signInStave.value!!.withIndex()){
-                    Log.i("ttt", "Triple in Adapter ${i.first} $x name is $item")
-                }
+//                for((x, i) in viewModel.signInStave.value!!.withIndex()){
+//                    Log.i("ttt", "Triple in Adapter ${i.first} $x name is $item")
+//                }
 //                Log.i("ttt", "${Signs._signsInStave.value?.get(0)?.third}")
                 Signs.listEnabled[position] = 0
 //                Log.i("xxx", "current sign type = $signType")
@@ -103,7 +127,6 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
                 }
 
             }
-            Log.i("ttt", "${Signs.listDataEnabled.value?.get(position)}")
             when (item2) {
                 1 -> {
                     btnName.isEnabled = true
@@ -115,7 +138,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
                     btnName.isEnabled = false
                 }
                 else -> {
-                    btnName.text = "Чnо то не так"
+                    btnName.text = "Что то не так"
                     btnName.setBackgroundColor(Color.LTGRAY)
                 }
             }
