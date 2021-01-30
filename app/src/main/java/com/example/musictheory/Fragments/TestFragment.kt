@@ -282,11 +282,12 @@ class TestFragment : Fragment() {
 //        binding.btnAns2.visibility = View.GONE
         binding.numberPicker.visibility = View.GONE
         binding.numberPicker2.visibility = View.GONE
-        binding.txtNumPick.visibility = View.GONE
+//        binding.txtNumPick.visibility = View.GONE
+        binding.txtNumPick.visibility = View.INVISIBLE
         binding.btnAnswer.visibility = View.INVISIBLE
         binding.signList.visibility = View.GONE
         binding.btnClear.visibility = View.INVISIBLE
-        binding.groupStave.visibility = View.GONE
+        binding.groupStave.visibility = View.INVISIBLE
     }
 
 
