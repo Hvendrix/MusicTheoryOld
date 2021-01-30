@@ -28,8 +28,6 @@ import com.example.musictheory.models.TestFragmentViewModel
 import com.example.musictheory.models.TestFragmentViewModelFactory
 
 class TestFragment : Fragment() {
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +36,6 @@ class TestFragment : Fragment() {
         //default fragment inflater
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_test, container, false)
-
         val binding: FragmentTestBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_test, container, false)
 
@@ -100,8 +97,9 @@ class TestFragment : Fragment() {
 
 
         Signs.TestString.observe(viewLifecycleOwner, Observer {
-            binding.txtNumPick.text = "${it}"
+//            binding.txtNumPick.text = "${it}"
 //            binding.txtNumPick.text = "Твой ответ будет: ${it}"
+            binding.txtNumPick.text = ""
         })
 
         binding.btnClear.setOnClickListener {
@@ -151,12 +149,6 @@ class TestFragment : Fragment() {
                         binding.numberPicker.visibility = View.VISIBLE
                         binding.txtNumPick.visibility = View.VISIBLE
                         binding.btnAnswer.visibility = View.VISIBLE
-
-
-
-                        testFragmentViewModel.signInStave.value?.forEach {
-                            Log.i("xxx", "все ${it.third}")
-                        }
                     }
                     InterfaceTypes.TwoNumPick-> {
 
@@ -216,11 +208,6 @@ class TestFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                         hideAll(binding)
 
-
-                        testFragmentViewModel.signInStave.value?.forEach {
-                            Log.i("xxx", "все $it.third")
-                        }
-
                         // обязательно нужно оптимизировать код повторяется дважды до выбора интерфейса
                         observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
                         observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
@@ -232,7 +219,6 @@ class TestFragment : Fragment() {
                         binding.btnClear.visibility = View.VISIBLE
                         binding.groupStave.visibility = View.VISIBLE
                         binding.txtNumPick.text = ""
-//                        binding.txtNumPick.text = "Твой ответ будет:"
                         testFragmentViewModel.setCurrentNumPick(0)
                     }
                     InterfaceTypes.NumPickWithoutStave ->{
@@ -248,11 +234,6 @@ class TestFragment : Fragment() {
                         binding.txtNumPick.visibility = View.VISIBLE
                         binding.btnAnswer.visibility = View.VISIBLE
 
-
-
-                        testFragmentViewModel.signInStave.value?.forEach {
-                            Log.i("xxx", "все ${it.third}")
-                        }
                     }
                     InterfaceTypes.Buttons ->{
                         adapter.data = testFragmentViewModel.btnText.value?.btnTextList?: mutableListOf()
@@ -324,8 +305,10 @@ class TestFragment : Fragment() {
                             text = "\n (${Tonality.valueOf(it).rusName})"
                         }
                     } else text = ""
+//                    binding.txtNumPick.text =
+//                        "${testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)} $text"
                     binding.txtNumPick.text =
-                        "${testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)} $text"
+                        "${testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)}"
 //                    binding.txtNumPick.text =
 //                        "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
                     testFragmentViewModel.setCurrentNumPick(newVal)
@@ -379,18 +362,21 @@ class TestFragment : Fragment() {
     ) {
         signList.observe(viewLifecycleOwner, Observer { signTripleList ->
 
-            Log.i("xxx", "вхождение в обсерв")
             signTripleList?.let {
 
                 if (signTripleList.isEmpty()) {
                     for (i in notesViewInLineList) {
                         //                        binding.constraintLayout.removeViewAt(i)
-//                        Log.i("ttt", "remove index $i")
                         binding.constraintLayout.removeView(i)
                     }
                 }
+                for (i in notesViewInLineList) {
+                    //                        binding.constraintLayout.removeViewAt(i)
+                    binding.constraintLayout.removeView(i)
+                }
+                // ми фа соль си ре ля до бемоли
                 for (i in signTripleList) {
-//                    Log.i("xxx", "yes observe it")
+//
                     var choiceImg = 0
                     var vertChang = 0f
                     var heightSize = 52
@@ -433,12 +419,6 @@ class TestFragment : Fragment() {
                         }
                     }
                     createSignView(binding, choiceImg, notesViewInLineList, i, heightSize,  widthSize, horPos, vertPos, vertChang)
-                    testFragmentViewModel.signInStave.value?.forEach {
-                        Log.i("xxx", "все $it.third")
-                    }
-                    testFragmentViewModel.staticSignInStave.value?.forEach {
-                        Log.i("xxx", "статичный $it.third")
-                    }
 
                 }
 

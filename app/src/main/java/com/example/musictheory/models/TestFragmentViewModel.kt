@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.musictheory.adapters.SignsAdapter
 import com.example.musictheory.data.*
 import com.example.musictheory.data.tests.TonalityTest
+import com.example.musictheory.data.tests.TrebleClefTest
 import com.example.musictheory.data.tests.TritonTest
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
@@ -76,7 +77,7 @@ class TestFragmentViewModel(
 
 
     init {
-        _currentTest.value = TritonTest
+        _currentTest.value = TrebleClefTest
         _btnText.value = (_currentTest.value as TestInterface).getBtnTxt()
         _question.value = (_currentTest.value as TestInterface).getQuestion()
         _correctAnswer.value = (_currentTest.value as TestInterface).getAnswer()

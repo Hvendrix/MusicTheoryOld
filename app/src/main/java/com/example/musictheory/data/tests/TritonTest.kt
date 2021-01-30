@@ -40,7 +40,7 @@ object TritonTest: TestInterface() {
 
     override fun allQuestionsInit(){
         _allInterQuestions.value = mutableListOf(
-            "Укажите да",
+            "Нужно ли искать параллельную тональность?",
             "Укажите знаки в нужном порядке",
             "Постройте тоническое трезвучие",
             "Назови, какая нота появляется в гармоническом виде",

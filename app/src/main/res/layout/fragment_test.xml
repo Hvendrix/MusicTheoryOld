@@ -61,13 +61,15 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sign_list"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
             android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/guideline8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -319,12 +321,12 @@
             android:text="@{testFragmentViewModel.parallelTonality.engName}"
             android:textAppearance="@color/btnsColor"
             android:textColor="@color/secondColor"
-            tools:text="parallTon"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnTxtTonFirst" />
+            app:layout_constraintTop_toBottomOf="@+id/btnTxtTonFirst"
+            tools:text="parallTon" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
