@@ -134,8 +134,8 @@ class TestFragmentViewModel(
         }
         _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
         _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
-        _parallelTonality.value = _currentTonality.value?.parallTonRef
-
+//        _parallelTonality.value = _currentTonality.value?.parallTonRef
+        _parallelTonality.value = (_currentTest.value as TestInterface).getParallelTonality()
     }
 
     fun standardTransit(){

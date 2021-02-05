@@ -26,7 +26,7 @@ object Signs {
         5.5f to 0.235f
     )
     var positionInStaveHorizont = mutableMapOf(
-        1f to 0.255f,
+        1f to 0.335f,
         2f to 0.405f,
         3f to 0.555f,
         4f to 0.705f,

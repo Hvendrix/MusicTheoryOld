@@ -192,7 +192,7 @@ object TonalityTest : TestInterface() {
     }
 
     override fun nextIntermediateQuestion() {
-        if(_currentQuestNum.value == 2 && upperTest() =="Да"){
+        if(_currentQuestNum.value == 3 && upperTest() =="Да"){
             _upperTestBool.value = false
             _parallelTonality.value = "Параллельный мажор: ${_currentTonality.value?.parallTon.toString()} - dur"
             _currentTonality.value = _currentTonality.value?.parallTonRef
@@ -228,5 +228,14 @@ object TonalityTest : TestInterface() {
 
     override fun getTonality(): Tonality? {
         return currentTonality.value
+    }
+
+    override fun getParallelTonality(): Tonality? {
+        if((_currentQuestNum.value == 3) && upperTest() =="Да"){
+            return _currentTonality.value?.parallTonRef
+        } else return null
+
+
+
     }
 }

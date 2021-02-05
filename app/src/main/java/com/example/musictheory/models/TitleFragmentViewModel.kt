@@ -5,6 +5,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
+import com.example.musictheory.Fragments.TitleFragment
+import com.example.musictheory.Fragments.TitleFragmentDirections
+import com.example.musictheory.data.ConstsForTesting
+import com.example.musictheory.data.tests.TonalityTest
+import com.example.musictheory.data.tests.TrebleClefTest
+import com.example.musictheory.data.tests.TritonTest
 import com.example.musictheory.database.Answer
 import com.example.musictheory.database.AnswerDatabaseDao
 

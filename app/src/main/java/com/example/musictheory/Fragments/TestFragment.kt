@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -114,6 +115,7 @@ class TestFragment : Fragment() {
             Signs.getOne() ?: Log.i("xxx", "something wrong xx = ${Signs.x1.value}   ${Signs.x2}")
             Signs.x2++
             Log.i("xxx", "values xx = ${Signs.x1.value}   ${Signs.x2}")
+            Toast.makeText(context,  "${testFragmentViewModel.currentTonality.value?.rusName ?: ""}", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -302,13 +304,13 @@ class TestFragment : Fragment() {
                     var text = ""
                     if (TonalityTest.currentQuestionNum.value == 2) {
                         testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)?.let {
-                            text = "\n (${Tonality.valueOf(it).rusName})"
+                            text = " (${Tonality.valueOf(it).rusName})"
                         }
                     } else text = ""
-//                    binding.txtNumPick.text =
-//                        "${testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)} $text"
                     binding.txtNumPick.text =
-                        "${testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)}"
+                        "${testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)} $text"
+//                    binding.txtNumPick.text =
+//                        "${testFragmentViewModel.btnText.value?.btnTextList?.get(newVal)}"
 //                    binding.txtNumPick.text =
 //                        "Твой ответ будет: ${testFragmentViewModel.btnText.value?.get(newVal)} $text"
                     testFragmentViewModel.setCurrentNumPick(newVal)

@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_testFragment_to_resultFragment"
             app:destination="@id/resultFragment" />
+        <argument
+            android:name="typeOfTest"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"

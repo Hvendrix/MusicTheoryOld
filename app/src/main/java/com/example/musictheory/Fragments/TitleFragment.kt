@@ -9,6 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.musictheory.R
+import com.example.musictheory.data.ConstsForTesting
+import com.example.musictheory.data.tests.TonalityTest
+import com.example.musictheory.data.tests.TrebleClefTest
+import com.example.musictheory.data.tests.TritonTest
 import com.example.musictheory.database.AnswerDatabase
 import com.example.musictheory.databinding.FragmentTitleBinding
 import com.example.musictheory.models.TitleFragmentViewModel
@@ -44,9 +48,27 @@ class TitleFragment : Fragment() {
         binding.lastname = "qqqq"
 
         binding.btn1.setOnClickListener {
-            this.findNavController().navigate(TitleFragmentDirections.actionTitleFragmentToTestFragment())
+            toTestFragment(1)
         }
+        binding.btn2.setOnClickListener {
+            toTestFragment(2)
+        }
+        binding.btn3.setOnClickListener {
+            toTestFragment(3)
+        }
+
         return binding.root
+    }
+
+    fun toTestFragment(numTest: Int) {
+        when(numTest){
+            1-> ConstsForTesting.testingTest = TonalityTest
+            2-> ConstsForTesting.testingTest = TritonTest
+            3-> ConstsForTesting.testingTest = TrebleClefTest
+        }
+
+        this.findNavController()
+            .navigate(TitleFragmentDirections.actionTitleFragmentToTestFragment("test"))
     }
 
 
