@@ -40,7 +40,6 @@ object TritonTest: TestInterface() {
 
     override fun allQuestionsInit(){
         _allInterQuestions.value = mutableListOf(
-            "Нужно ли искать параллельную тональность?",
             "Укажите знаки в нужном порядке",
             "Постройте тоническое трезвучие",
             "Назови, какая нота появляется в гармоническом виде",
@@ -53,7 +52,6 @@ object TritonTest: TestInterface() {
 
     override fun allBtnInit(){
         _allBtnText.value = mutableListOf(
-            BtnsTextList(mutableListOf("Да", "Нет")),
             BtnsTextList((Signs.signList.value!!), interfaceType = InterfaceTypes.TableWithAnsBtn),
             BtnsTextList((Signs.signList.value!!), interfaceType = InterfaceTypes.TableWithAnsBtn),
             BtnsTextList(Notes.notes.toMutableList(),
@@ -69,7 +67,6 @@ object TritonTest: TestInterface() {
 
     override fun allAnswersInit(){
        _allAnswers.value = arrayOf(
-           "Да",
            "signsInTonalityStatic",
            "tonicTriad",
            findHarm(),
@@ -103,6 +100,8 @@ object TritonTest: TestInterface() {
         return _currentTonality.value
     }
 
+
+    //полный контроль над ститическими символами
     override fun updateStaticStaveSign(
         staticSignInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>,
         signInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>
@@ -110,6 +109,13 @@ object TritonTest: TestInterface() {
         when(_currentAnswer.value){
             "signsInTonalityStatic", "twoTonicThirdInStatic" -> staticSignInStave.value?.let { list1 -> signInStave.value?.let(list1::addAll) }
             "twoReducedFifthInStatic" -> staticSignInStave.value = mutableListOf()
+        }
+        if(_currentQuestNum.value==0){
+            Log.i("xxx", "get it")
+            staticSignInStave.value?.add(Triple(5f, 1f, "тактоваячерта"))
+            staticSignInStave.value?.forEach {
+                Log.i("xxx", "triple is ${it.first} ${it.second} ${it.third}" )
+            }
         }
 
     }

@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musictheory.R
 import com.example.musictheory.data.InterfaceTypes
+import com.example.musictheory.data.Notes
 import com.example.musictheory.data.Signs
 import com.example.musictheory.databinding.ListItemSignsBinding
 import com.example.musictheory.models.TestFragmentViewModel
@@ -62,7 +63,6 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
             btnName.setBackgroundResource(R.drawable.bg_btn_basic)
 
             btnName.setOnClickListener {
-                Log.i("xxx", "go")
                 if(viewModel.interfaceType.value==InterfaceTypes.Buttons){
                     viewModel.onClickAnswer(position)
                     return@setOnClickListener
@@ -99,10 +99,25 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 //                Signs._signsInStave.value = Signs._signsInStave.value
 
                 var signNamePlusOct = item
-                if(item!="ля" && item!="си" && item!="Ля" && item!="Си")
-                    when(signType){
-                        "диезыприключе", "бемолиприключе"  -> signNamePlusOct = item + "2"
+                if(item!="ля" && item!="си" && item!="Ля" && item!="Си") {
+                    when (signType) {
+                        "диезыприключе", "бемолиприключе" -> signNamePlusOct = item + "2"
+                        "одиндвадва", "двадвадва", "целаятрезвучие" -> {
+                            if(viewModel.signInStave.value?.lastOrNull() != null &&
+                                (viewModel.signInStave.value?.last()!!.first > Signs.noteInOrderInLines[item] ?: error(""))){
+                                signNamePlusOct = item + "2"
+                            }
+                        }
                     }
+                }
+
+//                if(signType==("одиндвадва") ||signType== ("двадвадва") || signType==("целаятрезвучие")){
+//                    var testing = viewModel.signInStave.value?.last()
+//                    Notes.notes.let {
+//                        Log.i("xxx", "dva dva ${it.indexOf(item.toString().toLowerCase())}")
+//                        Log.i("xxx", "odin dva dva ${testing}")
+//                    }
+//                }
 
                 viewModel.signInStave.value?.add(Triple(Signs.noteInOrderInLines.get(signNamePlusOct), numInRange, signType) as Triple<Float, Float, String>)
                 viewModel.updateStave()
@@ -119,7 +134,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 //                Log.i("ttt", "${Signs._signsInStave.value?.get(0)?.third}")
                 Signs.listEnabled[position] = 0
 //                Log.i("xxx", "current sign type = $signType")
-                if(signType!=("дветерции")){
+                if(signType!=("одиндвадва") && signType!=("двадвадва")){
                     Signs.listDataEnabled.value?.set(position, 0)
                     btnName.setBackgroundColor(Color.LTGRAY)
                     btnName.isEnabled = false

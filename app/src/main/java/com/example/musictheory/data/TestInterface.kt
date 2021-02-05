@@ -33,7 +33,11 @@ abstract class TestInterface {
         allTonality.shuffle()
         _currentTonality.value = allTonality[0]
         // Дебагинг
-//        _currentTonality.value = Tonality.G
+//        if(ConstsForTesting.testingTonality==1){
+//            _currentTonality.value = ConstsForTesting.testingChoiceTonality
+//            _currentTonality.value = Tonality.G
+//        }
+
     }
 
 
@@ -87,7 +91,8 @@ abstract class TestInterface {
     open fun getCurrentSignType(): MutableList<String>{
         return when(_currentAnswer.value){
             "tonicTriad" -> mutableListOf("целаятрезвучие")
-            "twoTonicThirdInStatic", "twoReducedFifthInStatic" -> mutableListOf("дветерции")
+            "twoTonicThirdInStatic" -> mutableListOf("двадвадва")
+            "twoReducedFifthInStatic" -> mutableListOf("одиндвадва")
             "signsInTonality", "signsInTonalityStatic" -> {
                 return when(_currentTonality.value?.signType!!.toLowerCase()){
                     "бемоли" -> mutableListOf("бемолиприключе")

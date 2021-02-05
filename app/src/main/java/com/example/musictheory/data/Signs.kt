@@ -35,14 +35,27 @@ object Signs {
         7f to 0.415f
     )
 
+
+    var positionInStaveHorTwoBarTwoPart = mutableMapOf(
+        1f to 0.200f,
+        2f to 0.200f,
+        3f to 0.600f,
+        4f to 0.600f,
+        5f to 0.855f,
+        6f to 0.999f,
+        7f to 0.415f
+    )
+
+
+// need init fun with step
     var positionHorizontalKeySignature = mutableMapOf(
-        1f to 0.150f,
-        2f to 0.225f,
-        3f to 0.300f,
-        4f to 0.375f,
-        5f to 0.450f,
-        6f to 0.525f,
-        7f to 0.600f
+        1f to 0.080f,
+        2f to 0.115f,
+        3f to 0.150f,
+        4f to 0.185f,
+        5f to 0.220f,
+        6f to 0.255f,
+        7f to 0.290f
     )
 
     var _signsInStave = MutableLiveData<MutableList<Triple<Float, Float, String>>>()

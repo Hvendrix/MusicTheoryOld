@@ -7,17 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musictheory.R
-import com.example.musictheory.adapters.SignItemDecoration
 import com.example.musictheory.data.InterfaceTypes
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
@@ -287,6 +284,8 @@ class TestFragment : Fragment() {
         binding.btnAnswer.visibility = View.INVISIBLE
         binding.signList.visibility = View.GONE
         binding.btnClear.visibility = View.INVISIBLE
+
+        //next must be invisible
         binding.groupStave.visibility = View.INVISIBLE
     }
 
@@ -380,6 +379,7 @@ class TestFragment : Fragment() {
 //
                     var choiceImg = 0
                     var vertChang = 0f
+                    var horChang = 0f
                     var heightSize = 52
                     var widthSize = 52
                     var horPos = Signs.positionInStaveHorizont[i.second] ?: 0f
@@ -400,12 +400,31 @@ class TestFragment : Fragment() {
                         }
                         "целаятрезвучие" -> {
                             choiceImg = R.drawable.int_note
-                            horPos = 0.9f
+                            vertChang = -0.005f
+                            horPos = 0.115f
+                            horChang = staveSignBias(testFragmentViewModel)
                             heightSize = 31
                             widthSize = 31
                         }
                         "дветерции" -> {
                             choiceImg = R.drawable.int_note
+                            heightSize = 31
+                            widthSize = 31
+                        }
+                        "одиндвадва" -> {
+                            choiceImg = R.drawable.int_note
+                            vertChang = -0.005f
+                            horPos = Signs.positionInStaveHorTwoBarTwoPart[i.second] ?: 0f
+                            horChang = staveSignBias(testFragmentViewModel)
+                            heightSize = 31
+                            widthSize = 31
+                        }
+                        "двадвадва" -> {
+                            choiceImg = R.drawable.int_note
+                            vertChang = -0.005f
+                            horPos = Signs.positionInStaveHorTwoBarTwoPart[i.second] ?: 0f
+                            horPos += 0.100f
+                            horChang = staveSignBias(testFragmentViewModel)
                             heightSize = 31
                             widthSize = 31
                         }
@@ -418,8 +437,16 @@ class TestFragment : Fragment() {
                             horPos = Signs.positionHorizontalKeySignature[i.second] ?: 0f
                             vertChang = -0.06f
                         }
+                        "тактоваячерта" ->{
+                            choiceImg = R.drawable.bar
+                            horChang = staveSignBias(testFragmentViewModel)
+                            horPos = 0.500f
+                            vertPos = 0.5f
+                            heightSize = 100
+                            widthSize = 83
+                        }
                     }
-                    createSignView(binding, choiceImg, notesViewInLineList, i, heightSize,  widthSize, horPos, vertPos, vertChang)
+                    createSignView(binding, choiceImg, notesViewInLineList, i, heightSize,  widthSize, horPos, vertPos, vertChang, horChang)
 
                 }
 
@@ -427,15 +454,18 @@ class TestFragment : Fragment() {
         })
     }
 
-    private fun createSignView(binding: FragmentTestBinding,
-                               choicedImg: Int,
-                               noteList: MutableList<ImageView>,
-                               signTriple: Triple<Float, Float, String>,
-                               heightSize: Int,
-                               widthSize: Int,
-                               horPos: Float,
-                               vertPos: Float,
-                               vertBias: Float){
+    private fun createSignView(
+        binding: FragmentTestBinding,
+        choicedImg: Int,
+        noteList: MutableList<ImageView>,
+        signTriple: Triple<Float, Float, String>,
+        heightSize: Int,
+        widthSize: Int,
+        horPos: Float,
+        vertPos: Float,
+        vertBias: Float,
+        horChang: Float
+    ){
         //почему то срабаоывает на одиночный numPock
 
         val signView = ImageView(this.context)
@@ -451,7 +481,7 @@ class TestFragment : Fragment() {
         set.connect(signView.id, ConstraintSet.RIGHT, binding.imgStave.id, ConstraintSet.RIGHT)
         set.connect(signView.id, ConstraintSet.TOP, binding.imgStave.id, ConstraintSet.TOP)
         set.connect(signView.id, ConstraintSet.BOTTOM, binding.imgStave.id, ConstraintSet.BOTTOM)
-        set.setHorizontalBias(signView.id, horPos)
+        set.setHorizontalBias(signView.id, horPos + horChang)
         set.setVerticalBias(signView.id, vertPos + vertBias)
         set.applyTo(binding.constraintLayout)
         Log.i("xxx", "Параметры были ${horPos}, $vertPos, $choicedImg, ")
@@ -480,5 +510,9 @@ class TestFragment : Fragment() {
         Signs._signsInStave.value = Signs._signsInStave.value
     }
 
+    private fun staveSignBias(viewModel: TestFragmentViewModel):Float{
+        var x = viewModel.currentTonality.value?.signCount ?: 0
+        return x*0.035f
+    }
 
 }
