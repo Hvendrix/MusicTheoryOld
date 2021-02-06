@@ -85,6 +85,7 @@ class TestFragmentViewModel(
         _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
         _interfaceType.value = setInterfaceType()
         _staticSignInStave.value = mutableListOf()
+        _currentTest.value?.updateStaticStaveSign(_staticSignInStave, _signInStave)
 
 
     }
@@ -132,10 +133,7 @@ class TestFragmentViewModel(
             Signs.clearEnabled()
             _signInStave.value = mutableListOf()
         }
-        _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
-        _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
-//        _parallelTonality.value = _currentTonality.value?.parallTonRef
-        _parallelTonality.value = (_currentTest.value as TestInterface).getParallelTonality()
+
     }
 
     fun standardTransit(){
@@ -148,6 +146,12 @@ class TestFragmentViewModel(
         _signInStave.value = mutableListOf()
 
         _interfaceType.value = setInterfaceType()
+
+
+        _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
+        _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
+//        _parallelTonality.value = _currentTonality.value?.parallTonRef
+        _parallelTonality.value = (_currentTest.value as TestInterface).getParallelTonality()
     }
 
 

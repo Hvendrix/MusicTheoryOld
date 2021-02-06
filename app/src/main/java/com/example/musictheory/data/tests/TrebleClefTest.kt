@@ -21,7 +21,7 @@ object TrebleClefTest: TestInterface() {
 
     override fun allBtnInit(){
         _allBtnText.value = mutableListOf(
-            BtnsTextList(Notes.notes.toMutableList(), interfaceType = InterfaceTypes.NumPick)
+            BtnsTextList(Notes.notes.toMutableList(), interfaceType = InterfaceTypes.TableWithAnsBtn)
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
     }
@@ -37,17 +37,42 @@ object TrebleClefTest: TestInterface() {
 
         var notes = Notes.notes
         notes.shuffle()
-        Signs._signsInStave.value = mutableListOf()
-        Signs._signsInStave.value?.add(
-            Triple(
-                Signs.noteInOrderInLines.get("Фа"),
-                1f,
-                "целая"
-            ) as Triple<Float, Float, String>
-        )
-        Log.i("xxx", "${Signs.signsInStave.value?.get(0)?.first}")
-        Signs._signsInStave.value = Signs._signsInStave.value
-        return "${notes[0]}-бекар"
+
+//        Signs._signsInStave.value = mutableListOf()
+//        Signs._signsInStave.value?.add(
+//            Triple(
+//                Signs.noteInOrderInLines.get("Фа"),
+//                1f,
+//                "целая"
+//            ) as Triple<Float, Float, String>
+//        )
+//        Log.i("xxx", "${Signs.signsInStave.value?.get(0)?.first}")
+//        Signs._signsInStave.value = Signs._signsInStave.value
+        return "${notes[0]}"
+
+
+    }
+
+    override fun updateStaticStaveSign(
+        staticSignInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>,
+        signInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>
+    ) {
+        if (_currentQuestNum.value == 0) {
+            Log.i(
+                "xxx",
+                "текущий ответ ::: ${Signs.noteInOrderInLines.get(_currentAnswer.value!!)}"
+            )
+            staticSignInStave.value?.add(
+                Triple(
+                    Signs.noteInOrderInLines.get(_currentAnswer.value!!)!!,
+                    1f,
+                    "целая"
+                )
+            )
+            staticSignInStave.value?.forEach {
+                Log.i("xxx", "triple is ${it.first} ${it.second} ${it.third}")
+            }
+        }
     }
 
 
@@ -56,7 +81,4 @@ object TrebleClefTest: TestInterface() {
         return mutableListOf("цел")
     }
 
-    override fun getTonality(): Tonality? {
-        return Tonality.c
-    }
 }

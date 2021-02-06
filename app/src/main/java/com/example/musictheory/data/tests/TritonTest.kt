@@ -111,13 +111,12 @@ object TritonTest: TestInterface() {
             "twoReducedFifthInStatic" -> staticSignInStave.value = mutableListOf()
         }
         if(_currentQuestNum.value==0){
-            Log.i("xxx", "get it")
+//            Log.i("xxx", "get it")
             staticSignInStave.value?.add(Triple(5f, 1f, "тактоваячерта"))
-            staticSignInStave.value?.forEach {
-                Log.i("xxx", "triple is ${it.first} ${it.second} ${it.third}" )
-            }
+//            staticSignInStave.value?.forEach {
+//                Log.i("xxx", "triple is ${it.first} ${it.second} ${it.third}" )
+//            }
         }
-
     }
 
 }

@@ -468,7 +468,7 @@ class TestFragment : Fragment() {
         vertBias: Float,
         horChang: Float
     ){
-        //почему то срабаоывает на одиночный numPock
+        //почему то срабаоывает на одиночный numPick
 
         val signView = ImageView(this.context)
         signView.id = View.generateViewId()
@@ -512,6 +512,8 @@ class TestFragment : Fragment() {
         Signs._signsInStave.value = Signs._signsInStave.value
     }
 
+
+    //смещает в завимимости от количества знаков при ключе
     private fun staveSignBias(viewModel: TestFragmentViewModel):Float{
         var x = viewModel.currentTonality.value?.signCount ?: 0
         return x*0.035f

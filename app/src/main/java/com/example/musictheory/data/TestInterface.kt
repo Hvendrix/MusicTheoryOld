@@ -35,7 +35,7 @@ abstract class TestInterface {
         // Дебагинг
 //        if(ConstsForTesting.testingTonality==1){
 //            _currentTonality.value = ConstsForTesting.testingChoiceTonality
-            _currentTonality.value = Tonality.D
+//            _currentTonality.value = Tonality.D
 //        }
 
     }
@@ -104,7 +104,9 @@ abstract class TestInterface {
     }
 
 //    open fun getTonality() = TonalityTest.currentTonality.value
-    abstract fun getTonality() : Tonality?
+    open fun getTonality() : Tonality?{
+        return null
+}
 
 
     open fun getParallelTonality() : Tonality?{
