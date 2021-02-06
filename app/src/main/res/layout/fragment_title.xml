@@ -18,19 +18,18 @@
         android:layout_height="match_parent"
         tools:context=".Fragments.TitleFragment">
             <!-- TODO: Update blank fragment layout -->
+           dd
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/hello_blank_fragment" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@{lastname}" />
+                android:text="@{lastname}"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@{titleFragmentViewModel.test.toString()}"/>
+                android:text="@{titleFragmentViewModel.test.toString()}"
+                android:visibility="gone"/>
 
 <!--            <Button-->
 <!--                android:layout_width="match_parent"-->
@@ -66,13 +65,72 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> titleFragmentViewModel.onStartTracking()}"
+                android:visibility="gone"
                 android:text="WWWWWWWWW" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:onClick="@{() -> titleFragmentViewModel.onClear()}"
                 android:text="DDDDDDDDDDDDDD" />
+
+
+            <TextView
+                android:id="@+id/txtUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Button
+                android:id="@+id/btnDBExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Выйти"
+                />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name" />
+
+            <Button
+                android:id="@+id/btnDB1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
+            <Button
+                android:id="@+id/btnDB2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Регистрация"
+                />
+
+
+            <Button
+                android:id="@+id/btnDB3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Войти"
+                />
+
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
 
         </LinearLayout>

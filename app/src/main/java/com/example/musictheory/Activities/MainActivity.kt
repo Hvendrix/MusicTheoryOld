@@ -2,6 +2,8 @@ package com.example.musictheory.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.musictheory.R
 import com.example.musictheory.models.MyViewModel
 
@@ -35,5 +37,8 @@ class MainActivity : AppCompatActivity() {
 //
 //        binding.myViewModel = myViewModel
 
+
     }
+
+
 }

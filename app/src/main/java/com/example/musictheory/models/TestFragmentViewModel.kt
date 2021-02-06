@@ -1,6 +1,7 @@
 package com.example.musictheory.models
 
 import android.app.Application
+import android.provider.ContactsContract
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -11,9 +12,15 @@ import com.example.musictheory.data.*
 import com.example.musictheory.data.tests.TonalityTest
 import com.example.musictheory.data.tests.TrebleClefTest
 import com.example.musictheory.data.tests.TritonTest
-import com.example.musictheory.database.Answer
-import com.example.musictheory.database.AnswerDatabaseDao
+import com.example.musictheory.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.*
+//test
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 class TestFragmentViewModel(
     val database: AnswerDatabaseDao, application: Application
@@ -86,6 +93,7 @@ class TestFragmentViewModel(
         _interfaceType.value = setInterfaceType()
         _staticSignInStave.value = mutableListOf()
         _currentTest.value?.updateStaticStaveSign(_staticSignInStave, _signInStave)
+        pushToFirebase(true)
 
 
     }
@@ -127,11 +135,12 @@ class TestFragmentViewModel(
             standardTransit()
         } else {
             _correctAnswer.value?.let {
-                _listErrors.value?.add("Твой ответ неверный: s")
+                _listErrors.value?.add("${_correctAnswer.value} : ${_currentAnswer.value} : ${_question.value}")
             }
             printErrors()
             Signs.clearEnabled()
             _signInStave.value = mutableListOf()
+            pushToFirebase()
         }
 
     }
@@ -211,6 +220,31 @@ class TestFragmentViewModel(
         _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
         _parallelTonality.value = _currentTonality.value?.parallTonRef
 
+    }
+
+
+
+    fun pushToFirebase(test: Boolean = false){
+        val cUser = userStateTesting.mAuth.currentUser
+
+        if(cUser != null){
+            val USER_KEY = "User"
+
+            val fBDb: DatabaseReference = FirebaseDatabase.getInstance().getReference(USER_KEY)
+            val id = fBDb.key ?: "0"
+            val name = cUser.email.toString()
+            var pass2 = _listErrors.value ?: mutableListOf()
+            if(test) pass2 = mutableListOf("begin")
+
+            val currentTest = _currentTest.value.toString()
+            var curData = Date()
+            val formatData = SimpleDateFormat("HH:mm:ss  dd.MM.yyyy", Locale.getDefault())
+            var timeText = formatData.format(curData)
+            val user = TestForFirebase2(id, name, pass2, currentTest, timeText)
+            fBDb.push().setValue(user)
+        }else{
+
+        }
     }
 
     fun onClickTonality(num: Int) {

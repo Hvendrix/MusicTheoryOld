@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
     app:startDestination="@id/titleFragment">
 
     <fragment
@@ -21,9 +23,17 @@
         <argument
             android:name="typeOfTest"
             app:argType="string" />
+        <action
+            android:id="@+id/action_testFragment_to_theoryFragment"
+            app:destination="@id/theoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.example.musictheory.Fragments.ResultFragment"
         android:label="ResultFragment" />
+    <fragment
+        android:id="@+id/theoryFragment"
+        android:name="com.example.musictheory.Fragments.TheoryFragment"
+        android:label="fragment_theory"
+        tools:layout="@layout/fragment_theory" />
 </navigation>

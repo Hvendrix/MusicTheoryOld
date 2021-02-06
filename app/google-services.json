@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "925488372702",
+    "firebase_url": "https://musictheory-9ca60-default-rtdb.firebaseio.com",
+    "project_id": "musictheory-9ca60",
+    "storage_bucket": "musictheory-9ca60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925488372702:android:d50b1b1367f168b6cd5b4f",
+        "android_client_info": {
+          "package_name": "com.example.musictheory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925488372702-6la9uj79lo0g5jkm0up98gnmnn1sl675.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWfbLj-XfDei-AZgGWJ9iYFRIgGHUObSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925488372702-6la9uj79lo0g5jkm0up98gnmnn1sl675.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

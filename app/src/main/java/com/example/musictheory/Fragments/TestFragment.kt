@@ -21,9 +21,15 @@ import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.data.tests.TonalityTest
 import com.example.musictheory.database.AnswerDatabase
+import com.example.musictheory.database.TestForFirebase
+import com.example.musictheory.database.TestForFirebase2
+import com.example.musictheory.database.userStateTesting
 import com.example.musictheory.databinding.FragmentTestBinding
 import com.example.musictheory.models.TestFragmentViewModel
 import com.example.musictheory.models.TestFragmentViewModelFactory
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_title.*
 
 class TestFragment : Fragment() {
     override fun onCreateView(
@@ -268,10 +274,41 @@ class TestFragment : Fragment() {
         }
 
 
+        binding.btnHelp.setOnClickListener {
+            toHelpFragment()
+        }
 
 
         return binding.root
     }
+
+    fun toHelpFragment(){
+        this.findNavController()
+            .navigate(TestFragmentDirections.actionTestFragmentToTheoryFragment())
+    }
+
+//    override fun onStart() {
+//        super.onStart()
+//        val cUser = userStateTesting.mAuth.currentUser
+//
+//        if(cUser != null){
+//            val USER_KEY = "User"
+//            val fBDb: DatabaseReference = FirebaseDatabase.getInstance().getReference(USER_KEY)
+//            var userName = "Вы вошли как : " + cUser.email
+//            Toast.makeText(context, "$userName", Toast.LENGTH_SHORT).show()
+//            val id = fBDb.key ?: "0"
+//            val name = "zzzzz"
+//            val pass = "pppppp"
+//            val user = TestForFirebase(id, name, pass)
+//            fBDb.push().setValue(user)
+////            txtUserName.setText(userName)
+//        }else{
+//            Toast.makeText(context, "User null", Toast.LENGTH_SHORT).show()
+//
+//        }
+//    }
+
+
 
 
 
