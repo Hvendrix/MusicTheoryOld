@@ -22,7 +22,18 @@
     </style>
 
 
+    <style name="AppTheme.btnsSecondStyle">
+        <item name="fontFamily">Roboto</item>
 
+        <item name="android:textSize">13sp</item>
+
+        <item name="android:letterSpacing">0.01</item>
+
+        <item name="android:textColor">@color/btnAnswerColor</item>
+
+        <item name="android:background">@drawable/bg_btn_answer</item>
+
+    </style>
 
     <style name="btnsMainStyle">
         <item name="android:colorBackground">#E9E8F1</item>

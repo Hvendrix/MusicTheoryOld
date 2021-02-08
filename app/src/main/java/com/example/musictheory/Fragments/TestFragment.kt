@@ -2,10 +2,8 @@ package com.example.musictheory.Fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
@@ -13,7 +11,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musictheory.R
 import com.example.musictheory.data.InterfaceTypes
@@ -58,6 +58,11 @@ class TestFragment : Fragment() {
         binding.testFragmentViewModel = testFragmentViewModel
 
 
+
+        setHasOptionsMenu(true)
+
+
+
         val manager = GridLayoutManager(activity, 4)
         binding.signList.layoutManager = manager
 
@@ -93,6 +98,7 @@ class TestFragment : Fragment() {
 //            Signs.currentSignTypeInSigns = it
 //            Log.i("xxx", "${Signs.currentSignTypeInSigns[0]}")
 //        })
+
 
         Signs.listDataEnabled.observe(viewLifecycleOwner, Observer {
             adapter.data2 = it
@@ -280,6 +286,24 @@ class TestFragment : Fragment() {
 
 
         return binding.root
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.overflow_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Toast.makeText(context, "$item ${view!!.findNavController()}", Toast.LENGTH_SHORT).show()
+
+        return super.onOptionsItemSelected(item)
+//        return NavigationUI.onNavDestinationSelected(item!!,
+//        view!!.findNavController())
+//                || super.onOptionsItemSelected(item)
+
+
+
     }
 
     fun toHelpFragment(){
