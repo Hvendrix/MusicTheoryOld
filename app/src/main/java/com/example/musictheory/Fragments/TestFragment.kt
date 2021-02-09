@@ -511,6 +511,11 @@ class TestFragment : Fragment() {
                     }
                     createSignView(binding, choiceImg, notesViewInLineList, i, heightSize,  widthSize, horPos, vertPos, vertChang, horChang)
 
+                    if(i.first<0){
+                        var choiceImg2 = R.drawable.additional_line
+                        createSignView(binding, choiceImg2, notesViewInLineList, i, 1,  10, horPos, vertPos, vertChang, horChang)
+                    }
+
                 }
 
             }
