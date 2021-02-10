@@ -12,15 +12,15 @@ object Signs {
     var rightSharpOrder = listOf("Фа", "До", "Соль", "Ре", "Ля", "Ми", "Си")
     var rightFlatOrder = listOf("Си", "Ми", "Ля", "Ре", "Соль", "До", "Фа")
     var positionInStaveVert = mutableMapOf(
-        -1f to 0.795f,
-        -0.5f to 0.745f,
-        1f to 0.700f,
-        1.5f to 0.645f,
-        2f to 0.600f,
-        2.5f to 0.545f,
+        -1f to 0.800f,
+        -0.5f to 0.750f,
+        1f to 0.710f,
+        1.5f to 0.660f,
+        2f to 0.605f,
+        2.5f to 0.555f,
         3f to 0.505f,
         3.5f to 0.445f,
-        4f to 0.390f,
+        4f to 0.395f,
         4.5f to 0.340f,
         5f to 0.295f,
         5.5f to 0.235f

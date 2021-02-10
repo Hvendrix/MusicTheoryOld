@@ -1,35 +1,34 @@
 package com.example.musictheory.Fragments
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.musictheory.Activities.MainActivity
 import com.example.musictheory.R
 import com.example.musictheory.data.InterfaceTypes
 import com.example.musictheory.data.Signs
 import com.example.musictheory.data.Tonality
 import com.example.musictheory.data.tests.TonalityTest
 import com.example.musictheory.database.AnswerDatabase
-import com.example.musictheory.database.TestForFirebase
-import com.example.musictheory.database.TestForFirebase2
-import com.example.musictheory.database.userStateTesting
 import com.example.musictheory.databinding.FragmentTestBinding
 import com.example.musictheory.models.TestFragmentViewModel
 import com.example.musictheory.models.TestFragmentViewModelFactory
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.fragment_title.*
+
 
 class TestFragment : Fragment() {
     override fun onCreateView(
@@ -60,7 +59,6 @@ class TestFragment : Fragment() {
 
 
         setHasOptionsMenu(true)
-
 
 
         val manager = GridLayoutManager(activity, 4)
@@ -219,7 +217,7 @@ class TestFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                         hideAll(binding)
 
-                        // обязательно нужно оптимизировать код повторяется дважды до выбора интерфейса
+                        // обязательно нужно оптимизировать код повторяется дважды до выбора интерфейса, а без этого баги(
                         observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
                         observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
 
@@ -237,7 +235,15 @@ class TestFragment : Fragment() {
                         binding.numberPicker.displayedValues = testFragmentViewModel.btnText.value?.btnTextList?.toTypedArray()
                         binding.numberPicker.maxValue =
                             testFragmentViewModel.btnText.value?.btnTextList?.size?.minus(1) ?: 1
-                        binding.txtNumPick.text = "${testFragmentViewModel.btnText.value?.btnTextList?.get(0)}"
+
+                        //костыль
+                        var text = "${testFragmentViewModel.btnText.value?.btnTextList?.get(0)}"
+                        if (TonalityTest.currentQuestionNum.value == 2) {
+                            testFragmentViewModel.btnText.value?.btnTextList?.get(0)?.let {
+                                text += " (${Tonality.valueOf(it).rusName})"
+                            }
+                        }
+                        binding.txtNumPick.text = "${text}"
                         observeForNumPick(binding, testFragmentViewModel, 1)
                         testFragmentViewModel.setCurrentNumPick(0)
                         hideAll(binding)
@@ -245,6 +251,26 @@ class TestFragment : Fragment() {
                         binding.txtNumPick.visibility = View.VISIBLE
                         binding.btnAnswer.visibility = View.VISIBLE
 
+                    }
+                    InterfaceTypes.ButtonsWithStave -> {
+                        adapter.data = testFragmentViewModel.btnText.value?.btnTextList?: mutableListOf()
+                        adapter.notifyDataSetChanged()
+                        hideAll(binding)
+                        binding.signList.visibility = View.VISIBLE
+                        testFragmentViewModel.setCurrentNumPick(0)
+
+
+                        observeSignForView(testFragmentViewModel, notesViewInLineList, binding, testFragmentViewModel.signInStave)
+                        observeSignForView(testFragmentViewModel, staticNotesViewInLineList, binding, testFragmentViewModel.staticSignInStave)
+
+
+//                        binding.btnAnswer.visibility = View.VISIBLE
+                        binding.txtNumPick.visibility = View.VISIBLE
+                        binding.signList.visibility = View.VISIBLE
+//                        binding.btnClear.visibility = View.VISIBLE
+                        binding.groupStave.visibility = View.VISIBLE
+                        binding.txtNumPick.text = ""
+                        testFragmentViewModel.setCurrentNumPick(0)
                     }
                     InterfaceTypes.Buttons ->{
                         adapter.data = testFragmentViewModel.btnText.value?.btnTextList?: mutableListOf()
@@ -285,9 +311,25 @@ class TestFragment : Fragment() {
         }
 
 
+        // опасный костыль
+        val activity = activity as MainActivity
+        hideSoftKeyboard(activity)
+
+
         return binding.root
     }
 
+
+    //костылек
+    fun hideSoftKeyboard(activity: Activity) {
+        val inputMethodManager =
+            activity.getSystemService(
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+            activity.currentFocus?.windowToken, 0
+        )
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -457,39 +499,39 @@ class TestFragment : Fragment() {
                         }
                         "целая" -> {
                             choiceImg = R.drawable.int_note
-                            vertChang = -0.005f
-                            heightSize = 31
-                            widthSize = 31
+//                            vertChang = -0.005f
+//                            heightSize = 31
+//                            widthSize = 31
                         }
                         "целаятрезвучие" -> {
                             choiceImg = R.drawable.int_note
-                            vertChang = -0.005f
+//                            vertChang = -0.005f
                             horPos = 0.115f
                             horChang = staveSignBias(testFragmentViewModel)
-                            heightSize = 31
-                            widthSize = 31
+//                            heightSize = 31
+//                            widthSize = 31
                         }
                         "дветерции" -> {
                             choiceImg = R.drawable.int_note
-                            heightSize = 31
-                            widthSize = 31
+//                            heightSize = 31
+//                            widthSize = 31
                         }
                         "одиндвадва" -> {
                             choiceImg = R.drawable.int_note
-                            vertChang = -0.005f
+//                            vertChang = -0.005f
                             horPos = Signs.positionInStaveHorTwoBarTwoPart[i.second] ?: 0f
                             horChang = staveSignBias(testFragmentViewModel)
-                            heightSize = 31
-                            widthSize = 31
+//                            heightSize = 31
+//                            widthSize = 31
                         }
                         "двадвадва" -> {
                             choiceImg = R.drawable.int_note
-                            vertChang = -0.005f
+//                            vertChang = -0.005f
                             horPos = Signs.positionInStaveHorTwoBarTwoPart[i.second] ?: 0f
                             horPos += 0.100f
                             horChang = staveSignBias(testFragmentViewModel)
-                            heightSize = 31
-                            widthSize = 31
+//                            heightSize = 31
+//                            widthSize = 31
                         }
                         "диезыприключе" -> {
                             choiceImg = R.drawable.sharp
@@ -511,10 +553,10 @@ class TestFragment : Fragment() {
                     }
                     createSignView(binding, choiceImg, notesViewInLineList, i, heightSize,  widthSize, horPos, vertPos, vertChang, horChang)
 
-                    if(i.first<0){
-                        var choiceImg2 = R.drawable.additional_line
-                        createSignView(binding, choiceImg2, notesViewInLineList, i, 1,  10, horPos, vertPos, vertChang, horChang)
-                    }
+//                    if(i.first<0){
+//                        var choiceImg2 = R.drawable.additional_line
+//                        createSignView(binding, choiceImg2, notesViewInLineList, i, 1,  10, horPos, vertPos, vertChang, horChang)
+//                    }
 
                 }
 

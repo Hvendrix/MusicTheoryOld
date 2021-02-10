@@ -101,9 +101,9 @@ class TitleFragment : Fragment() {
                 binding.editTextTextPersonName2.text.toString()).addOnCompleteListener(
                     OnCompleteListener{
                         if(it.isSuccessful()){
-                            Toast.makeText(context, "register success", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Регистрация успешна", Toast.LENGTH_SHORT).show()
                         } else{
-                            Toast.makeText(context, "register incorrect", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "ВНИМАНИЕ!!! Регистрация не прошла успешно!", Toast.LENGTH_SHORT).show()
                         }
                     })
 
@@ -131,9 +131,9 @@ class TitleFragment : Fragment() {
                             val cUser = userStateTesting.mAuth.currentUser
                             var userName = "Вы вошли как : " + cUser?.email
                             txtUserName.setText(userName)
-                            Toast.makeText(context, "signIn success", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "${userName}", Toast.LENGTH_SHORT).show()
                         } else{
-                            Toast.makeText(context, "signIn incorrect", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Ошибка при входе", Toast.LENGTH_SHORT).show()
                         }
                     }
                 )
@@ -177,11 +177,11 @@ class TitleFragment : Fragment() {
             var userName = "Вы вошли как : " + cUser.email
             txtUserName.setText(userName)
 
-            Toast.makeText(context, "User not null", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "$userName", Toast.LENGTH_SHORT).show()
         }else{
             btnDBExit.visibility = View.GONE
             txtUserName.visibility = View.GONE
-            Toast.makeText(context, "User null", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "User null", Toast.LENGTH_SHORT).show()
 
         }
     }

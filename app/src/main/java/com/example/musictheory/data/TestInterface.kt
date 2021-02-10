@@ -35,7 +35,7 @@ abstract class TestInterface {
         // Дебагинг
 //        if(ConstsForTesting.testingTonality==1){
 //            _currentTonality.value = ConstsForTesting.testingChoiceTonality
-            _currentTonality.value = Tonality.D
+//            _currentTonality.value = Tonality.D
 //        }
 
     }

@@ -129,6 +129,12 @@ class TestFragmentViewModel(
         if (_interfaceType.value == InterfaceTypes.TableWithAnsBtn && setCurrentRecView(_currentTonality.value!!)) {
             _currentTest.value?.updateStaticStaveSign(_staticSignInStave, _signInStave)
             standardTransit()
+        } else if(_interfaceType.value ==InterfaceTypes.ButtonsWithStave && _btnText.value?.btnTextList?.get(num) == _correctAnswer.value){
+            // не пашет
+            _currentTest.value?.updateStaticStaveSign(_staticSignInStave, _signInStave)
+            standardTransit()
+
+
         } else if(_btnText.value?.btnTextList?.get(num) == _correctAnswer.value){
             standardTransit()
         } else if (_correctAnswer.value == _currentAnswer.value) {
@@ -161,65 +167,6 @@ class TestFragmentViewModel(
         _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
 //        _parallelTonality.value = _currentTonality.value?.parallTonRef
         _parallelTonality.value = (_currentTest.value as TestInterface).getParallelTonality()
-    }
-
-
-
-
-    fun onClickAnswerOld(num: Int) {
-        //нужно исправить здесь
-        adapter.notifyDataSetChanged()
-        if (_interfaceType.value == InterfaceTypes.Table && setCurrentRecView(_currentTonality.value!!)) {
-            _currentTest.value?.updateStaticStaveSign(_staticSignInStave, _signInStave)
-            _navigateToResult.value = null
-            _currentTest.value?.nextIntermediateQuestion()
-            _question.value = _currentTest.value?.getQuestion()
-            _btnText.value = _currentTest.value?.getBtnTxt()
-            _correctAnswer.value = _currentTest.value?.getAnswer()
-            Signs.clearEnabled()
-            _signInStave.value = mutableListOf()
-            _interfaceType.value = setInterfaceType()
-
-        } else if(_interfaceType.value == InterfaceTypes.NumPickWithoutStave){
-            //нужно исправить здесь
-            Signs.clearEnabled()
-//            Signs.testDeleteThis()
-            _navigateToResult.value = null
-            _currentTest.value?.nextIntermediateQuestion()
-            _question.value = _currentTest.value?.getQuestion()
-            _btnText.value = _currentTest.value?.getBtnTxt()
-            _correctAnswer.value = _currentTest.value?.getAnswer()
-
-            _signInStave.value = mutableListOf()
-            _interfaceType.value = setInterfaceType()
-        } else if (_correctAnswer.value == _btnText.value?.btnTextList?.get(num)) {
-            _navigateToResult.value = null
-            _currentTest.value?.nextIntermediateQuestion()
-            _question.value = _currentTest.value?.getQuestion()
-            _btnText.value = _currentTest.value?.getBtnTxt()
-            _correctAnswer.value = _currentTest.value?.getAnswer()
-            _signInStave.value = mutableListOf()
-            _interfaceType.value = setInterfaceType()
-        } else if (_correctAnswer.value == _currentAnswer.value) {
-            _navigateToResult.value = null
-            _currentTest.value?.nextIntermediateQuestion()
-            _question.value = _currentTest.value?.getQuestion()
-            _btnText.value = _currentTest.value?.getBtnTxt()
-            _correctAnswer.value = _currentTest.value?.getAnswer()
-            _signInStave.value = mutableListOf()
-            _interfaceType.value = setInterfaceType()
-        } else {
-            _correctAnswer.value?.let {
-                _listErrors.value?.add("Твой ответ неверный: s")
-            }
-            printErrors()
-            Signs.clearEnabled()
-            _signInStave.value = mutableListOf()
-        }
-        _currentSignType.value = (_currentTest.value as TestInterface).getCurrentSignType()
-        _currentTonality.value = (_currentTest.value as TestInterface).getTonality()
-        _parallelTonality.value = _currentTonality.value?.parallTonRef
-
     }
 
 

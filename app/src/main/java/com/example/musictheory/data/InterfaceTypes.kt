@@ -6,5 +6,6 @@ enum class InterfaceTypes {
     NumPickWithoutStave,
     Table,
     TableWithAnsBtn,
-    Buttons
+    Buttons,
+    ButtonsWithStave,
 }

@@ -60,10 +60,10 @@ object TonalityTest : TestInterface() {
         _allInterQuestions.value = mutableListOf(
             "Нужно ли искать параллельную тональность?",
             "На какой ступени строится пареллельный мажор",
-            "Параллельная тональность для ${_currentTonality.value?.name} - ${_mollDur.value}:",
+            "Параллельная тональность для ${_currentTonality.value?.rusName}а:",
             "В данной тональности будут диезы или бемоли?",
             "Какую ищем ступень, чтобы узнать знаки?",
-            "Какая это нота?",
+            "Назови ${downTest()} ступень",
             "Выбери знаки в том порядке, в котором они будут стоять при ключе")
         _questionNumTotal.value = _allInterQuestions.value!!.count()
         _currentQuestNum.value = 0

@@ -5,9 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.example.musictheory.data.*
 
 object TrebleClefTest: TestInterface() {
+
+    var currentNote = MutableLiveData<String>()
+
     init {
         allQuestionsInit()
         allBtnInit()
+        noteFind()
         allAnswersInit()
 
     }
@@ -21,22 +25,23 @@ object TrebleClefTest: TestInterface() {
 
     override fun allBtnInit(){
         _allBtnText.value = mutableListOf(
-            BtnsTextList(Notes.notes.toMutableList(), interfaceType = InterfaceTypes.TableWithAnsBtn)
+            BtnsTextList(Notes.notes.toMutableList(), interfaceType = InterfaceTypes.ButtonsWithStave)
         )
         _currentBtnTxt.value = _currentQuestNum.value?.let { _allBtnText.value!![it] }
     }
 
     override fun allAnswersInit(){
         _allAnswers.value = arrayOf(
-            noteFind()
+            currentNote.value!!
         )
         _currentAnswer.value = _currentQuestNum.value?.let { _allAnswers.value?.get(it) }
     }
 
     private fun noteFind(): String {
 
-        var notes = Notes.notes
+        var notes = Notes.notes.clone()
         notes.shuffle()
+        currentNote.value = notes[0]
 
 //        Signs._signsInStave.value = mutableListOf()
 //        Signs._signsInStave.value?.add(
@@ -48,7 +53,7 @@ object TrebleClefTest: TestInterface() {
 //        )
 //        Log.i("xxx", "${Signs.signsInStave.value?.get(0)?.first}")
 //        Signs._signsInStave.value = Signs._signsInStave.value
-        return "${notes[0]}"
+        return notes[0]
 
 
     }
@@ -57,22 +62,26 @@ object TrebleClefTest: TestInterface() {
         staticSignInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>,
         signInStave: MutableLiveData<MutableList<Triple<Float, Float, String>>>
     ) {
-        if (_currentQuestNum.value == 0) {
-            Log.i(
-                "xxx",
-                "текущий ответ ::: ${Signs.noteInOrderInLines.get(_currentAnswer.value!!)}"
+        staticSignInStave.value = mutableListOf()
+        noteFind()
+
+        staticSignInStave.value?.add(
+            Triple(
+                Signs.noteInOrderInLines.get(_currentAnswer.value!!)!!,
+                1f,
+                "целая"
             )
-            staticSignInStave.value?.add(
-                Triple(
-                    Signs.noteInOrderInLines.get(_currentAnswer.value!!)!!,
-                    1f,
-                    "целая"
-                )
-            )
-            staticSignInStave.value?.forEach {
-                Log.i("xxx", "triple is ${it.first} ${it.second} ${it.third}")
-            }
-        }
+        )
+//        if (_currentQuestNum.value == 0) {
+////            Log.i(
+////                "xxx",
+////                "текущий ответ ::: ${Signs.noteInOrderInLines.get(_currentAnswer.value!!)}"
+////            )
+//
+////            staticSignInStave.value?.forEach {
+////                Log.i("xxx", "triple is ${it.first} ${it.second} ${it.third}")
+////            }
+//        }
     }
 
 

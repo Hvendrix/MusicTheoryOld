@@ -63,7 +63,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
             btnName.setBackgroundResource(R.drawable.bg_btn_basic)
 
             btnName.setOnClickListener {
-                if(viewModel.interfaceType.value==InterfaceTypes.Buttons){
+                if(viewModel.interfaceType.value==InterfaceTypes.Buttons || viewModel.interfaceType.value==InterfaceTypes.ButtonsWithStave){
                     viewModel.onClickAnswer(position)
                     return@setOnClickListener
                 }
@@ -80,7 +80,7 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
                             btnName.isEnabled = false
                         }
                         else -> {
-                            btnName.text = "Чnо то не так"
+                            btnName.text = "Что то не так"
                             btnName.setBackgroundColor(Color.LTGRAY)
                         }
                     }
@@ -98,26 +98,31 @@ class SignsAdapter: RecyclerView.Adapter<SignsAdapter.ViewHolder>() {
 //                Signs._signsInStave.value?.add(Triple(Signs.noteInOrderInLines.get(item), numInRange, signType) as Triple<Float, Float, String>)
 //                Signs._signsInStave.value = Signs._signsInStave.value
 
+
+                // костыли(
                 var signNamePlusOct = item
                 if(item!="ля" && item!="си" && item!="Ля" && item!="Си") {
                     when (signType) {
                         "диезыприключе", "бемолиприключе" -> signNamePlusOct = item + "2"
-                        "одиндвадва", "двадвадва", "целаятрезвучие" -> {
+                        "целаятрезвучие" -> {
                             if(viewModel.signInStave.value?.lastOrNull() != null &&
                                 (viewModel.signInStave.value?.last()!!.first > Signs.noteInOrderInLines[item] ?: error(""))){
+                                signNamePlusOct = item + "2"
+                            }
+                        }
+                        "одиндвадва", "двадвадва" -> {
+                            if(viewModel.signInStave.value?.lastOrNull() != null &&
+                                (viewModel.signInStave.value?.size!! % 2==1) &&
+                                (viewModel.signInStave.value?.last()!!.first > Signs.noteInOrderInLines[item] ?: error(""))){
+                                signNamePlusOct = item + "2"
+                            } else if(item=="до"|| item=="До") {
                                 signNamePlusOct = item + "2"
                             }
                         }
                     }
                 }
 
-//                if(signType==("одиндвадва") ||signType== ("двадвадва") || signType==("целаятрезвучие")){
-//                    var testing = viewModel.signInStave.value?.last()
-//                    Notes.notes.let {
-//                        Log.i("xxx", "dva dva ${it.indexOf(item.toString().toLowerCase())}")
-//                        Log.i("xxx", "odin dva dva ${testing}")
-//                    }
-//                }
+//
 
                 viewModel.signInStave.value?.add(Triple(Signs.noteInOrderInLines.get(signNamePlusOct), numInRange, signType) as Triple<Float, Float, String>)
                 viewModel.updateStave()
