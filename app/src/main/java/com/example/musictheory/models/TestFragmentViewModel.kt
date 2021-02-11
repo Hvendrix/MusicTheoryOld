@@ -46,6 +46,11 @@ class TestFragmentViewModel(
     val adapter = SignsAdapter()
 
 
+
+    val currentTest: LiveData<TestInterface>
+        get() = _currentTest
+
+
     val question: LiveData<String>
         get() = _question
 

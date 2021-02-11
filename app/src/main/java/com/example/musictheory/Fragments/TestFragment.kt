@@ -307,7 +307,7 @@ class TestFragment : Fragment() {
 
 
         binding.btnHelp.setOnClickListener {
-            toHelpFragment()
+            toHelpFragment(testFragmentViewModel)
         }
 
 
@@ -348,9 +348,9 @@ class TestFragment : Fragment() {
 
     }
 
-    fun toHelpFragment(){
+    fun toHelpFragment(viewModel: TestFragmentViewModel){
         this.findNavController()
-            .navigate(TestFragmentDirections.actionTestFragmentToTheoryFragment())
+            .navigate(TestFragmentDirections.actionTestFragmentToTheoryFragment(viewModel.currentTest.value?.javaClass?.simpleName.toString() ?: "nothing"))
     }
 
 //    override fun onStart() {

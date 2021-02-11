@@ -35,5 +35,9 @@
         android:id="@+id/theoryFragment"
         android:name="com.example.musictheory.Fragments.TheoryFragment"
         android:label="fragment_theory"
-        tools:layout="@layout/fragment_theory" />
+        tools:layout="@layout/fragment_theory" >
+        <argument
+            android:name="testName"
+            app:argType="string" />
+    </fragment>
 </navigation>
